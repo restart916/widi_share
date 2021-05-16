@@ -6,9 +6,16 @@ app.set('views', __dirname + '/view');
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
+    res.render('index');
+})
+
+app.post('/api/generate', async (req, res) => {
     // res.send('Hello World!')
+    console.log('/api/generate', req.body)
 
     const { createCanvas, loadImage } = require('canvas')
     const canvas = createCanvas(200, 200)
@@ -17,27 +24,12 @@ app.get('/', async (req, res) => {
     let image = await loadImage('public/bg_01.png')
     ctx.drawImage(image, 0, 0, 200, 200)
     
-    // Write "Awesome!"
+    let text = req.body.text || ''
     ctx.font = '30px Impact'
-    // ctx.rotate(0.1)
-    ctx.fillText('Awesome!', 50, 100)
-
-    // Draw line under text
-    var text = ctx.measureText('Awesome!')
-    ctx.strokeStyle = 'rgba(0,0,0,0.5)'
-    ctx.beginPath()
-    ctx.lineTo(50, 102)
-    ctx.lineTo(50 + text.width, 102)
-    ctx.stroke()
+    ctx.fillText(text, 10, 100)
 
     // console.log('<img src="' + canvas.toDataURL() + '" />')
-
-    let imageData = `<img src="${canvas.toDataURL()}"/>`
-    res.send(`${imageData}`)
-})
-
-app.get('/home', (req, res) => {
-    res.render('index');
+    res.json({image: canvas.toDataURL()})
 })
 
 

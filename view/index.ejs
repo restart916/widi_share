@@ -36,18 +36,46 @@
         </div>
         <div id='inputText'>
             <p>공유하고 싶은 문자열</p>
-            <textarea id="shareText"></textarea>
+            <textarea id="shareText" v-model="shareText"></textarea>
         </div>
 
+        <button @click="generateImage">이미지 생성하기</button>
+
+        <div>
+            <p>결과</p>
+            <img v-if="imageData != ''" :src="imageData">
+        </div>
     </div>
 </body>
 </html>
 
 <script>
-    var app = new Vue({
+    let app = new Vue({
         el: '#app',
         data: {
-            message: '안녕하세요 Vue!'
+            message: '안녕하세요 Vue!',
+            shareText: '',
+            imageData: '',
+        },
+        methods: {
+            generateImage: async (event) => {
+                let vueData = app.$data
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        text: vueData.shareText
+                    })
+                });
+
+                const data = await response.json()
+
+                // console.log('generateImage', vueData.imageData)
+                vueData.imageData = data.image
+                // console.log('generateImage', vueData.imageData)
+            }
         }
     })
 </script>
