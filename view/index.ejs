@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>WIDI SHARE</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='style/main.css'>
+    <!-- <script src='main.js'></script> -->
+
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 상용버전, 속도와 용량이 최적화됨. -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+    <div id="app">
+        <div>
+            {{ message }}
+        </div>
+        <div id='selectImage'>
+            <div>
+                <input type="radio" id="bg_01" name="drone" value="huey"
+                        checked>
+                <label for="bg_01">
+                    <img src="/bg_01.png"/>
+                </label>
+            </div>
+                
+            <div>
+                <input type="radio" id="bg_02" name="drone" value="dewey">
+                <label for="bg_02">
+                    <img src="/bg_02.png"/>
+                </label>
+            </div>
+        </div>
+        <div id='inputText'>
+            <p>공유하고 싶은 문자열</p>
+            <textarea id="shareText"></textarea>
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '안녕하세요 Vue!'
+        }
+    })
+</script>
