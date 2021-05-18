@@ -21,7 +21,8 @@ app.post('/api/generate', async (req, res) => {
     const canvas = createCanvas(200, 200)
     const ctx = canvas.getContext('2d')
 
-    let image = await loadImage('public/bg_01.png')
+    let imageFilename = req.body.image || 'bg_01'
+    let image = await loadImage(`public/${imageFilename}.png`)
     ctx.drawImage(image, 0, 0, 200, 200)
     
     let text = req.body.text || ''

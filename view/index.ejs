@@ -20,15 +20,14 @@
         </div>
         <div id='selectImage'>
             <div>
-                <input type="radio" id="bg_01" name="drone" value="huey"
-                        checked>
+                <input type="radio" id="bg_01" value="bg_01" v-model="selectImage" checked>
                 <label for="bg_01">
                     <img src="/bg_01.png"/>
                 </label>
             </div>
                 
             <div>
-                <input type="radio" id="bg_02" name="drone" value="dewey">
+                <input type="radio" id="bg_02" value="bg_02" v-model="selectImage">
                 <label for="bg_02">
                     <img src="/bg_02.png"/>
                 </label>
@@ -56,17 +55,21 @@
             message: '안녕하세요 Vue!',
             shareText: '',
             imageData: '',
+            selectImage: 'bg_01',
         },
         methods: {
             generateImage: async (event) => {
                 let vueData = app.$data
+                console.log('generateImage', vueData)
+
                 const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
                     },
                     body: JSON.stringify({
-                        text: vueData.shareText
+                        text: vueData.shareText,
+                        image: vueData.selectImage,
                     })
                 });
 
