@@ -33,8 +33,9 @@ app.post('/api/generate/tweet', async (req, res) => {
   const tweet = req.body.tweet
 
   const tweetInfo = await loadTweet(tweet)
+  const tweetUserInfo = await loadTweetUser(tweetInfo.author_id)
   
-  const image = await generate(tweetInfo.text, background)
+  const image = await generate(tweetInfo.text, background, tweetUserInfo)
 
   // console.log('<img src="' + canvas.toDataURL() + '" />')
   res.json({image})
@@ -53,6 +54,22 @@ app.post('/api/generate', async (req, res) => {
     res.json({image})
 })
 
+const loadTweetUser = async (userId) => {
+  const url = `https://api.twitter.com/2/users/${userId}?user.fields=profile_image_url`
+  const authorization = `Bearer ${process.env.TWEET_TOKEN}`
+  
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+        'Authorization': authorization
+    }
+  });
+
+  const data = await response.json()
+  
+  return data.data
+}
+
 const loadTweet = async (tweet) => {
   const url = `https://api.twitter.com/2/tweets/${tweet}?tweet.fields=attachments,author_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld`
   const authorization = `Bearer ${process.env.TWEET_TOKEN}`
@@ -66,7 +83,7 @@ const loadTweet = async (tweet) => {
 
   const data = await response.json()
   
-  return {text: data.data.text}
+  return data.data
 }
 
 const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
@@ -92,27 +109,32 @@ const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
     }
   }
   context.fillText(line, x, y);
+
+  return y
 }
 
-const generate = async (mainText, backgroundImage) => {
-
+const generate = async (mainText, backgroundImage, userInfo = {}) => {
   const { createCanvas, loadImage, registerFont } = require('canvas')
-    const canvas = createCanvas(800, 800)
-    const ctx = canvas.getContext('2d')
+  const canvas = createCanvas(800, 800)
+  const ctx = canvas.getContext('2d')
 
-    let image = await loadImage(`public/${backgroundImage}.png`)
-    ctx.drawImage(image, 0, 0, 800, 800)
-    
-    registerFont('public/font/ridi_batang.otf', { family: 'RIDIBatang' })
-    ctx.font = '32px "RIDIBatang"'
+  let image = await loadImage(`public/${backgroundImage}.png`)
+  ctx.drawImage(image, 0, 0, 800, 800)
+  
+  registerFont('public/font/ridi_batang.otf', { family: 'RIDIBatang' })
+  ctx.font = '32px "RIDIBatang"'
 
-    var maxWidth = 700;
-    var lineHeight = 58;
-    var x = (canvas.width - maxWidth) / 2;
-    var y = 180;
-    wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
+  const maxWidth = 700;
+  const lineHeight = 58;
+  const x = (canvas.width - maxWidth) / 2;
+  const y = 180;
+  let lastHeight = wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
 
-    return canvas.toDataURL()
+  ctx.font = '28px "RIDIBatang"'
+  const userString = `${userInfo.name} @${userInfo.username}`
+  ctx.fillText(userString, x, lastHeight + 66)
+
+  return canvas.toDataURL()
 }
 
 app.listen(port, () => {
