@@ -18,6 +18,11 @@
         <div>
             {{ message }}
         </div>
+        <div id='inputText'>
+            <p>twitter link</p>
+            <input type="text" id="twitterLink" v-model="twitterLink" @change="changeTwitterLink"></input>
+        </div>
+
         <div id='selectImage'>
             <div>
                 <input type="radio" id="bg_01" value="bg_01" v-model="selectImage" checked>
@@ -40,7 +45,7 @@
 
         <button @click="generateImage">이미지 생성하기</button>
 
-        <div>
+        <div id='result'>
             <p>결과</p>
             <img v-if="imageData != ''" :src="imageData">
         </div>
@@ -52,12 +57,42 @@
     let app = new Vue({
         el: '#app',
         data: {
-            message: '안녕하세요 Vue!',
+            message: 'Widi Share에 온 것을 환영합니다.',
             shareText: '',
             imageData: '',
+            twitterLink: 'https://twitter.com/do_therighthing/status/1394655999617765383?s=20',
             selectImage: 'bg_01',
         },
         methods: {
+            changeTwitterLink: async () => {
+                let vueData = app.$data
+                console.log('changeTwitterLink',  vueData.twitterLink)
+
+                try {
+                    const url = new URL(vueData.twitterLink)
+                    const paths = url.pathname.split('/')
+
+                    const twitterId = paths[paths.length-1]
+
+                    console.log('twitterId',  twitterId)
+
+                    const response = await fetch('/api/generate/tweet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({
+                            tweet: twitterId,
+                            image: vueData.selectImage,
+                        })
+                    });
+                    
+                    const data = await response.json()
+                    vueData.imageData = data.image
+                } catch (error) {
+                    console.log('changeTwitterLink error', error)
+                }
+            },
             generateImage: async (event) => {
                 let vueData = app.$data
                 console.log('generateImage', vueData)

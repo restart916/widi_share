@@ -1,3 +1,7 @@
 #selectImage img {
-    width: 200px;
+    width: 40px;
+}
+
+#result img {
+    width: 400px;
 }
