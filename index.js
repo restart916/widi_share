@@ -1,8 +1,18 @@
 const express = require('express')
 const fetch = require("node-fetch");
+const dotenv = require("dotenv");
+const path = require("path")
 
 const app = express()
 const port = 3000
+
+
+dotenv.config({
+  path: path.resolve(
+    process.cwd(),
+    ".env"
+  )
+});
 
 app.set('views', __dirname + '/view');
 app.set('view engine', 'ejs');
@@ -45,7 +55,7 @@ app.post('/api/generate', async (req, res) => {
 
 const loadTweet = async (tweet) => {
   const url = `https://api.twitter.com/2/tweets/${tweet}?tweet.fields=attachments,author_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld`
-  const authorization = 'Bearer '
+  const authorization = `Bearer ${process.env.TWEET_TOKEN}`
   
   const response = await fetch(url, {
     method: 'GET',
