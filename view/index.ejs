@@ -221,24 +221,23 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
-                window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
+                // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
 
-                // const base64url = vueData.imageData
-                // const blob = await (await fetch(base64url)).blob();
-                // const file = new File([blob], 'fileName.png', { type: blob.type });
+                const base64url = vueData.imageData.replace("image/png", "image/octet-stream")
+                const blob = await (await fetch(base64url)).blob();
+                const file = new File([blob], 'fileName.png', { type: blob.type });
                 
-                // const data = {
-                //     title: 'Widi Share',
-                //     text: '',
-                //     // url: 'https://secure-dusk-50656.herokuapp.com',
-                //     files: [file],
-                // }
+                const data = {
+                    files: [file],
+                    title: 'Widi Share',
+                }
 
-                // if (navigator.canShare && navigator.canShare(data)) {
-                //     navigator.share(data)
-                // } else {
-                    
-                // }
+                if (navigator.canShare && navigator.canShare(data)) {
+                    await navigator.share(data)
+                    alert('공유 성공')
+                } else {
+                    alert('공유 실패')
+                }
             }
         }
     })
