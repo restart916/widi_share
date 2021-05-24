@@ -214,15 +214,15 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
-                // const base64url = vueData.imageData
-                // const blob = await (await fetch(base64url)).blob();
-                // const file = new File([blob], 'fileName.png', { type: blob.type });
+                const base64url = vueData.imageData
+                const blob = await (await fetch(base64url)).blob();
+                const file = new File([blob], 'fileName.png', { type: blob.type });
                 
                 const data = {
                     title: 'Hello',
                     text: 'Check out this image!',
-                    url: 'https://secure-dusk-50656.herokuapp.com/test',
-                    // files: [file],
+                    url: 'https://secure-dusk-50656.herokuapp.com',
+                    files: [file],
                 }
 
                 if (navigator.canShare && navigator.canShare(data)) {
