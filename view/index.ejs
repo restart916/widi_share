@@ -214,22 +214,24 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
-                const base64url = vueData.imageData
-                const blob = await (await fetch(base64url)).blob();
-                const file = new File([blob], 'fileName.png', { type: blob.type });
-                
-                const data = {
-                    title: 'Widi Share',
-                    text: '',
-                    // url: 'https://secure-dusk-50656.herokuapp.com',
-                    files: [file],
-                }
+                window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
 
-                if (navigator.canShare && navigator.canShare(data)) {
-                    navigator.share(data)
-                } else {
+                // const base64url = vueData.imageData
+                // const blob = await (await fetch(base64url)).blob();
+                // const file = new File([blob], 'fileName.png', { type: blob.type });
+                
+                // const data = {
+                //     title: 'Widi Share',
+                //     text: '',
+                //     // url: 'https://secure-dusk-50656.herokuapp.com',
+                //     files: [file],
+                // }
+
+                // if (navigator.canShare && navigator.canShare(data)) {
+                //     navigator.share(data)
+                // } else {
                     
-                }
+                // }
             }
         }
     })
