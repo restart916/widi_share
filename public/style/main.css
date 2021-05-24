@@ -1,9 +1,27 @@
+body {
+    margin: 16px;
+}
+
+
+p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+#productName {
+    font-size: 12px;
+    font-weight: bold;
+    color: #8E8E92;
+}
+
 #selectImage img {
     width: 40px;
 }
 
 #result img {
-    width: 400px;
+    width: 100%;
 }
 
 .container {
