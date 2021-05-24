@@ -17,7 +17,8 @@ p {
 }
 
 #selectImage img {
-    width: 40px;
+    width: 64px;
+    border-radius: 6px;
 }
 
 #result img {
@@ -26,14 +27,14 @@ p {
 
 .container {
     overflow: auto;
-    white-space:nowrap;
+    white-space: nowrap;
     width: 500px;
 }
 .item {
-    padding: 10px;
+    padding: 0px;
     display: inline-block;
     vertical-align: top;
-    margin-right: 20px;
+    margin-right: 6px;
     white-space: normal;
 }
 
@@ -49,4 +50,12 @@ p {
     width: 100%;
     border-radius: 6px;
     box-sizing: border-box;
+}
+
+.selected {
+    border: solid 2px #2F7CF6;
+}
+
+.no-selected {
+    padding: 2px;
 }
