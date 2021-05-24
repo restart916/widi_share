@@ -144,30 +144,33 @@ const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
 
 const generate = async (mainText, backgroundImage, font, color, userInfo = {}) => {
   const { createCanvas, loadImage, registerFont } = require('canvas')
-  const canvas = createCanvas(800, 800)
+  const canvas = createCanvas(1200, 1200)
   const ctx = canvas.getContext('2d')
 
-  let image = await loadImage(`public/${backgroundImage}.png`)
-  ctx.drawImage(image, 0, 0, 800, 800)
+  let image = await loadImage(`public/image/${backgroundImage}.png`)
+  ctx.drawImage(image, 0, 0, 1200, 1200)
+
+  let logo = await loadImage(`public/image/logo.png`)
+  ctx.drawImage(logo, 1200-(48+125), 1200-(48+62), 125, 62)
   
   registerFont('public/font/ridi_batang.otf', { family: 'RIDIBatang' })
   registerFont('public/font/kopub_batang.ttf', { family: 'KopubBatang' })
   registerFont('public/font/notosans_light.otf', { family: 'NotoSans' })
 
-  ctx.font = `32px "${font}"`
+  ctx.font = `52px "${font}"`
   ctx.fillStyle = color
 
-  const maxWidth = 700;
-  const lineHeight = 58;
+  const maxWidth = 1050;
+  const lineHeight = 78;
   const x = (canvas.width - maxWidth) / 2;
-  const y = 180;
+  const y = 250;
   let lastHeight = wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
 
-  ctx.font = '28px "RIDIBatang"'
-  ctx.fillText(userInfo.name, x, lastHeight + 86)
+  ctx.font = '44px "RIDIBatang"'
+  ctx.fillText(userInfo.name, x, lastHeight + 126)
 
-  ctx.font = '26px "RIDIBatang"'
-  ctx.fillText(`@${userInfo.username}`, x, lastHeight + 126)
+  ctx.font = '40px "RIDIBatang"'
+  ctx.fillText(`@${userInfo.username}`, x, lastHeight + 186)
 
   return canvas.toDataURL()
 }
