@@ -122,6 +122,7 @@ const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
   let line = '';
   for(let n = 0; n < words.length; n++) {
     let word = words[n]
+    // TODO : line break
     // if (word.includes('\n')) {
     // }
 
@@ -166,11 +167,11 @@ const generate = async (mainText, backgroundImage, font, color, userInfo = {}) =
   const y = 250;
   let lastHeight = wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
 
-  ctx.font = '44px "RIDIBatang"'
-  ctx.fillText(userInfo.name, x, lastHeight + 126)
+  ctx.font = '44px "NotoSans"'
+  ctx.fillText(userInfo.name, x, lastHeight + 122)
 
-  ctx.font = '40px "RIDIBatang"'
-  ctx.fillText(`@${userInfo.username}`, x, lastHeight + 186)
+  ctx.font = '40px "NotoSans"'
+  ctx.fillText(`@${userInfo.username}`, x, lastHeight + 190)
 
   return canvas.toDataURL()
 }
