@@ -223,21 +223,27 @@
 
                 // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
 
-                const base64url = vueData.imageData.replace("image/png", "image/octet-stream")
-                const blob = await (await fetch(base64url)).blob();
-                const file = new File([blob], 'fileName.png', { type: blob.type });
+                let link = document.createElement("a")
+                // var link = document.getElementById('link');
+                link.setAttribute('download', 'widi-share.png');
+                link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
+                link.click();
                 
-                const data = {
-                    files: [file],
-                    title: 'Widi Share',
-                }
+                // const base64url = vueData.imageData.replace("image/png", "image/octet-stream")
+                // const blob = await (await fetch(base64url)).blob();
+                // const file = new File([blob], 'fileName.png', { type: blob.type });
+                
+                // const data = {
+                //     files: [file],
+                //     title: 'Widi Share',
+                // }
 
-                if (navigator.canShare && navigator.canShare(data)) {
-                    await navigator.share(data)
-                    alert('공유 성공')
-                } else {
-                    alert('공유 실패')
-                }
+                // if (navigator.canShare && navigator.canShare(data)) {
+                //     await navigator.share(data)
+                //     alert('공유 성공')
+                // } else {
+                //     alert('공유 실패')
+                // }
             }
         }
     })
