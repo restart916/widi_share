@@ -214,32 +214,21 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
-                const base64url = vueData.imageData
-                const blob = await (await fetch(base64url)).blob();
+                // const base64url = vueData.imageData
+                // const blob = await (await fetch(base64url)).blob();
                 // const file = new File([blob], 'fileName.png', { type: blob.type });
                 
-                if (navigator.canShare && navigator.canShare(shareData)) {
-                    
-                    navigator.share({
-                        title: 'Hello',
-                        text: 'Check out this image!',
-                        url: 'https://secure-dusk-50656.herokuapp.com/test',
-                        // files: [file],
-                    })
+                const data = {
+                    title: 'Hello',
+                    text: 'Check out this image!',
+                    url: 'https://secure-dusk-50656.herokuapp.com/test',
+                    // files: [file],
+                }
+
+                if (navigator.canShare && navigator.canShare(data)) {
+                    navigator.share(data)
                 } else {
-                    // var tempElem = document.createElement('textarea');
-                    // tempElem.value = share_url;
-                    // document.body.appendChild(tempElem);
-
-                    // tempElem.select();
-                    // document.execCommand("copy");
-                    // document.body.removeChild(tempElem);
-
-                    // this.$toast.open({
-                    //     message: '링크 복사 완료',
-                    //     duration: 2000,
-                    //     position: 'bottom'
-                    // })
+                    
                 }
             }
         }
