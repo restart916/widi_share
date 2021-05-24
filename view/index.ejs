@@ -40,11 +40,13 @@
         </div>
 
         <div id='selectImage' class="container">
-            <div v-for="image in imageList" class="item">
-                <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage">
-                <label :for="image">
-                    <img :src="'./image/' + image + '.png'"/>
-                </label>
+            <div v-for="image in imageList" class="item" >
+                <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
+                <!-- <label :for="image"> -->
+                <div @click="onclickImage(image)">
+                    <img :src="'./image/' + image + '.png'" :class="checkSelected(image)"/>
+                </div>
+                <!-- </label> -->
             </div>
         </div>
 
@@ -118,6 +120,10 @@
             errorMessage: '',
             fontList,
             imageList,
+            mounted: false,
+        },
+        mounted: function () {
+            this.mounted = true;
         },
         methods: {
             generateImage: async () => {
@@ -156,6 +162,16 @@
 
                     vueData.errorMessage = '이미지 생성중에 에러가 발생했습니다.'
                 }
+            },
+            checkSelected: function (image) {
+                return image == this.selectImage ? 'selected' : 'no-selected'
+            },
+            onclickImage: async(image) => {
+                let vueData = app.$data
+                console.log('onclickImage', image)    
+
+                vueData.selectImage = image
+                await app.generateImage()
             },
             // generateImage: async (event) => {
             //     let vueData = app.$data
