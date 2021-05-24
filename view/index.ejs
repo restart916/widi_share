@@ -227,6 +227,7 @@
                 // var link = document.getElementById('link');
                 link.setAttribute('download', 'widi-share.png');
                 link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
+                document.body.appendChild(link);
                 link.click();
                 
                 // const base64url = vueData.imageData.replace("image/png", "image/octet-stream")
