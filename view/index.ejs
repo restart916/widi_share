@@ -20,7 +20,7 @@
         </div>
         <div id='inputText'>
             <p>twitter link</p>
-            <input type="text" id="twitterLink" v-model="twitterLink" @change="changeTwitterLink"></input>
+            <input type="text" id="twitterLink" v-model="twitterLink" @keyup="changeTwitterLink"></input>
         </div>
 
         <div id='selectImage'>
@@ -38,16 +38,21 @@
                 </label>
             </div>
         </div>
-        <div id='inputText'>
+
+        <!-- <div id='inputText'>
             <p>공유하고 싶은 문자열</p>
             <textarea id="shareText" v-model="shareText"></textarea>
         </div>
 
-        <button @click="generateImage">이미지 생성하기</button>
+        <button @click="generateImage">이미지 생성하기</button> -->
 
         <div id='result'>
             <p>결과</p>
             <img v-if="imageData != ''" :src="imageData">
+        </div>
+
+        <div id='share'>
+            <p @click="shareImage">공유하기</p>
         </div>
     </div>
 </body>
@@ -113,6 +118,34 @@
                 // console.log('generateImage', vueData.imageData)
                 vueData.imageData = data.image
                 // console.log('generateImage', vueData.imageData)
+            },
+            shareImage: async () => {
+                console.log('shareImage')
+
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    const base64url = vueData.imageData
+                    const blob = await (await fetch(base64url)).blob();
+                    const file = new File([blob], 'fileName.png', { type: blob.type });
+                        navigator.share({
+                        title: 'Hello',
+                        text: 'Check out this image!',
+                        files: [file],
+                    })
+                } else {
+                    // var tempElem = document.createElement('textarea');
+                    // tempElem.value = share_url;
+                    // document.body.appendChild(tempElem);
+
+                    // tempElem.select();
+                    // document.execCommand("copy");
+                    // document.body.removeChild(tempElem);
+
+                    // this.$toast.open({
+                    //     message: '링크 복사 완료',
+                    //     duration: 2000,
+                    //     position: 'bottom'
+                    // })
+                }
             }
         }
     })
