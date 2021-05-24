@@ -224,12 +224,11 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
-
                 if(navigator.userAgent.match('CriOS')) {
-                    // safari
-                } else {
-                    alert("iOS 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
+                    alert("iOS Chrome 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
                     return;
+                } else {
+                    // safari
                 }
 
                 // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
