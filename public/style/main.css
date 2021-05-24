@@ -5,3 +5,27 @@
 #result img {
     width: 400px;
 }
+
+.container {
+    overflow: auto;
+    white-space:nowrap;
+    width: 500px;
+}
+.item {
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    white-space: normal;
+}
+
+*:focus {
+    outline: none;
+}
+
+.inputLink {
+    background-color: #F2F2F7;
+    font-size: 22px;
+    padding: 10px;
+    border: 0px;
+}

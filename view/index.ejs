@@ -25,7 +25,8 @@
                 id="twitterLink" 
                 v-model="twitterLink" 
                 placeholder="http://"
-                @keyup="generateImage">
+                @keyup="generateImage"
+                class="inputLink">
             </input>
         </div>
 
@@ -38,8 +39,8 @@
             <img v-if="imageData != ''" :src="imageData">
         </div>
 
-        <div id='selectImage'>
-            <div v-for="image in imageList">
+        <div id='selectImage' class="container">
+            <div v-for="image in imageList" class="item">
                 <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage">
                 <label :for="image">
                     <img :src="'./image/' + image + '.png'"/>
@@ -47,8 +48,8 @@
             </div>
         </div>
 
-        <div id='selectFont'>
-            <div v-for="font in fontList">
+        <div id='selectFont' class="container">
+            <div v-for="font in fontList" class="item">
                 <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage">
                 <label :for="font.family">
                     {{ font.name }}
@@ -56,15 +57,15 @@
             </div>
         </div>
 
-        <div id='selectColor'>
-            <div>
+        <div id='selectColor' class="container">
+            <div class="item">
                 <input type="radio" id="white" value="#FFFFFF" v-model="selectColor" @change="generateImage">
                 <label for="white">
                     글자색 흰색
                 </label>
             </div>
                 
-            <div>
+            <div class="item">
                 <input type="radio" id="black" value="#1C1C1E" v-model="selectColor" @change="generateImage">
                 <label for="black">
                     글자색 검정
