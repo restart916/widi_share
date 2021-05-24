@@ -80,6 +80,7 @@
             </div>
         </div>
 
+        <div class="divied-bottom"></div>
         <!-- <div id='inputText'>
             <p>공유하고 싶은 문자열</p>
             <textarea id="shareText" v-model="shareText"></textarea>
@@ -87,9 +88,15 @@
 
         <button @change="generateImage">이미지 생성하기</button> -->
 
-        <div id='share'>
+        <nav class="mobile-bottom-nav">
+            <div class="mobile-bottom-nav__item" @click="shareImage">
+                공유하기
+            </div>
+        </nav>
+
+        <!-- <div id='share'>
             <p @click="shareImage">공유하기</p>
-        </div>
+        </div> -->
     </div>
 </body>
 </html>
