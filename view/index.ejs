@@ -187,14 +187,15 @@
 
                 const base64url = vueData.imageData
                 const blob = await (await fetch(base64url)).blob();
-                const file = new File([blob], 'fileName.png', { type: blob.type });
+                // const file = new File([blob], 'fileName.png', { type: blob.type });
                 
                 if (navigator.canShare && navigator.canShare(shareData)) {
                     
                     navigator.share({
                         title: 'Hello',
                         text: 'Check out this image!',
-                        files: [file],
+                        url: 'https://secure-dusk-50656.herokuapp.com/test',
+                        // files: [file],
                     })
                 } else {
                     // var tempElem = document.createElement('textarea');
