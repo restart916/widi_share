@@ -43,6 +43,33 @@ app.post('/api/generate/tweet', async (req, res) => {
   res.json({image})
 })
 
+app.get('/test', async (req, res) => {
+  // res.send('Hello World!')
+  
+  // const background = req.body.image || 'bg_01'
+  // const font = req.body.font || 'RIDIBatang'
+  // const color = req.body.color || '#FFFFFF'
+  // const tweet = req.body.tweet
+  
+  const background = 'bg_02'
+  const font = 'RIDIBatang'
+  const color = '#FFFFFF'
+  const tweet = '1396705389744254976'
+
+  const tweetInfo = await loadTweet(tweet)
+  const tweetUserInfo = await loadTweetUser(tweetInfo.author_id)
+  
+  const image = await generate(tweetInfo.text, background, font, color, tweetUserInfo)
+
+  const im = image.split(",")[1];
+  const img = Buffer.from(im, 'base64');
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': img.length
+  });
+  res.end(img); 
+})
+
 // app.post('/api/generate', async (req, res) => {
 //     // res.send('Hello World!')
 //     console.log('/api/generate', req.body)
