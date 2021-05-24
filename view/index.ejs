@@ -50,28 +50,33 @@
             </div>
         </div>
 
+        <div class="divied"></div>
+
         <div id='selectFont' class="container">
             <div v-for="font in fontList" class="item">
-                <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage">
-                <label :for="font.family">
+                <!-- <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage"> -->
+                <!-- <label :for="font.family"> -->
+                <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
                     {{ font.name }}
-                </label>
+                </div>
+                <!-- </label> -->
             </div>
         </div>
 
+        <div class="divied"></div>
+
         <div id='selectColor' class="container">
             <div class="item">
-                <input type="radio" id="white" value="#FFFFFF" v-model="selectColor" @change="generateImage">
-                <label for="white">
-                    글자색 흰색
-                </label>
+                <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
+                    글자색
+                </div>
+
             </div>
                 
             <div class="item">
-                <input type="radio" id="black" value="#1C1C1E" v-model="selectColor" @change="generateImage">
-                <label for="black">
-                    글자색 검정
-                </label>
+                <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
+                    글자색
+                </div>
             </div>
         </div>
 
@@ -166,12 +171,23 @@
             checkSelected: function (image) {
                 return image == this.selectImage ? 'selected' : 'no-selected'
             },
+            checkSelectedFont: function (font) {
+                return font == this.selectFont ? 'selected-font' : ''
+            },
             onclickImage: async(image) => {
                 let vueData = app.$data
                 console.log('onclickImage', image)    
 
                 vueData.selectImage = image
                 await app.generateImage()
+            },
+            onclickFont: async function (family) {
+                this.selectFont = family;
+                await this.generateImage()
+            },
+            onclickColor: async function (color) {
+                this.selectColor = color;
+                await this.generateImage()
             },
             // generateImage: async (event) => {
             //     let vueData = app.$data

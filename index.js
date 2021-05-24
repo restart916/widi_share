@@ -164,7 +164,7 @@ const generate = async (mainText, backgroundImage, font, color, userInfo = {}) =
   const maxWidth = 1050;
   const lineHeight = 78;
   const x = (canvas.width - maxWidth) / 2;
-  const y = 250;
+  const y = 280;
   let lastHeight = wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
 
   ctx.font = '44px "NotoSans"'
