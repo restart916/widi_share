@@ -16,11 +16,26 @@
 <body>
     <div id="app">
         <div>
-            {{ message }}
+            Widi Share
         </div>
         <div id='inputText'>
-            <p>twitter link</p>
-            <input type="text" id="twitterLink" v-model="twitterLink" @keyup="changeTwitterLink"></input>
+            <p>링크를 적어주세요</p>
+            <input 
+                type="text" 
+                id="twitterLink" 
+                v-model="twitterLink" 
+                placeholder="http://"
+                @keyup="changeTwitterLink">
+            </input>
+        </div>
+
+        <div id='error'>
+            <p>에러가 있을때만 보여주자</p>
+        </div>
+
+        <div id='result'>
+            <!-- <p>결과</p> -->
+            <img v-if="imageData != ''" :src="imageData">
         </div>
 
         <div id='selectImage'>
@@ -39,17 +54,37 @@
             </div>
         </div>
 
+        <div id='selectFont'>
+            <div v-for="font in fontList">
+                <input type="radio" :id="font.family" :value="font.family" v-model="selectFont">
+                <label :for="font.family">
+                    {{ font.name }}
+                </label>
+            </div>
+        </div>
+
+        <div id='selectColor'>
+            <div>
+                <input type="radio" id="white" value="#FFFFFF" v-model="selectColor">
+                <label for="white">
+                    글자색 흰색
+                </label>
+            </div>
+                
+            <div>
+                <input type="radio" id="black" value="#1C1C1E" v-model="selectColor">
+                <label for="black">
+                    글자색 검정
+                </label>
+            </div>
+        </div>
+
         <!-- <div id='inputText'>
             <p>공유하고 싶은 문자열</p>
             <textarea id="shareText" v-model="shareText"></textarea>
         </div>
 
         <button @click="generateImage">이미지 생성하기</button> -->
-
-        <div id='result'>
-            <p>결과</p>
-            <img v-if="imageData != ''" :src="imageData">
-        </div>
 
         <div id='share'>
             <p @click="shareImage">공유하기</p>
@@ -59,14 +94,33 @@
 </html>
 
 <script>
+    let fontList = [
+        {
+            "name": "리디바탕",
+            "family": "RIDIBatang"
+        }, 
+        {
+            "name": "Kopub 바탕체",
+            "family": "KopubBatang"
+        }, 
+        {
+            "name": "본고딕",
+            "family": "NotoSans"
+        }
+    ]
+    
     let app = new Vue({
         el: '#app',
         data: {
             message: 'Widi Share에 온 것을 환영합니다.',
             shareText: '',
             imageData: '',
-            twitterLink: 'https://twitter.com/do_therighthing/status/1394655999617765383?s=20',
+            twitterLink: 'https://twitter.com/FlatcherLynd/status/1396705389744254976?s=20',
             selectImage: 'bg_01',
+            selectFont: fontList[0]['family'],
+            selectColor: '#FFFFFF',
+
+            fontList,
         },
         methods: {
             changeTwitterLink: async () => {
@@ -89,6 +143,8 @@
                         body: JSON.stringify({
                             tweet: twitterId,
                             image: vueData.selectImage,
+                            font: vueData.selectFont,
+                            color: vueData.selectColor,
                         })
                     });
                     
@@ -98,35 +154,38 @@
                     console.log('changeTwitterLink error', error)
                 }
             },
-            generateImage: async (event) => {
-                let vueData = app.$data
-                console.log('generateImage', vueData)
+            // generateImage: async (event) => {
+            //     let vueData = app.$data
+            //     console.log('generateImage', vueData)
 
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify({
-                        text: vueData.shareText,
-                        image: vueData.selectImage,
-                    })
-                });
+            //     const response = await fetch('/api/generate', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json;charset=utf-8'
+            //         },
+            //         body: JSON.stringify({
+            //             text: vueData.shareText,
+            //             image: vueData.selectImage,
+            //         })
+            //     });
 
-                const data = await response.json()
+            //     const data = await response.json()
 
-                // console.log('generateImage', vueData.imageData)
-                vueData.imageData = data.image
-                // console.log('generateImage', vueData.imageData)
-            },
+            //     // console.log('generateImage', vueData.imageData)
+            //     vueData.imageData = data.image
+            //     // console.log('generateImage', vueData.imageData)
+            // },
             shareImage: async () => {
+                let vueData = app.$data
                 console.log('shareImage')
 
+                const base64url = vueData.imageData
+                const blob = await (await fetch(base64url)).blob();
+                const file = new File([blob], 'fileName.png', { type: blob.type });
+                
                 if (navigator.canShare && navigator.canShare(shareData)) {
-                    const base64url = vueData.imageData
-                    const blob = await (await fetch(base64url)).blob();
-                    const file = new File([blob], 'fileName.png', { type: blob.type });
-                        navigator.share({
+                    
+                    navigator.share({
                         title: 'Hello',
                         text: 'Check out this image!',
                         files: [file],

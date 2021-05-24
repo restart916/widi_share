@@ -30,29 +30,31 @@ app.post('/api/generate/tweet', async (req, res) => {
   console.log('/api/generate/tweet', req.body)
 
   const background = req.body.image || 'bg_01'
+  const font = req.body.font || 'RIDIBatang'
+  const color = req.body.color || '#FFFFFF'
   const tweet = req.body.tweet
 
   const tweetInfo = await loadTweet(tweet)
   const tweetUserInfo = await loadTweetUser(tweetInfo.author_id)
   
-  const image = await generate(tweetInfo.text, background, tweetUserInfo)
+  const image = await generate(tweetInfo.text, background, font, color, tweetUserInfo)
 
   // console.log('<img src="' + canvas.toDataURL() + '" />')
   res.json({image})
 })
 
-app.post('/api/generate', async (req, res) => {
-    // res.send('Hello World!')
-    console.log('/api/generate', req.body)
+// app.post('/api/generate', async (req, res) => {
+//     // res.send('Hello World!')
+//     console.log('/api/generate', req.body)
 
-    const background = req.body.image || 'bg_01'
-    const text = req.body.text || ''
+//     const background = req.body.image || 'bg_01'
+//     const text = req.body.text || ''
     
-    const image = await generate(text, background)
+//     const image = await generate(text, background)
 
-    // console.log('<img src="' + canvas.toDataURL() + '" />')
-    res.json({image})
-})
+//     // console.log('<img src="' + canvas.toDataURL() + '" />')
+//     res.json({image})
+// })
 
 const loadTweetUser = async (userId) => {
   const url = `https://api.twitter.com/2/users/${userId}?user.fields=profile_image_url`
@@ -113,7 +115,7 @@ const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
   return y
 }
 
-const generate = async (mainText, backgroundImage, userInfo = {}) => {
+const generate = async (mainText, backgroundImage, font, color, userInfo = {}) => {
   const { createCanvas, loadImage, registerFont } = require('canvas')
   const canvas = createCanvas(800, 800)
   const ctx = canvas.getContext('2d')
@@ -122,8 +124,11 @@ const generate = async (mainText, backgroundImage, userInfo = {}) => {
   ctx.drawImage(image, 0, 0, 800, 800)
   
   registerFont('public/font/ridi_batang.otf', { family: 'RIDIBatang' })
-  ctx.font = '32px "RIDIBatang"'
-  ctx.fillStyle = "#ffffff"
+  registerFont('public/font/kopub_batang.ttf', { family: 'KopubBatang' })
+  registerFont('public/font/notosans_light.otf', { family: 'NotoSans' })
+
+  ctx.font = `32px "${font}"`
+  ctx.fillStyle = color
 
   const maxWidth = 700;
   const lineHeight = 58;
