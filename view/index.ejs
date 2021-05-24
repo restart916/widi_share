@@ -38,9 +38,9 @@
             <img v-if="imageData != ''" :src="imageData">
         </div>
 
-        <div id='result2'>
+        <!-- <div id='result2'>
             <a :href="imageData" download="image.png" id="embedImage">Download</a>            
-        </div>
+        </div> -->
 
         <div id='selectImage' class="container">
             <div v-for="image in imageList" class="item" >
@@ -224,6 +224,14 @@
                 let vueData = app.$data
                 console.log('shareImage')
 
+
+                if(navigator.userAgent.match('CriOS')) {
+                    // safari
+                } else {
+                    alert("iOS 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
+                    return;
+                }
+
                 // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
 
                 let link = document.createElement("a")
@@ -248,7 +256,7 @@
                 // } else {
                 //     alert('공유 실패')
                 // }
-                alert("iOS 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
+
             }
         }
     })
