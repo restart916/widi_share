@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path")
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 
 dotenv.config({
@@ -123,6 +123,7 @@ const generate = async (mainText, backgroundImage, userInfo = {}) => {
   
   registerFont('public/font/ridi_batang.otf', { family: 'RIDIBatang' })
   ctx.font = '32px "RIDIBatang"'
+  ctx.fillStyle = "#ffffff"
 
   const maxWidth = 700;
   const lineHeight = 58;
@@ -131,8 +132,10 @@ const generate = async (mainText, backgroundImage, userInfo = {}) => {
   let lastHeight = wrapText(ctx, mainText, x, y, maxWidth, lineHeight);
 
   ctx.font = '28px "RIDIBatang"'
-  const userString = `${userInfo.name} @${userInfo.username}`
-  ctx.fillText(userString, x, lastHeight + 66)
+  ctx.fillText(userInfo.name, x, lastHeight + 86)
+
+  ctx.font = '26px "RIDIBatang"'
+  ctx.fillText(`@${userInfo.username}`, x, lastHeight + 126)
 
   return canvas.toDataURL()
 }
