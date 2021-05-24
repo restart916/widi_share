@@ -39,6 +39,13 @@
             <img v-if="imageData != ''" :src="imageData">
         </div>
 
+        <div id='result2'>
+            <a :href="imageData" download="image.png" id="embedImage">Download</a>            
+        </div>
+
+        
+
+
         <div id='selectImage' class="container">
             <div v-for="image in imageList" class="item" >
                 <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
