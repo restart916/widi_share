@@ -39,17 +39,10 @@
         </div>
 
         <div id='selectImage'>
-            <div>
-                <input type="radio" id="bg_01" value="bg_01" v-model="selectImage" @change="generateImage">
-                <label for="bg_01">
-                    <img src="./image/bg_01.png"/>
-                </label>
-            </div>
-                
-            <div>
-                <input type="radio" id="bg_02" value="bg_02" v-model="selectImage" @change="generateImage">
-                <label for="bg_02">
-                    <img src="./image/bg_02.png"/>
+            <div v-for="image in imageList">
+                <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage">
+                <label :for="image">
+                    <img :src="'./image/' + image + '.png'"/>
                 </label>
             </div>
         </div>
@@ -108,6 +101,8 @@
             "family": "NotoSans"
         }
     ]
+
+    let imageList = Array.from(Array(8).keys()).map((v) => `bg_0${v}`)
     
     let app = new Vue({
         el: '#app',
@@ -115,12 +110,13 @@
             shareText: '',
             imageData: '',
             twitterLink: 'https://twitter.com/FlatcherLynd/status/1396705389744254976?s=20',
-            selectImage: 'bg_01',
+            selectImage: imageList[0],
             selectFont: fontList[0]['family'],
             selectColor: '#FFFFFF',
 
             errorMessage: '',
             fontList,
+            imageList,
         },
         methods: {
             generateImage: async () => {
