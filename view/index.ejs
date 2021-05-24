@@ -35,16 +35,12 @@
         </div>
 
         <div id='result'>
-            <!-- <p>결과</p> -->
             <img v-if="imageData != ''" :src="imageData">
         </div>
 
         <div id='result2'>
             <a :href="imageData" download="image.png" id="embedImage">Download</a>            
         </div>
-
-        
-
 
         <div id='selectImage' class="container">
             <div v-for="image in imageList" class="item" >
@@ -97,7 +93,7 @@
 
         <nav class="mobile-bottom-nav">
             <div class="mobile-bottom-nav__item" @click="shareImage">
-                공유하기
+                저장하기
             </div>
         </nav>
 
@@ -252,6 +248,7 @@
                 // } else {
                 //     alert('공유 실패')
                 // }
+                alert("iOS 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
             }
         }
     })
