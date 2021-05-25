@@ -26,7 +26,7 @@
                 v-model="twitterLink" 
                 placeholder="http://"
                 @keyup="generateImage"
-                @paste="generateImage"
+                @paste="generateImageFromPaste"
                 class="inputLink">
             </input>
         </div>
@@ -156,9 +156,15 @@
             this.mounted = true;
         },
         methods: {
+            generateImageFromPaste: async (event) => {
+                // console.log('generateImageFromPaste', event)
+                let vueData = app.$data
+                vueData.twitterLink = event.target.value
+                await app.generateImage();
+            },
             generateImage: async () => {
                 let vueData = app.$data
-                console.log('generateImage',  vueData.twitterLink)
+                // console.log('generateImage',  vueData.twitterLink)
 
                 vueData.loadingMessage = '이미지가 만들어지는 중이에요'
                 vueData.errorMessage = ''
@@ -170,7 +176,7 @@
 
                     const twitterId = paths[paths.length-1]
 
-                    console.log('twitterId',  twitterId)
+                    // console.log('twitterId',  twitterId)
 
                     const response = await fetch('/api/generate/tweet', {
                         method: 'POST',
@@ -221,27 +227,6 @@
                 this.selectColor = color;
                 await this.generateImage()
             },
-            // generateImage: async (event) => {
-            //     let vueData = app.$data
-            //     console.log('generateImage', vueData)
-
-            //     const response = await fetch('/api/generate', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json;charset=utf-8'
-            //         },
-            //         body: JSON.stringify({
-            //             text: vueData.shareText,
-            //             image: vueData.selectImage,
-            //         })
-            //     });
-
-            //     const data = await response.json()
-
-            //     // console.log('generateImage', vueData.imageData)
-            //     vueData.imageData = data.image
-            //     // console.log('generateImage', vueData.imageData)
-            // },
             shareImage: async () => {
                 let vueData = app.$data
                 console.log('shareImage')
