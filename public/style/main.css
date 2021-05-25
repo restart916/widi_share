@@ -7,6 +7,10 @@ body {
     margin: 16px;
 }
 
+#credit {
+    font-size: 14px;
+    color: #8E8E92;
+}
 
 #error p {
     font-size: 14px;
