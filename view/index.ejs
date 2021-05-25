@@ -19,7 +19,7 @@
             Widi Share
         </div>
         <div id='inputText'>
-            <p>링크를 적어주세요</p>
+            <p>링크를 넣으면 이미지가 짜잔</p>
             <input 
                 type="text" 
                 id="twitterLink" 
@@ -32,6 +32,10 @@
 
         <div id='error'>
             <p>{{ errorMessage }}</p>
+        </div>
+
+        <div id='loading'>
+            <p>{{ loadingMessage }}</p>
         </div>
 
         <div id='result'>
@@ -71,14 +75,14 @@
         <div id='selectColor' class="container">
             <div class="item-button">
                 <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
-                    글자색
+                    하얀색 글씨
                 </div>
 
             </div>
                 
             <div class="item-button">
                 <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
-                    글자색
+                    검정색 글씨
                 </div>
             </div>
         </div>
@@ -133,6 +137,7 @@
             selectColor: '#FFFFFF',
 
             errorMessage: '',
+            loadingMessage: '',
             fontList,
             imageList,
             mounted: false,
@@ -145,7 +150,7 @@
                 let vueData = app.$data
                 console.log('generateImage',  vueData.twitterLink)
 
-                vueData.errorMessage = '로딩중입니다'
+                vueData.loadingMessage = '이미지가 만들어지는 중이에요'
 
                 try {
                     const url = new URL(vueData.twitterLink)
@@ -172,6 +177,7 @@
                     vueData.imageData = data.image
 
                     vueData.errorMessage = ''
+                    vueData.loadingMessage = ''
                 } catch (error) {
                     console.log('generateImage error', error)
 

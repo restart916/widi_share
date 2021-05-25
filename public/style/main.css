@@ -7,11 +7,28 @@ body {
     margin: 16px;
 }
 
-p {
+#error p {
     font-size: 14px;
+    font-weight: normal;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: #FF1E1E;
+}
+
+#loading p {
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: #8E8E92;
+}
+
+p {
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 8px;
-    margin-top: 16px;
+    margin-top: 24px;
 }
 
 #productName {
@@ -21,7 +38,7 @@ p {
 }
 
 #selectImage img {
-    width: 64px;
+    width: 44px;
     border-radius: 6px;
 }
 
@@ -30,6 +47,7 @@ p {
 }
 
 .container {
+    margin-top: 16px;
     overflow: auto;
     white-space: nowrap;
     /* width: 500px; */
@@ -47,7 +65,7 @@ p {
     padding: 0px;
     display: inline-block;
     vertical-align: top;
-    margin-right: 8px;
+    margin-right: 12px;
     white-space: normal;
 }
 
@@ -74,8 +92,8 @@ p {
 }
 
 .fontButton {
-    padding: 8px;
-    font-size: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
     background-color: #F2F2F7;
     border-radius: 6px;
 }
@@ -100,16 +118,16 @@ p {
 }
 
 .colorButtonWhite {
-    padding: 8px;
-    font-size: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
     background-color: #1C1C1E;
     border-radius: 6px;
     color: #FFFFFF;
 }
 
 .colorButtonBlack {
-    padding: 8px;
-    font-size: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
     background-color: #F2F2F7;
     border-radius: 6px;
 }
