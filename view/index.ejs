@@ -19,7 +19,7 @@
             Widi Share
         </div>
         <div id='inputText'>
-            <p>링크를 넣으면 이미지가 짜잔</p>
+            <p>링크를 넣으면 이미지가 생겨요</p>
             <input 
                 type="text" 
                 id="twitterLink" 
@@ -36,6 +36,10 @@
 
         <div id='loading'>
             <p>{{ loadingMessage }}</p>
+        </div>
+
+        <div id='saveGuide'>
+            <p v-html="resultMessage"></p>
         </div>
 
         <div id='result'>
@@ -95,11 +99,11 @@
 
         <button @change="generateImage">이미지 생성하기</button> -->
 
-        <nav class="mobile-bottom-nav">
+        <!-- <nav class="mobile-bottom-nav">
             <div class="mobile-bottom-nav__item" @click="shareImage">
                 저장하기
             </div>
-        </nav>
+        </nav> -->
 
         <!-- <div id='share'>
             <p @click="shareImage">공유하기</p>
@@ -138,9 +142,10 @@
 
             errorMessage: '',
             loadingMessage: '',
+            resultMessage: '',
             fontList,
             imageList,
-            mounted: false,
+            mounted: false,            
         },
         mounted: function () {
             this.mounted = true;
@@ -178,10 +183,12 @@
 
                     vueData.errorMessage = ''
                     vueData.loadingMessage = ''
+                    vueData.resultMessage = '아래 이미지를 꾸욱 눌러서 <strong>저장</strong>해주세요'
+                    
                 } catch (error) {
                     console.log('generateImage error', error)
 
-                    vueData.errorMessage = '이미지 생성중에 에러가 발생했습니다.'
+                    vueData.errorMessage = '이미지를 만들던 중에 문제가 생겼습니다'
                 }
             },
             checkSelected: function (image) {

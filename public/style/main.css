@@ -7,6 +7,7 @@ body {
     margin: 16px;
 }
 
+
 #error p {
     font-size: 14px;
     font-weight: normal;
@@ -24,11 +25,20 @@ body {
     color: #8E8E92;
 }
 
+#saveGuide p {
+    font-size: 20px;
+    font-weight: normal;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: #2C2C2E;
+}
+
 p {
     font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-weight: normal;
+    margin-bottom: 12px;
     margin-top: 24px;
+    color: #2C2C2E;
 }
 
 #productName {
@@ -44,6 +54,7 @@ p {
 
 #result img {
     width: 100%;
+    border-radius: 6px;
 }
 
 .container {
