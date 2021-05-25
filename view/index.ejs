@@ -19,13 +19,14 @@
             Widi Share
         </div>
         <div id='inputText'>
-            <p>트위터 링크를 넣으면 이미지가 생겨요</p>
+            <p>트윗 링크를 넣으면 이미지가 생겨요</p>
             <input 
                 type="text" 
                 id="twitterLink" 
                 v-model="twitterLink" 
                 placeholder="http://"
                 @keyup="generateImage"
+                @paste="generateImage"
                 class="inputLink">
             </input>
         </div>
@@ -77,13 +78,11 @@
         <div class="divied"></div>
 
         <div id='selectColor' class="container">
-            <div class="item-button">
+            <div class="item-button" style="margin-right: 8px;">
                 <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
                     하얀색 글씨
                 </div>
-
             </div>
-                
             <div class="item-button">
                 <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
                     검정색 글씨
@@ -162,6 +161,8 @@
                 console.log('generateImage',  vueData.twitterLink)
 
                 vueData.loadingMessage = '이미지가 만들어지는 중이에요'
+                vueData.errorMessage = ''
+                vueData.resultMessage = ''
 
                 try {
                     const url = new URL(vueData.twitterLink)
@@ -195,6 +196,8 @@
                     console.log('generateImage error', error)
 
                     vueData.errorMessage = '이미지를 만들던 중에 문제가 생겼습니다'
+                    vueData.loadingMessage = ''
+                    vueData.resultMessage = ''
                 }
             },
             checkSelected: function (image) {

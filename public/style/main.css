@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     width: 100%;
+    word-break: keep-all;
 }
 
 #app {
