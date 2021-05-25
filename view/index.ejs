@@ -26,6 +26,8 @@
                 v-model="twitterLink" 
                 placeholder="http://"
                 @keyup="generateImage"
+                @change="generateImage"
+                @input="generateImage"
                 @paste="generateImageFromPaste"
                 class="inputLink">
             </input>
