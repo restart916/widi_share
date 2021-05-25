@@ -43,6 +43,14 @@ p {
     white-space: normal;
 }
 
+.item-button {
+    padding: 0px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 8px;
+    white-space: normal;
+}
+
 *:focus {
     outline: none;
 }

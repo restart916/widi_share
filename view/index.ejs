@@ -43,7 +43,7 @@
         </div> -->
 
         <div id='selectImage' class="container">
-            <div v-for="image in imageList" class="item" >
+            <div v-for="image in imageList" class="item">
                 <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
                 <!-- <label :for="image"> -->
                 <div @click="onclickImage(image)">
@@ -56,7 +56,7 @@
         <div class="divied"></div>
 
         <div id='selectFont' class="container">
-            <div v-for="font in fontList" class="item">
+            <div v-for="font in fontList" class="item-button">
                 <!-- <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage"> -->
                 <!-- <label :for="font.family"> -->
                 <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
@@ -69,14 +69,14 @@
         <div class="divied"></div>
 
         <div id='selectColor' class="container">
-            <div class="item">
+            <div class="item-button">
                 <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
                     글자색
                 </div>
 
             </div>
                 
-            <div class="item">
+            <div class="item-button">
                 <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
                     글자색
                 </div>
