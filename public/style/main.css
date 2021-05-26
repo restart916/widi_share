@@ -2,10 +2,20 @@ body {
     margin: 0px;
     width: 100%;
     word-break: keep-all;
+    display: flex;
+    justify-content: center;
+}
+
+
+@media only screen and (max-width: 600px) {
+    body {
+        display: block;
+    }
 }
 
 #app {
     margin: 16px;
+    max-width: 600px;
 }
 
 #credit {
