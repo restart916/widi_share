@@ -170,6 +170,7 @@ const generate = async (mainText, backgroundImage, font, color, userInfo = {}) =
   ctx.font = '44px "NotoSans"'
   ctx.fillText(userInfo.name, x, lastHeight + 122)
 
+  ctx.fillStyle = '#FFFFFF80'
   ctx.font = '40px "NotoSans"'
   ctx.fillText(`@${userInfo.username}`, x, lastHeight + 190)
 
