@@ -35,7 +35,7 @@ body {
 
 #app {
     margin: 16px;
-    max-width: 600px;
+    max-width: 450px;
 }
 
 #credit {
@@ -88,11 +88,6 @@ p {
 }
 
 #result img {
-    width: 100%;
-    border-radius: 6px;
-}
-
-#result canvas {
     width: 100%;
     border-radius: 6px;
 }

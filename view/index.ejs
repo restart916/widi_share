@@ -50,8 +50,8 @@
         </div>
 
         <div id='result'>
-            <!-- <img v-if="imageData != ''" :src="imageData"> -->
-            <canvas id="canvas"></canvas>
+            <img v-if="imageData != ''" :src="imageData">
+            
         </div>
 
         <!-- <div id='result2'>
@@ -120,6 +120,10 @@
         <!-- <div id='share'>
             <p @click="shareImage">공유하기</p>
         </div> -->
+
+        <div style="display: none;">
+            <canvas id="canvas" ></canvas>
+        </div>
     </div>
 </body>
 </html>
@@ -178,7 +182,8 @@
                 
                 // 600 * 0.6 = 360
                 console.log(window.screen.width)
-                const imageSize = Math.min(window.screen.width-32, 600);
+                // const imageSize = Math.min(window.screen.width-32, 600);
+                const imageSize = 360;
                 const margin = 20 ;
 
                 if (this.canvas == null) {
@@ -191,6 +196,7 @@
                     isDrawingMode: false,
                     width: imageSize,
                     height: imageSize,
+                    allowTouchScrolling: false,
                 });
                 
                 var imgElement = document.getElementById(this.selectImage);
@@ -257,6 +263,11 @@
                 })
 
                 // this.canvas.renderAll();
+
+                this.imageData = this.canvas.toDataURL({
+                    format: 'png',
+                    multiplier: 4,
+                })
                 console.log('finished render')
             },
             generateImageFromPaste: async (event) => {
