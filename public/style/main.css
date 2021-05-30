@@ -1,3 +1,24 @@
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('../font/ridi_batang.otf');
+}
+
+@font-face {
+    font-family: 'KopubBatang';
+    src: url('../font/kopub_batang.ttf');
+}
+
+@font-face {
+    font-family: 'NotoSans';
+    src: url('../font/notosans_light.otf');
+}
+
+@font-face {
+    font-family: 'NotoSansThin';
+    src: url('../font/notosans_thin.otf');
+}
+
+
 body {
     margin: 0px;
     width: 100%;
@@ -5,7 +26,6 @@ body {
     display: flex;
     justify-content: center;
 }
-
 
 @media only screen and (max-width: 600px) {
     body {
@@ -68,6 +88,11 @@ p {
 }
 
 #result img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+#result canvas {
     width: 100%;
     border-radius: 6px;
 }

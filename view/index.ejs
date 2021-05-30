@@ -12,6 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- 상용버전, 속도와 용량이 최적화됨. -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/fabric@4.5.0/dist/fabric.min.js"></script>
+
+    
 </head>
 <body>
     <div id="app">
@@ -46,7 +50,8 @@
         </div>
 
         <div id='result'>
-            <img v-if="imageData != ''" :src="imageData">
+            <!-- <img v-if="imageData != ''" :src="imageData"> -->
+            <canvas id="canvas"></canvas>
         </div>
 
         <!-- <div id='result2'>
@@ -58,7 +63,7 @@
                 <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
                 <!-- <label :for="image"> -->
                 <div @click="onclickImage(image)">
-                    <img :src="'./image/' + image + '.png'" :class="checkSelected(image)"/>
+                    <img :id="image" :src="'./image/' + image + '.png'" :class="checkSelected(image)"/>
                 </div>
                 <!-- </label> -->
             </div>
@@ -147,6 +152,12 @@
             selectFont: fontList[0]['family'],
             selectColor: '#FFFFFF',
 
+            tweetText: '',
+            tweetName: '',
+            tweetUsername: '',
+
+            canvas: null,
+
             errorMessage: '',
             loadingMessage: '',
             resultMessage: '',
@@ -156,8 +167,98 @@
         },
         mounted: function () {
             this.mounted = true;
+            fabric.Object.prototype.objectCaching = true;
         },
         methods: {
+            render: function () {
+                if (this.tweetText == '') {
+                    this.errorMessage = '트윗 링크를 넣어주세요'
+                    return
+                } 
+                
+                // 600 * 0.6 = 360
+                console.log(window.screen.width)
+                const imageSize = Math.min(window.screen.width-32, 600);
+                const margin = 20 ;
+
+                if (this.canvas == null) {
+                    
+                } else {
+                    this.canvas.dispose()
+                }
+                
+                this.canvas = new fabric.Canvas('canvas', {
+                    isDrawingMode: false,
+                    width: imageSize,
+                    height: imageSize,
+                });
+                
+                var imgElement = document.getElementById(this.selectImage);
+                var imgInstance = new fabric.Image(imgElement, {
+                    left: 0,
+                    top: 0,
+                    right: 1200,
+                    bottom: 1200,
+                    scaleX: imageSize / 1200,
+                    scaleY: imageSize / 1200,
+                    opacity: 1,
+                    selectable: false,
+                });
+                this.canvas.add(imgInstance);
+
+                var text = new fabric.Textbox(this.tweetText, { 
+                    left: margin,
+                    width: imageSize - (margin * 2) - 8,
+                    fontSize: 15, 
+                    fontFamily: this.selectFont,
+                    lineHeight: 1.5,
+                    selectable: false,
+                    fill: this.selectColor,
+                    textAlign: 'left',
+                    charSpacing: 100,
+                    splitByGrapheme: true,
+                });
+
+                // console.log('height', text.height);
+                text.top = (imageSize - (text.height + 54)) / 2
+                this.canvas.add(text);
+
+                var nameText = new fabric.Text(this.tweetName, { 
+                    left: margin,
+                    width: imageSize - (margin * 2),
+                    fontSize: 14, 
+                    fontFamily: 'NotoSans',
+                    top: (text.top + text.height + 16),
+                    selectable: false,
+                    fill: this.selectColor,
+                });
+                this.canvas.add(nameText);
+
+                if (this.tweetUsername) {
+                    var usernameText = new fabric.Text(`@${this.tweetUsername}`, { 
+                        left: margin,
+                        width: imageSize - (margin * 2),
+                        fontSize: 14, 
+                        fontFamily: 'NotoSansThin',
+                        top: (text.top + text.height + 38),
+                        selectable: false,
+                        fill: `${this.selectColor}B0`,
+                    });
+                    // console.log('usernameText.height', usernameText.height)
+                    this.canvas.add(usernameText);
+                }
+
+                fabric.Image.fromURL('./image/logo.png', (logo) => {
+                    logo.scaleX = 0.3
+                    logo.scaleY = 0.3
+                    logo.left = imageSize - (logo.width * logo.scaleX) - 10
+                    logo.top = imageSize - (logo.height * logo.scaleY) - 10
+                    this.canvas.add(logo);
+                })
+
+                // this.canvas.renderAll();
+                console.log('finished render')
+            },
             generateImageFromPaste: async (event) => {
                 // console.log('generateImageFromPaste', event)
                 let vueData = app.$data
@@ -178,32 +279,32 @@
 
                     const twitterId = paths[paths.length-1]
 
-                    // console.log('twitterId',  twitterId)
-
-                    const response = await fetch('/api/generate/tweet', {
+                    const response = await fetch('/api/get/tweet', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8'
                         },
                         body: JSON.stringify({
                             tweet: twitterId,
-                            image: vueData.selectImage,
-                            font: vueData.selectFont,
-                            color: vueData.selectColor,
                         })
                     });
                     
                     const data = await response.json()
-                    vueData.imageData = data.image
+
+                    vueData.tweetText = data.text
+                    vueData.tweetName = data.name
+                    vueData.tweetUsername = data.username
+
+                    app.render();
 
                     vueData.errorMessage = ''
                     vueData.loadingMessage = ''
                     vueData.resultMessage = '아래 이미지를 꾸욱 눌러 <strong>저장</strong>해 주세요'
                     
                 } catch (error) {
-                    console.log('generateImage error', error)
+                    // console.log('generateImage error', error)
 
-                    vueData.errorMessage = '이미지를 만들던 중에 문제가 생겼습니다'
+                    vueData.errorMessage = '트윗 링크를 바르게 입력해주세요'
                     vueData.loadingMessage = ''
                     vueData.resultMessage = ''
                 }
@@ -219,15 +320,18 @@
                 console.log('onclickImage', image)    
 
                 vueData.selectImage = image
-                await app.generateImage()
+                // await app.generateImage()
+                app.render()
             },
             onclickFont: async function (family) {
                 this.selectFont = family;
-                await this.generateImage()
+                // await this.generateImage()
+                this.render()
             },
             onclickColor: async function (color) {
                 this.selectColor = color;
-                await this.generateImage()
+                // await this.generateImage()
+                this.render()
             },
             shareImage: async () => {
                 let vueData = app.$data

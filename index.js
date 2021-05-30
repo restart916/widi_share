@@ -25,6 +25,19 @@ app.get('/', (req, res) => {
     res.render('index');
 })
 
+app.post('/api/get/tweet', async (req, res) => {
+  const tweet = req.body.tweet
+
+  const tweetInfo = await loadTweet(tweet)
+  const tweetUserInfo = await loadTweetUser(tweetInfo.author_id)
+
+  res.json({
+    text: tweetInfo.text,
+    name: tweetUserInfo.name,
+    username: tweetUserInfo.username
+  })
+})
+
 app.post('/api/generate/tweet', async (req, res) => {
   // res.send('Hello World!')
   console.log('/api/generate/tweet', req.body)
