@@ -99,7 +99,7 @@
         <div class="divied"></div>
 
         <div id="credit">
-            만든이 : 윌리 👀, 모리 🐭
+            만든이 : <a href="https://twitter.com/FlatcherLynd" target="_blank">윌리 👀</a>, <a href="https://twitter.com/Hyunjinraykkom" target="_blank">모리 🐭</a>
         </div>
 
         <div class="divied-bottom"></div>
@@ -315,7 +315,7 @@
                 } catch (error) {
                     // console.log('generateImage error', error)
 
-                    vueData.errorMessage = '트윗 링크를 바르게 입력해주세요'
+                    vueData.errorMessage = '트윗 링크가 바르지 않거나 비공개 계정 트윗입니다.'
                     vueData.loadingMessage = ''
                     vueData.resultMessage = ''
                 }
