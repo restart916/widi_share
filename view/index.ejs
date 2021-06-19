@@ -51,7 +51,6 @@
 
         <div id='result'>
             <img v-if="imageData != ''" :src="imageData">
-            
         </div>
 
         <!-- <div id='result2'>
@@ -260,15 +259,16 @@
                     logo.left = imageSize - (logo.width * logo.scaleX) - 10
                     logo.top = imageSize - (logo.height * logo.scaleY) - 10
                     this.canvas.add(logo);
+
+                    this.imageData = this.canvas.toDataURL({
+                        format: 'png',
+                        multiplier: 4,
+                    })
+                    console.log('finished render')
                 })
 
                 // this.canvas.renderAll();
 
-                this.imageData = this.canvas.toDataURL({
-                    format: 'png',
-                    multiplier: 4,
-                })
-                console.log('finished render')
             },
             generateImageFromPaste: async (event) => {
                 // console.log('generateImageFromPaste', event)
