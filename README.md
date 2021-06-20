@@ -1,5 +1,7 @@
 # widi share
 
-리디북스 공유 이미지 비슷한 이미지 생성기
-https://secure-dusk-50656.herokuapp.com/
+WIDI SHARE 명언 박제 [@widishare2021](https://twitter.com/widishare2021)
 
+비공개 계정 트윗은 박제가 어려워요 
+
+http://secure-dusk-50656.herokuapp.com

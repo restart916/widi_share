@@ -209,3 +209,7 @@ p {
     flex-direction:column;
     justify-content:center;
 }
+
+a.credit{
+    color: #8E8E92;
+}
