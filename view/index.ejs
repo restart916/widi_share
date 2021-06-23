@@ -219,6 +219,21 @@
         mounted: function () {
             this.mounted = true;
             fabric.Object.prototype.objectCaching = true;
+
+            navigator.clipboard.readText()
+            .then(text => {
+                try {
+                    const url = new URL(text)
+                    this.twitterLink = text
+                    this.generateImage()
+                } catch (error) {
+                    console.log('mounted clipboard readText URL err', error)    
+                }
+
+            })
+            .catch(err => {
+                console.log('mounted clipboard readText err', err)
+            });
         },
         methods: {
             render: function () {
@@ -228,7 +243,7 @@
                 } 
                 
                 // 600 * 0.6 = 360
-                console.log(window.screen.width)
+                // console.log(window.screen.width)
                 // const imageSize = Math.min(window.screen.width-32, 600);
                 const imageSize = 360;
                 const margin = 20 ;
