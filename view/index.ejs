@@ -35,6 +35,9 @@
     
     <script src="https://cdn.jsdelivr.net/npm/fabric@4.5.0/dist/fabric.min.js"></script>
     <script data-ad-client="ca-pub-1514313371293640" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -64,7 +67,17 @@
         <div id='productName'>
             Widi Share
         </div>
-        <div id='inputText'>
+        <div style="margin-top: 10px; margin-bottom: 32px">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link" :class="checkTab(0)" @click="changeTab(0)" href="#">트윗 링크 입력</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" :class="checkTab(1)" @click="changeTab(1)" href="#">직접 입력</a>
+                </li>
+            </ul>
+        </div>
+        <div id='inputText' v-if="currentTab == 0">
             <p>트윗 링크를 넣으면 이미지가 생겨요</p>
             <input 
                 type="text" 
@@ -76,6 +89,39 @@
                 @input="generateImage"
                 @paste="generateImageFromPaste"
                 class="inputLink">
+            </input>
+        </div>
+        <div id='detailInput' v-else>
+            <textarea 
+                type="text" 
+                v-model="tweetText" 
+                placeholder="내용을 넣어주세요"
+                style="resize: none; height: 200px; margin-bottom: 12px;"
+                @keyup="render"
+                @change="render"
+                @input="render"
+                @paste="render"
+                class="inputTweetName">
+            </textarea>
+            <input 
+                type="text" 
+                v-model="tweetName" 
+                placeholder="제목"
+                @keyup="render"
+                @change="render"
+                @input="render"
+                @paste="render"
+                class="inputTweetName">
+            </input>
+            <input 
+                type="text" 
+                v-model="tweetUsername" 
+                placeholder="글쓴이"
+                @keyup="render"
+                @change="render"
+                @input="render"
+                @paste="render"
+                class="inputTweetName">
             </input>
         </div>
 
@@ -202,6 +248,7 @@
             selectImage: imageList[0],
             selectFont: fontList[0]['family'],
             selectColor: '#FFFFFF',
+            currentTab: 0,
 
             tweetText: '',
             tweetName: '',
@@ -222,12 +269,18 @@
 
             navigator.clipboard.readText()
             .then(text => {
+                if (text.length < 5) {
+                    return
+                }
+
                 try {
                     const url = new URL(text)
                     this.twitterLink = text
                     this.generateImage()
                 } catch (error) {
-                    console.log('mounted clipboard readText URL err', error)    
+                    this.tweetText = text
+                    this.render()
+                    // console.log('mounted clipboard readText URL err', error)    
                 }
 
             })
@@ -237,6 +290,7 @@
         },
         methods: {
             render: function () {
+                this.errorMessage = ''
                 if (this.tweetText == '') {
                     this.errorMessage = '트윗 링크를 넣어주세요'
                     return
@@ -303,7 +357,7 @@
                 this.canvas.add(nameText);
 
                 if (this.tweetUsername) {
-                    var usernameText = new fabric.Text(`@${this.tweetUsername}`, { 
+                    var usernameText = new fabric.Text(`${this.tweetUsername}`, { 
                         left: margin,
                         width: imageSize - (margin * 2),
                         fontSize: 14, 
@@ -329,9 +383,6 @@
                     })
                     console.log('finished render')
                 })
-
-                // this.canvas.renderAll();
-
             },
             generateImageFromPaste: async (event) => {
                 // console.log('generateImageFromPaste', event)
@@ -367,7 +418,7 @@
 
                     vueData.tweetText = data.text
                     vueData.tweetName = data.name
-                    vueData.tweetUsername = data.username
+                    vueData.tweetUsername = `@${data.username}`
 
                     app.render();
 
@@ -426,24 +477,13 @@
                 link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
                 document.body.appendChild(link);
                 link.click();
-                
-                // const base64url = vueData.imageData.replace("image/png", "image/octet-stream")
-                // const blob = await (await fetch(base64url)).blob();
-                // const file = new File([blob], 'fileName.png', { type: blob.type });
-                
-                // const data = {
-                //     files: [file],
-                //     title: 'Widi Share',
-                // }
-
-                // if (navigator.canShare && navigator.canShare(data)) {
-                //     await navigator.share(data)
-                //     alert('공유 성공')
-                // } else {
-                //     alert('공유 실패')
-                // }
-
-            }
+            },
+            checkTab: function (tab) {
+                return this.currentTab == tab ? 'active' : ''
+            },
+            changeTab: function (tab) {
+                this.currentTab = tab
+            },
         }
     })
 </script>

@@ -120,10 +120,26 @@ p {
     outline: none;
 }
 
+#detailInput {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .inputLink {
     background-color: #F2F2F7;
     font-size: 19px;
     padding: 16px;
+    border: 0px;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.inputTweetName {
+    background-color: #F2F2F7;
+    font-size: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
     border: 0px;
     width: 100%;
     border-radius: 6px;
