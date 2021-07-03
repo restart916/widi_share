@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 @font-face {
     font-family: 'RIDIBatang';
     src: url('../font/ridi_batang.otf');
@@ -18,6 +20,9 @@
     src: url('../font/notosans_thin.otf');
 }
 
+* {
+    font-family: "Pretendard", system-ui, -apple-;
+}
 
 body {
     margin: 0px;
