@@ -310,7 +310,17 @@
             });
         },
         methods: {
-            render: function () {
+            render: function() {
+                const threshold = 100
+
+                clearTimeout(this.timeout)
+                this.timeout = setTimeout(() => {
+                    this.timeout = null
+                    this.redraw()
+                }, threshold)
+            },
+
+            redraw: function () {
                 this.errorMessage = ''
                 if (this.tweetText == '') {
                     this.errorMessage = '트윗 링크를 넣어주세요'
