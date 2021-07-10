@@ -42,11 +42,11 @@
 </head>
 <body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
 
     <script>
     // Your web app's Firebase configuration
@@ -62,7 +62,7 @@
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+    const analytics = firebase.analytics();
     </script>
     <div id="app">
         <div class="header">
@@ -216,25 +216,6 @@
             </div>            
         </div>
 
-            
-        
-        <!-- <div id='inputText'>
-            <p>공유하고 싶은 문자열</p>
-            <textarea id="shareText" v-model="shareText"></textarea>
-        </div>
-
-        <button @change="generateImage">이미지 생성하기</button> -->
-
-        <!-- <nav class="mobile-bottom-nav">
-            <div class="mobile-bottom-nav__item" @click="shareImage">
-                저장하기
-            </div>
-        </nav> -->
-
-        <!-- <div id='share'>
-            <p @click="shareImage">공유하기</p>
-        </div> -->
-
         <div style="display: none;">
             <canvas id="canvas" ></canvas>
             <img id="logo" src="./image/logo.png"/>
@@ -242,7 +223,6 @@
     </div>
 </body>
 </html>
-
 
 <script>
     let fontList = [
@@ -264,7 +244,6 @@
         }
     ]
 
-    // let imageList = Array.from(Array(13).keys()).map((v) => `bg_${v}`)
     let imageList = [
         "bg_10", 
         "bg_9", 
@@ -279,7 +258,6 @@
         "bg_6", 
         "bg_7", 
         // "bg_8", 
-        
     ]
     
     let app = new Vue({
@@ -501,44 +479,53 @@
                 let vueData = app.$data
                 // console.log('onclickImage', image)    
 
+                analytics.logEvent('select_image', {image});
+                
                 vueData.selectImage = image
                 // await app.generateImage()
                 app.render()
             },
             onclickFont: async function (family) {
                 this.selectFont = family;
+
+                analytics.logEvent('select_font', {family});
                 // await this.generateImage()
                 this.render()
             },
             onclickColor: async function (color) {
                 this.selectColor = color;
+
+                analytics.logEvent('select_color', {color});
+
                 // await this.generateImage()
                 this.render()
             },
-            shareImage: async () => {
-                let vueData = app.$data
-                console.log('shareImage')
+            // shareImage: async () => {
+            //     let vueData = app.$data
+            //     console.log('shareImage')
 
-                if(navigator.userAgent.match('CriOS')) {
-                    alert("iOS Chrome 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
-                    return;
-                } else {
-                    // safari
-                }
+            //     if(navigator.userAgent.match('CriOS')) {
+            //         alert("iOS Chrome 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
+            //         return;
+            //     } else {
+            //         // safari
+            //     }
 
-                // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
+            //     // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
 
-                let link = document.createElement("a")
-                // let link = document.getElementById('link');
-                link.setAttribute('download', 'widi-share.png');
-                link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
-                document.body.appendChild(link);
-                link.click();
-            },
+            //     let link = document.createElement("a")
+            //     // let link = document.getElementById('link');
+            //     link.setAttribute('download', 'widi-share.png');
+            //     link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
+            //     document.body.appendChild(link);
+            //     link.click();
+            // },
             checkTab: function (tab) {
                 return this.currentTab == tab ? 'active' : ''
             },
             changeTab: function (tab) {
+                analytics.logEvent('change_tab', {tab});
+
                 this.currentTab = tab
             },
             moveHome: function () {
