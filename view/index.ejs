@@ -5,7 +5,6 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>WIDI SHARE</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style/main.css'>
     <!-- <script src='main.js'></script> -->
     <meta property="og:title" content="위디" />
     <meta property="og:description" content="WIDI SHARE 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
@@ -38,6 +37,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='style/main.css'>
 </head>
 <body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -64,138 +65,159 @@
     firebase.analytics();
     </script>
     <div id="app">
-        <div id='productName'>
-            Widi Share
-        </div>
-        <div style="margin-top: 10px; margin-bottom: 32px">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                  <a class="nav-link" :class="checkTab(0)" @click="changeTab(0)" href="#">트윗 링크 입력</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" :class="checkTab(1)" @click="changeTab(1)" href="#">직접 입력</a>
-                </li>
-            </ul>
-        </div>
-        <div id='inputText' v-if="currentTab == 0">
-            <p>트윗 링크를 넣으면 이미지가 생겨요</p>
-            <input 
-                type="text" 
-                id="twitterLink" 
-                v-model="twitterLink" 
-                placeholder="http://"
-                @keyup="generateImage"
-                @change="generateImage"
-                @input="generateImage"
-                @paste="generateImageFromPaste"
-                class="inputLink">
-            </input>
-        </div>
-        <div id='detailInput' v-else>
-            <textarea 
-                type="text" 
-                v-model="tweetText" 
-                placeholder="내용을 넣어주세요"
-                style="resize: none; height: 200px; margin-bottom: 12px;"
-                @keyup="render"
-                @change="render"
-                @input="render"
-                @paste="render"
-                class="inputTweetName">
-            </textarea>
-            <input 
-                type="text" 
-                v-model="tweetName" 
-                placeholder="제목"
-                @keyup="render"
-                @change="render"
-                @input="render"
-                @paste="render"
-                class="inputTweetName">
-            </input>
-            <input 
-                type="text" 
-                v-model="tweetUsername" 
-                placeholder="글쓴이"
-                @keyup="render"
-                @change="render"
-                @input="render"
-                @paste="render"
-                class="inputTweetName">
-            </input>
-        </div>
-
-        <div id='error'>
-            <p>{{ errorMessage }}</p>
-        </div>
-
-        <div id='loading'>
-            <p>{{ loadingMessage }}</p>
-        </div>
-
-        <div id='saveGuide'>
-            <p v-html="resultMessage"></p>
-        </div>
-
-        <div id='result'>
-            <img v-if="imageData != ''" :src="imageData">
-        </div>
-
-        <!-- <div id='result2'>
-            <a :href="imageData" download="image.png" id="embedImage">Download</a>            
-        </div> -->
-
-        <div id='selectImage' class="container">
-            <div v-for="image in imageList" class="item">
-                <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
-                <!-- <label :for="image"> -->
-                <div @click="onclickImage(image)">
-                    <img :id="image" :src="'./image/' + image + '.png'" :class="checkSelected(image)"/>
-                </div>
-                <!-- </label> -->
+        <div class="header">
+            <div id='productName'>
+                <img src="./image/header.svg" @click="moveHome">
+            </div>
+            <div id='nav-menu'>
+                <ul class="nav">
+                    <li class="nav-item">
+                      <a class="nav-link" :class="checkTab(0)" @click="changeTab(0)" href="#">트윗 링크 입력</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" :class="checkTab(1)" @click="changeTab(1)" href="#">직접 입력</a>
+                    </li>
+                </ul>
             </div>
         </div>
-
-        <div class="divied"></div>
-
-        <div id='selectFont' class="container">
-            <div v-for="font in fontList" class="item-button">
-                <!-- <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage"> -->
-                <!-- <label :for="font.family"> -->
-                <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
-                    {{ font.name }}
-                </div>
-                <!-- </label> -->
+        
+        <div class="body-content">
+            <div id='inputText' v-if="currentTab == 0">
+                <p>트윗 링크를 넣으면 이미지가 생겨요</p>
+                <input 
+                    type="text" 
+                    id="twitterLink" 
+                    v-model="twitterLink" 
+                    placeholder="http://"
+                    @keyup="generateImage"
+                    @change="generateImage"
+                    @input="generateImage"
+                    @paste="generateImageFromPaste"
+                    class="inputLink">
+                </input>
             </div>
-        </div>
-
-        <div class="divied"></div>
-
-        <div id='selectColor' class="container">
-            <div class="item-button" style="margin-right: 8px;">
-                <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
-                    하얀색 글씨
+            <div id='detailInput' v-else>
+                <textarea 
+                    type="text" 
+                    v-model="tweetText" 
+                    placeholder="내용을 넣어주세요"
+                    style="resize: none; height: 200px; margin-bottom: 12px;"
+                    @keyup="render"
+                    @change="render"
+                    @input="render"
+                    @paste="render"
+                    class="inputTweetName">
+                </textarea>
+                <input 
+                    type="text" 
+                    v-model="tweetName" 
+                    placeholder="제목"
+                    @keyup="render"
+                    @change="render"
+                    @input="render"
+                    @paste="render"
+                    class="inputTweetName">
+                </input>
+                <input 
+                    type="text" 
+                    v-model="tweetUsername" 
+                    placeholder="글쓴이"
+                    @keyup="render"
+                    @change="render"
+                    @input="render"
+                    @paste="render"
+                    class="inputTweetName">
+                </input>
+            </div>
+    
+            <div id='error'>
+                <p>{{ errorMessage }}</p>
+            </div>
+    
+            <div id='loading'>
+                <p>{{ loadingMessage }}</p>
+            </div>
+    
+            <div id='saveGuide'>
+                <p v-html="resultMessage"></p>
+            </div>
+    
+            <div id='result'>
+                <img v-if="imageData != ''" :src="imageData">
+            </div>
+    
+            <!-- <div id='result2'>
+                <a :href="imageData" download="image.png" id="embedImage">Download</a>            
+            </div> -->
+    
+            <div id='selectImage' class="container ps-0 pe-0">
+                <div v-for="image in imageList" class="item">
+                    <!-- <input type="radio" :id="image" :value="image" v-model="selectImage" @change="generateImage"> -->
+                    <!-- <label :for="image"> -->
+                    <div @click="onclickImage(image)">
+                        <img :id="image" :src="'./image/' + image + '.png'" :class="checkSelected(image)"/>
+                    </div>
+                    <!-- </label> -->
                 </div>
             </div>
-            <div class="item-button">
-                <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
-                    검정색 글씨
+    
+            <div class="divied"></div>
+    
+            <div id='selectFont' class="container ps-0 pe-0">
+                <div v-for="font in fontList" class="item-button">
+                    <!-- <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage"> -->
+                    <!-- <label :for="font.family"> -->
+                    <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
+                        {{ font.name }}
+                    </div>
+                    <!-- </label> -->
                 </div>
             </div>
-        </div>
-
-        <div class="divied"></div>
-
-        <div id="credit">
-            만든이 : <a href="https://twitter.com/FlatcherLynd" class="credit" target="_blank">윌리 👀</a>, <a href="https://twitter.com/Hyunjinraykkom" class="credit" target="_blank">모리 🐭</a>
+    
+            <div class="divied"></div>
+    
+            <div id='selectColor' class="container ps-0 pe-0">
+                <div class="item-button" style="margin-right: 8px;">
+                    <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
+                        하얀색 글씨
+                    </div>
+                </div>
+                <div class="item-button">
+                    <div class="colorButtonBlack" @click="onclickColor('#1C1C1E')">
+                        검정색 글씨
+                    </div>
+                </div>
+            </div>
+    
         </div>
 
         <ins class="kakao_ad_area" style="display:none;" 
             data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
             data-ad-width   = "320" 
             data-ad-height  = "50"></ins> 
+
+        <div id="credit">
+            <div class="credit-text">
+                서비스
+            </div>
+            <div class="credit-link">
+                <a href="https://twitter.com/widishare2021" class="credit" target="_blank">버그 신고 및 제휴 문의</a>
+            </div>
+            <div style="margin-bottom: 16px;">
+            </div>
+            <div class="credit-text">
+                만든 사람
+            </div>
+            <div class="credit-link">
+                <a href="https://twitter.com/FlatcherLynd" class="credit" target="_blank">윌리 👀</a>
+            </div>
+            <div class="credit-link">
+                <a href="https://twitter.com/Hyunjinraykkom" class="credit" target="_blank">모리 🐭</a>
+            </div>            
+        </div>
+
             
-        <div class="divied-bottom"></div>
+        
         <!-- <div id='inputText'>
             <p>공유하고 싶은 문자열</p>
             <textarea id="shareText" v-model="shareText"></textarea>
@@ -256,7 +278,7 @@
         "bg_5", 
         "bg_6", 
         "bg_7", 
-        "bg_8", 
+        // "bg_8", 
         
     ]
     
@@ -518,6 +540,9 @@
             },
             changeTab: function (tab) {
                 this.currentTab = tab
+            },
+            moveHome: function () {
+                window.location.href="https://secure-dusk-50656.herokuapp.com/";
             },
         }
     })
