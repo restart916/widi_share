@@ -47,7 +47,7 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
     <script>
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -63,6 +63,7 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const analytics = firebase.analytics();
+    const db = firebase.firestore();
     </script>
     <div id="app">
         <div class="header">
@@ -143,7 +144,7 @@
             </div>
     
             <div id='result'>
-                <img v-if="imageData != ''" :src="imageData">
+                <img v-if="imageData != ''" :src="imageData" @copy="sendCopyLog">
             </div>
     
             <!-- <div id='result2'>
@@ -312,6 +313,12 @@
             .catch(err => {
                 console.log('mounted clipboard readText err', err)
             });
+
+            // console.log(this.$refs.image)
+            // this.$refs.image.addEventListener('copy', (event) => {
+            //     console.log('copy event')
+            // });
+
         },
         methods: {
             render: function() {
@@ -534,6 +541,14 @@
             },
             moveHome: function () {
                 window.location.href="https://secure-dusk-50656.herokuapp.com/";
+            },
+            sendCopyLog: function () {
+                db.collection("copy_log").add({
+                    text: this.tweetText,
+                    name: this.tweetName,
+                    username: this.tweetUsername,
+                    timestamp: Date.now(),
+                })
             },
         }
     })
