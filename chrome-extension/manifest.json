@@ -1,0 +1,14 @@
+{
+    "name": "WIDI share extension",
+    "action": {},
+    "manifest_version": 3,
+    "version": "0.1",
+    "description": "Generate Image from selected text",
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    }
+  }
