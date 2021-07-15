@@ -320,12 +320,10 @@
             // this.$refs.image.addEventListener('copy', (event) => {
             //     console.log('copy event')
             // });
-            this.render()
+            this.render(1300)
         },
         methods: {
-            render: function() {
-                const threshold = 100
-
+            render: function(threshold = 100) {
                 clearTimeout(this.timeout)
                 this.timeout = setTimeout(() => {
                     this.timeout = null
