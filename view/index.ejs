@@ -306,6 +306,7 @@
                         this.generateImage()
                     } catch (error) {
                         this.tweetText = text
+                        this.changeTab(1)
                         this.render()
                         // console.log('mounted clipboard readText URL err', error)    
                     }
@@ -314,6 +315,8 @@
                 .catch(err => {
                     console.log('mounted clipboard readText err', err)
                 });
+            } else {
+                this.changeTab(1)
             }
 
             // console.log(this.$refs.image)
