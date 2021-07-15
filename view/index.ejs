@@ -276,9 +276,9 @@
             selectColor: '#FFFFFF',
             currentTab: 0,
 
-            tweetText: '',
-            tweetName: '',
-            tweetUsername: '',
+            tweetText: '<%=text%>',
+            tweetName: '<%=name%>',
+            tweetUsername: '<%=username%>',
 
             canvas: null,
             
@@ -293,32 +293,34 @@
             this.mounted = true;
             fabric.Object.prototype.objectCaching = true;
 
-            navigator.clipboard.readText()
-            .then(text => {
-                if (text.length < 5) {
-                    return
-                }
+            if (this.tweetText == '') {
+                navigator.clipboard.readText()
+                .then(text => {
+                    if (text.length < 5) {
+                        return
+                    }
 
-                try {
-                    const url = new URL(text)
-                    this.twitterLink = text
-                    this.generateImage()
-                } catch (error) {
-                    this.tweetText = text
-                    this.render()
-                    // console.log('mounted clipboard readText URL err', error)    
-                }
+                    try {
+                        const url = new URL(text)
+                        this.twitterLink = text
+                        this.generateImage()
+                    } catch (error) {
+                        this.tweetText = text
+                        this.render()
+                        // console.log('mounted clipboard readText URL err', error)    
+                    }
 
-            })
-            .catch(err => {
-                console.log('mounted clipboard readText err', err)
-            });
+                })
+                .catch(err => {
+                    console.log('mounted clipboard readText err', err)
+                });
+            }
 
             // console.log(this.$refs.image)
             // this.$refs.image.addEventListener('copy', (event) => {
             //     console.log('copy event')
             // });
-
+            this.render()
         },
         methods: {
             render: function() {
@@ -543,12 +545,7 @@
                 window.location.href="https://secure-dusk-50656.herokuapp.com/";
             },
             sendCopyLog: function () {
-                // db.collection("copy_log").add({
-                //     text: this.tweetText,
-                //     name: this.tweetName,
-                //     username: this.tweetUsername,
-                //     timestamp: Date.now(),
-                // })
+
             },
         }
     })

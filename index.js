@@ -22,7 +22,10 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.render('index');
+    const text = req.query.text || ''
+    const name = req.query.name || ''
+    const username = req.query.username || ''
+    res.render('index', {text, name, username});
 })
 
 app.post('/api/get/tweet', async (req, res) => {
