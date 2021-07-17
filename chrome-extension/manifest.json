@@ -2,7 +2,7 @@
     "name": "WIDI share extension",
     "action": {},
     "manifest_version": 3,
-    "version": "0.1",
+    "version": "0.1.2",
     "description": "Generate Image from selected text",
     "permissions": [
       "activeTab",

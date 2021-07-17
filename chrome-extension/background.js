@@ -27,8 +27,15 @@ function openWidi() {
   }
 
   let text = getSelectionText()
-  let name = getMeta('title').substring(0,20)
+  let name = document.title || getMeta('title')
   let username = getMeta('description').substring(0,20)
+  if (name && name.split(' - ').length == 3) {
+    // postype
+    let items = name.split(' - ');
+    name = items[0]
+    username = items[2]
+  }
+
   console.log('WIDI', text, name, username)
 
   let url = `https://secure-dusk-50656.herokuapp.com/?text=${text}&name=${name}&username=${username}`
