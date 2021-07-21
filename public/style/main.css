@@ -48,7 +48,7 @@ body {
 }
 
 #nav-menu {
-    background-color: #2F7CF6;
+    background-color: #1C1C1E;
     margin-bottom: 38px;
     /* padding-top: 16px; */
 }
@@ -107,7 +107,7 @@ p {
 #productName {
     font-size: 12px;
     font-weight: bold;
-    background-color: #2F7CF6;
+    background-color: #1C1C1E;
     padding: 24px 16px;
 }
 

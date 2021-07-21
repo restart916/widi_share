@@ -3,12 +3,12 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>WIDI SHARE</title>
+    <title>WIMO Share</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- <script src='main.js'></script> -->
-    <meta property="og:title" content="위디" />
-    <meta property="og:description" content="WIDI SHARE 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
-    <meta name="description" content="WIDI SHARE 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
+    <meta property="og:title" content="WIMO Share" />
+    <meta property="og:description" content="WIMO Share 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
+    <meta name="description" content="WIMO Share 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
     <meta property="og:url" content="https://secure-dusk-50656.herokuapp.com/" />
     <meta property="og:image" content="" />
 
@@ -252,10 +252,10 @@
         {"file": "bg_15","fontColor": '#FFFFFF'},
         {"file": "bg_11", "fontColor": '#FFFFFF'},
         {"file": "bg_12","fontColor": '#FFFFFF'},
-        {"file": "bg_0", "fontColor": '#FFFFFF'},
-        {"file": "bg_1", "fontColor": '#FFFFFF'},
-        {"file": "bg_2", "fontColor": '#FFFFFF'},
-        {"file": "bg_3", "fontColor": '#FFFFFF'},
+        // {"file": "bg_0", "fontColor": '#FFFFFF'},
+        // {"file": "bg_1", "fontColor": '#FFFFFF'},
+        // {"file": "bg_2", "fontColor": '#FFFFFF'},
+        // {"file": "bg_3", "fontColor": '#FFFFFF'},
         {"file": "bg_4", "fontColor": '#FFFFFF'},
         {"file": "bg_5", "fontColor": '#FFFFFF'},
         {"file": "bg_6", "fontColor": '#000000'},
@@ -416,7 +416,7 @@
                 const logoScale = 0.3
                 let logoElement = document.getElementById('logo');
                 let logoInstance = new fabric.Image(logoElement, {
-                    left: imageSize - (120 * logoScale) - 10,
+                    left: imageSize - (150 * logoScale) - 10,
                     top: imageSize - (60 * logoScale) - 10,
                     scaleX: logoScale,
                     scaleY: logoScale,
@@ -514,26 +514,6 @@
                 // await this.generateImage()
                 this.render()
             },
-            // shareImage: async () => {
-            //     let vueData = app.$data
-            //     console.log('shareImage')
-
-            //     if(navigator.userAgent.match('CriOS')) {
-            //         alert("iOS Chrome 경우 이미지를 길게 클릭해서 하단 '이미지 저장'을 클릭해주세요.")
-            //         return;
-            //     } else {
-            //         // safari
-            //     }
-
-            //     // window.location.href=vueData.imageData.replace("image/png", "image/octet-stream");
-
-            //     let link = document.createElement("a")
-            //     // let link = document.getElementById('link');
-            //     link.setAttribute('download', 'widi-share.png');
-            //     link.setAttribute('href', vueData.imageData.replace("image/png", "image/octet-stream"));
-            //     document.body.appendChild(link);
-            //     link.click();
-            // },
             checkTab: function (tab) {
                 return this.currentTab == tab ? 'active' : ''
             },
