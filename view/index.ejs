@@ -166,16 +166,13 @@
     
             <div id='selectFont' class="container ps-0 pe-0">
                 <div v-for="font in fontList" class="item-button">
-                    <!-- <input type="radio" :id="font.family" :value="font.family" v-model="selectFont" @change="generateImage"> -->
-                    <!-- <label :for="font.family"> -->
                     <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
                         {{ font.name }}
                     </div>
-                    <!-- </label> -->
                 </div>
             </div>
     
-            <div class="divied"></div>
+            <!-- <div class="divied"></div>
     
             <div id='selectColor' class="container ps-0 pe-0">
                 <div class="item-button" style="margin-right: 8px;">
@@ -188,7 +185,7 @@
                         검정색 글씨
                     </div>
                 </div>
-            </div>
+            </div> -->
     
         </div>
 
@@ -228,9 +225,9 @@
 <script>
     let fontList = [
         {
-            "name": "리디바탕",
-            "family": "RIDIBatang"
-        }, 
+            "name": "Pretendard",
+            "family": "Pretendard"
+        },
         {
             "name": "Kopub 바탕체",
             "family": "KopubBatang"
@@ -239,10 +236,7 @@
             "name": "본고딕",
             "family": "NotoSans"
         }, 
-        {
-            "name": "Pretendard",
-            "family": "Pretendard"
-        }
+        
     ]
 
     let imageList = [
@@ -265,7 +259,7 @@
         {"file": "bg_4", "fontColor": '#FFFFFF'},
         {"file": "bg_5", "fontColor": '#FFFFFF'},
         {"file": "bg_6", "fontColor": '#000000'},
-        {"file": "bg_7", "fontColor": '#FFFFFF'},
+        // {"file": "bg_7", "fontColor": '#FFFFFF'},
         // {"file": "bg_8", "fontColor": '#FFFFFF'},
     ]
     
