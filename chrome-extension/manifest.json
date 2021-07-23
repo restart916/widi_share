@@ -1,9 +1,9 @@
 {
-    "name": "WIDI share extension",
+    "name": "WIMO share extension",
     "action": {},
     "manifest_version": 3,
-    "version": "0.1.2",
-    "description": "Generate Image from selected text",
+    "version": "0.1.3",
+    "description": "When you select text and run the program, a beautiful image with that text is created.",
     "permissions": [
       "activeTab",
       "scripting"

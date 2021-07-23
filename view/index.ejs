@@ -429,6 +429,11 @@
                     format: 'png',
                     multiplier: 4,
                 })
+
+                this.errorMessage = ''
+                this.loadingMessage = ''
+                this.resultMessage = '아래 이미지를 꾸욱 눌러 <strong>저장</strong>해 주세요'
+                
                 console.log('finished render')
             },
             generateImageFromPaste: async (event) => {
@@ -468,10 +473,6 @@
                     vueData.tweetUsername = `@${data.username}`
 
                     app.render();
-
-                    vueData.errorMessage = ''
-                    vueData.loadingMessage = ''
-                    vueData.resultMessage = '아래 이미지를 꾸욱 눌러 <strong>저장</strong>해 주세요'
                     
                 } catch (error) {
                     // console.log('generateImage error', error)
