@@ -161,6 +161,14 @@
                     <!-- </label> -->
                 </div>
             </div>
+
+            <input 
+                type="file" 
+                ref="fileupload"
+                v-on:change="changeImageInput" 
+                style="margin-top: 16px;"
+                >
+            </input>
     
             <div class="divied"></div>
     
@@ -172,7 +180,7 @@
                 </div>
             </div>
     
-            <!-- <div class="divied"></div>
+            <div class="divied"></div>
     
             <div id='selectColor' class="container ps-0 pe-0">
                 <div class="item-button" style="margin-right: 8px;">
@@ -185,7 +193,7 @@
                         검정색 글씨
                     </div>
                 </div>
-            </div> -->
+            </div>
     
         </div>
 
@@ -291,7 +299,11 @@
             resultMessage: '',
             fontList,
             imageList,
-            mounted: false,            
+            mounted: false,  
+            
+            customeImage: null,
+            customeImageWidth: 100,
+            customeImageHeight: 100,
         },
         mounted: function () {
             this.mounted = true;
@@ -364,18 +376,35 @@
                     allowTouchScrolling: false,
                 });
                 
-                let imgElement = document.getElementById(this.selectImage);
-                let imgInstance = new fabric.Image(imgElement, {
-                    left: 0,
-                    top: 0,
-                    right: 1200,
-                    bottom: 1200,
-                    scaleX: imageSize / 1200,
-                    scaleY: imageSize / 1200,
-                    opacity: 1,
-                    selectable: false,
-                });
-                this.canvas.add(imgInstance);
+                if (this.customeImage) {
+                    // console.log('wow', this.customeImage)
+                    var imgInstance = new fabric.Image(this.customeImage, {
+                        left: 0,
+                        top: 0,
+                        right: this.customeImageWidth,
+                        bottom: this.customeImageHeight,
+                        scaleX: imageSize / this.customeImageWidth,
+                        scaleY: imageSize / this.customeImageHeight,
+                        opacity: 1,
+                        selectable: false,
+                    });
+                    this.canvas.add(imgInstance);
+                } else {
+                    let imgElement = document.getElementById(this.selectImage);
+                    let imgInstance = new fabric.Image(imgElement, {
+                        left: 0,
+                        top: 0,
+                        right: 1200,
+                        bottom: 1200,
+                        scaleX: imageSize / 1200,
+                        scaleY: imageSize / 1200,
+                        opacity: 1,
+                        selectable: false,
+                    });
+                    this.canvas.add(imgInstance);
+                }
+
+                
 
                 let text = new fabric.Textbox(this.tweetText, { 
                     left: margin,
@@ -503,6 +532,9 @@
                 vueData.selectImage = image.file
                 vueData.selectColor = image.fontColor
                 
+                app.$refs.fileupload.value = null;
+                vueData.customeImage = null;
+
                 // await app.generateImage()
                 app.render()
             },
@@ -535,6 +567,27 @@
             sendCopyLog: function () {
 
             },
+            changeImageInput: function (e) {
+                console.log('changeImageInput', e.target.files[0])
+                let file = e.target.files[0]
+                // this.customeImage = e.target.files[0]
+                
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var imgObj = new Image();
+                    imgObj.src = event.target.result;
+                    imgObj.onload = function () {
+                        // console.log('imgObj', imgObj.height, imgObj.width)
+                        let vueData = app.$data
+                        vueData.customeImage = imgObj
+                        vueData.customeImageHeight = imgObj.height
+                        vueData.customeImageWidth = imgObj.width
+                        app.render()
+                    }
+                };
+                reader.readAsDataURL(file);
+
+            }
         }
     })
 </script>
