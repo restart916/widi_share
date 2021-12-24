@@ -66,6 +66,11 @@
     const db = firebase.firestore();
     </script>
     <div id="app">
+        <ins class="kakao_ad_area" style="display:none;" 
+            data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
+            data-ad-width   = "320" 
+            data-ad-height  = "50"></ins> 
+            
         <div class="header">
             <div id='productName'>
                 <img src="./image/header.svg" @click="moveHome">
@@ -197,10 +202,7 @@
     
         </div>
 
-        <ins class="kakao_ad_area" style="display:none;" 
-            data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
-            data-ad-width   = "320" 
-            data-ad-height  = "50"></ins> 
+        
 
         <div id="credit">
             <div class="credit-text">
@@ -286,7 +288,7 @@
             selectImage: imageList[0].file,
             selectFont: fontList[0]['family'],
             selectColor: '#FFFFFF',
-            currentTab: 0,
+            currentTab: 1,
 
             tweetText: '<%=text%>',
             tweetName: '<%=name%>',
@@ -403,8 +405,6 @@
                     });
                     this.canvas.add(imgInstance);
                 }
-
-                
 
                 let text = new fabric.Textbox(this.tweetText, { 
                     left: margin,
