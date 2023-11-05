@@ -1,8 +1,10 @@
 const express = require('express')
-const fetch = require("node-fetch");
-const dotenv = require("dotenv");
+const fetch = require("node-fetch")
+const dotenv = require("dotenv")
 const path = require("path")
-
+// const cheerio = require('cheerio')
+const puppeteer = require("puppeteer")
+ 
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -40,6 +42,53 @@ app.post('/api/get/tweet', async (req, res) => {
     username: tweetUserInfo.username
   })
 })
+
+// app.post('/api/get/tweet2', async (req, res) => {
+//   const twitterLink = req.body.twitterLink._value
+
+//   console.log('url', twitterLink)
+
+//   const browser = await puppeteer.launch({
+//     headless: "new",
+//     ignoreDefaultArgs: [ '--disable-extensions' ],
+//   }); 
+  
+//   const page = await browser.newPage(); 
+//   // Go to the webpage 
+//   await page.goto(twitterLink); 
+
+//   await page.setViewport({width: 1080, height: 1024});
+
+//   // const selector = 'div[data-testid="tweetText"]'
+//   const selector = 'div'
+//   const textSelector = await page.waitForSelector(
+//     selector, {timeout: 3000}
+//   );
+//   const fullTitle = await textSelector?.evaluate(el => el.textContent);
+
+//   // Print the result and close the browser 
+//   // console.log(fullTitle); 
+//   // await browser.close(); 
+  
+//   // console.log('url', twitterLink)
+//   // console.log('url', twitterLink._value)
+
+//   // const response = await fetch(`${twitterLink}`)
+
+//   // console.log(response)
+  
+//   // // parse with cheerio
+//   // const $ = cheerio.load(response.body)
+//   // const tweet = $('div[data-testid="tweetText"]')
+
+//   // console.log(tweet)
+
+//   res.json({
+//     text: '',
+//     name: '',
+//     username: ''
+//   })
+// })
 
 app.post('/api/generate/tweet', async (req, res) => {
   // res.send('Hello World!')

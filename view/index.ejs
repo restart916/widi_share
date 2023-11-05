@@ -199,9 +199,25 @@
                     </div>
                 </div>
             </div>
-    
-        </div>
 
+            <div class="divied"></div>
+    
+            <div id='selectColor' class="container ps-0 pe-0">
+                <div class="item-button" style="height: 40px; margin-left: 8px;">
+                    <div style="display: flex; height: 40px; align-items: center; font-size: 16px;">
+                        자간
+                    </div>
+                </div>
+                <div class="item-button" style="margin-right: 8px;">
+                    <div style="padding: 0px 8px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <input type="range" min="0" max="1000" value="100" step="10" class="slider" id="myRange" 
+                        style="width: 200px; height: 100%; outline: none;" 
+                        v-model="selectCharSpacing"
+                        @change="render">
+                    </div>
+                </div>
+            </div>
+        </div>
         
 
         <div id="credit">
@@ -291,6 +307,7 @@
             selectImage: imageList[0].file,
             selectFont: fontList[0]['family'],
             selectColor: '#FFFFFF',
+            selectCharSpacing: 100,
             currentTab: 1,
 
             tweetText: '<%=text%>',
@@ -418,7 +435,7 @@
                     selectable: false,
                     fill: this.selectColor,
                     textAlign: 'left',
-                    charSpacing: 100,
+                    charSpacing: this.selectCharSpacing,
                     splitByGrapheme: true,
                 });
 
