@@ -39,12 +39,12 @@ body {
 }
 
 .body-content {
-    margin: 20px;
+    margin: 24px 20px;
     max-width: 450px;
 }
 
 .header {
-    max-width: 482px;
+    max-width: 490px;
 }
 
 #nav-menu {
