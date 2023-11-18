@@ -66,16 +66,16 @@
     const db = firebase.firestore();
     </script>
     <div id="app">
-        <ins class="kakao_ad_area" style="display:none;" 
+        <!-- <ins class="kakao_ad_area" style="display:none;" 
             data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
             data-ad-width   = "320" 
-            data-ad-height  = "50"></ins> 
+            data-ad-height  = "50"></ins>  -->
             
         <div class="header">
             <div id='productName'>
-                <img src="./image/header.svg" @click="moveHome">
+                <img src="./image/header_black.svg" @click="moveHome">
             </div>
-            <div id='nav-menu'>
+            <!-- <div id='nav-menu'>
                 <ul class="nav">
                     <li class="nav-item">
                       <a class="nav-link" :class="checkTab(0)" @click="changeTab(0)" href="#">트윗 링크 입력</a>
@@ -84,7 +84,42 @@
                       <a class="nav-link" :class="checkTab(1)" @click="changeTab(1)" href="#">직접 입력</a>
                     </li>
                 </ul>
+            </div> -->
+
+            <div style="margin-inline: 20px;">
+                <div  @click="openDuetTodo" id="" style="background-color: black;padding: 20px;border-radius: 10px;display: flex;align-items: center;justify-content: space-between;">
+                    <div style="display: flex;">
+                        <div style="">
+                            <img src="./image/banner_image.png" class="" style="width: 40px;">
+                        </div> 
+                        <div style="margin-left: 12px;">
+                        <div class="" style="
+                                color: white;
+                                font-size: 16px;
+                                font-weight: bold;
+                            ">
+                                듀엣투두
+                            </div> 
+                            <div class="" style="
+                                color: white;
+                                opacity: 50%;
+                                font-size: 14px;
+                            ">
+                                오타쿠용 할일 관리 앱
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="" style="background-color: #8E8E8F; padding: 4px 16px; border-radius: 100px;">
+                        <div class="" style="
+                            font-size: 12px;
+                            font-weight: normal;
+                            color: white;">
+                            받기
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698 -->
         </div>
         
         <div class="body-content">
@@ -103,6 +138,7 @@
                 </input>
             </div>
             <div id='detailInput' v-else>
+                <p style="margin-bottom: 24px;">내용을 쓰면 이미지가 생겨요</p>
                 <textarea 
                     type="text" 
                     v-model="tweetText" 
@@ -175,9 +211,9 @@
                 >
             </input>
     
-            <div class="divied"></div>
+            <!-- <div class="divied"></div> -->
     
-            <div id='selectFont' class="container ps-0 pe-0">
+            <div id='selectFont' class="container ps-0 pe-0" style="margin-top: 24px;">
                 <div v-for="font in fontList" class="item-button">
                     <div class="fontButton" @click="onclickFont(font.family)" :class="checkSelectedFont(font.family)">
                         {{ font.name }}
@@ -185,9 +221,9 @@
                 </div>
             </div>
     
-            <div class="divied"></div>
+            <!-- <div class="divied"></div> -->
     
-            <div id='selectColor' class="container ps-0 pe-0">
+            <div id='selectColor' class="container ps-0 pe-0" style="margin-top: 20px;">
                 <div class="item-button" style="margin-right: 8px;">
                     <div class="colorButtonWhite" @click="onclickColor('#FFFFFF')">
                         하얀색 글씨
@@ -200,11 +236,11 @@
                 </div>
             </div>
 
-            <div class="divied"></div>
+            <!-- <div class="divied"></div> -->
     
-            <div id='selectColor' class="container ps-0 pe-0">
+            <div id='selectCharSpacing' class="container ps-0 pe-0" style="margin-bottom: 60px; margin-top: 24px;">
                 <div class="item-button" style="height: 40px; margin-left: 8px;">
-                    <div style="display: flex; height: 40px; align-items: center; font-size: 16px;">
+                    <div style="display: flex; height: 40px; align-items: center; font-size: 14px;">
                         자간
                     </div>
                 </div>
@@ -374,10 +410,12 @@
 
             redraw: function () {
                 this.errorMessage = ''
+                /*
                 if (this.tweetText == '') {
                     this.errorMessage = '트윗 링크를 넣어주세요'
                     return
                 } 
+                //*/
                 
                 // 600 * 0.6 = 360
                 // console.log(window.screen.width)
@@ -583,6 +621,9 @@
             },
             moveHome: function () {
                 window.location.href="http://share.wimouniv.com/";
+            },
+            openDuetTodo: function () {
+                window.open('https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698', '_blank');
             },
             sendCopyLog: function () {
 
