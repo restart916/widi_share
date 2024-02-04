@@ -7,6 +7,9 @@ import { logEvent } from "firebase/analytics";
 import { analytics } from '../firebase';
 
 import HeaderRound from '../image/header_round.svg';
+import ButtonClose from '../image/button_close.svg';
+import BannerImage from '../image/banner_image.png';
+import Logo from "../image/logo.png";
 import BG_21 from '../image/bg_21.png';
 import BG_22 from '../image/bg_22.png';
 import BG_23 from '../image/bg_23.png';
@@ -459,7 +462,7 @@ export default function Main() {
                 <div 
                   style={{display: 'flex'}}>
                     <div>
-                        <img src="./image/banner_image.png" 
+                        <img src={BannerImage}
                           style={{width: '40px'}} />
                     </div> 
                     <div style={{marginLeft: '12px'}}>
@@ -502,7 +505,7 @@ export default function Main() {
 
         <div style={{display: 'none'}}>
             <canvas id="canvas" ></canvas>
-            <img id="logo" src="./image/logo.png"/>
+            <img id="logo" src={Logo}/>
         </div>
 
         <div className="float-bottom">
@@ -514,7 +517,7 @@ export default function Main() {
         <div className="modal" id="modal" onClick={closeModal}>
             <div className="modal-content" onClick={doNothing}>
                 <div>
-                    <img className="closeButton" onClick={closeModal} src="./image/button_close.svg" />
+                    <img className="closeButton" onClick={closeModal} src={ButtonClose} />
                 </div>
                 <div className="">
                     <p className="modal-emoji">🎉</p>
