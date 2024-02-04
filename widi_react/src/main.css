@@ -1,0 +1,478 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+/* @font-face {
+    font-family: 'RIDIBatang';
+    src: url('../font/ridi_batang.otf');
+} */
+
+@font-face {
+    font-family: 'RidiBatang';
+    font-weight: normal;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/ridi/RidiBatang.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/ridi/RidiBatang.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/ridi/RidiBatang.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/ridi/RidiBatang.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/ridi/RidiBatang.ttf') format("truetype");
+    font-display: swap;
+}
+
+/* @font-face {
+    font-family: 'KopubBatang';
+    src: url('../font/kopub_batang.ttf');
+} */
+
+@font-face {
+    font-family: 'KoPubWorldBatang';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangLight.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangLight.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangLight.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangLight.ttf') format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'KoPubWorldBatang';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangMedium.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangMedium.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangMedium.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangMedium.ttf') format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'KoPubWorldBatang';
+    font-weight: 700;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangBold.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangBold.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangBold.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangBold.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/kopus/KoPubWorldBatangBold.ttf') format("truetype");
+    font-display: swap;
+}
+/* @font-face {
+    font-family: 'NotoSans';
+    src: url('../font/notosans_light.otf');
+} */
+
+@font-face {
+    font-family: 'NotoSans';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Light.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Light.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Light.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Light.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Light.ttf') format("truetype");
+    font-display: swap;
+} 
+
+/* @font-face {
+    font-family: 'NotoSansThin';
+    src: url('../font/notosans_thin.otf');
+} */
+
+@font-face {
+    font-family: 'NotoSansThin';
+    font-weight: 100;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Thin.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Thin.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Thin.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Thin.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/Noto/NotoSansKR-Thin.ttf') format("truetype");
+    font-display: swap;
+} 
+
+* {
+    font-family: "Pretendard", system-ui, -apple-;
+}
+
+body {
+    margin: 0px;
+    width: 100%;
+    word-break: keep-all;
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        display: block;
+    }
+}
+
+.body-content {
+    margin: 0px 20px 24px 20px;
+    max-width: 450px;
+}
+
+.header {
+    max-width: 490px;
+}
+
+#nav-menu {
+    background-color: #1C1C1E;
+    /* margin-bottom: 38px; */
+    /* padding-top: 16px; */
+}
+
+#credit {
+    font-size: 14px;
+    color: #8E8E92;
+    /* margin-bottom: 32px; */
+    background-color: #F2F2F7;
+    padding: 32px 16px;
+}
+
+.credit-text {
+    font-weight: bold;
+    
+    margin-bottom: 12px;
+}
+
+.credit-link {
+    margin-bottom: 8px;
+}
+
+#error p {
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: #FF1E1E;
+}
+
+#loading p {
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: #8E8E92;
+}
+
+#saveGuide p {
+    font-size: 20px;
+    font-weight: normal;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: #2C2C2E;
+}
+
+p {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 12px;
+    margin-top: 24px;
+    color: #2C2C2E;
+}
+
+#productName {
+    font-size: 12px;
+    font-weight: bold;
+    /* background-color: #1C1C1E; */
+    padding: 24px 20px;
+}
+
+#selectImage img {
+    width: 44px;
+    border-radius: 6px;
+}
+
+#result {
+    margin: 20px;
+}
+
+#result img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.container {
+    margin-top: 16px;
+    overflow: auto;
+    white-space: nowrap;
+    /* width: 500px; */
+}
+
+.item {
+    padding: 0px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 6px;
+    white-space: normal;
+}
+
+.item-button {
+    padding: 0px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 12px;
+    white-space: normal;
+}
+
+*:focus {
+    outline: none;
+}
+
+#detailInput {
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
+.inputLink {
+    background-color: #F2F2F7;
+    font-size: 19px;
+    padding: 16px;
+    border: 0px;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.inputTweetName {
+    background-color: #F2F2F7;
+    font-size: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 0px;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.selected {
+    border: solid 2px #2F7CF6;
+}
+
+.no-selected {
+    padding: 2px;
+}
+
+.fontButton {
+    padding: 10px 16px;
+    font-size: 14px;
+    background-color: #F2F2F7;
+    border-radius: 6px;
+}
+
+.selected-font {
+    background-color: #2F7CF6;
+    color: #FFFFFF;
+}
+
+.divied {
+    background: #F2F2F7;
+    width: 100%;
+    height: 1px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.divied-bottom {
+    margin-top: 46px;
+    height: 1px;
+    margin-bottom: 46px;
+}
+
+.colorButtonWhite {
+    padding: 10px 16px;
+    font-size: 14px;
+    background-color: #1C1C1E;
+    border-radius: 6px;
+    color: #FFFFFF;
+}
+
+.colorButtonBlack {
+    padding: 10px 16px;
+    font-size: 14px;
+    background-color: #F2F2F7;
+    border-radius: 6px;
+}
+
+.createButton {
+    padding: 3px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #2F7CF6;
+    color: #FFFFFF;
+    width: 100%;
+    text-align: center;
+}
+
+.closeButton {
+    float: right;
+    width: 24px;
+    margin-top: 16px;
+    margin-right: 19px;
+}
+
+.float-bottom {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: #2F7CF6;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+
+
+.mobile-bottom-nav{
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	z-index:1000;
+	
+	will-change:transform;
+	transform: translateZ(0);
+	
+	display:flex;	
+	
+	height:50px;
+	
+	box-shadow: 0 -2px 40px -2px #CCC;
+	background-color:#2F7CF6;
+}
+
+.mobile-bottom-nav__item{
+    flex-grow:1;
+    text-align:center;
+    font-size:14px;
+    font-weight: normal;
+    color: #FFF;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+a.credit{
+    color: #8E8E92;
+}
+
+.nav-link {
+    color: #E5E5EA;
+    padding: 0px 0px 16px 0px;
+    margin: 0rem 1rem;
+}
+
+.nav-link.active{
+    color: #FFFFFF;
+    font-weight: bold;
+
+    border-bottom: 2px solid #F2F2F7;
+    position: relative;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    /* position: relative; */
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    margin: 0px 0px;
+    padding: 50px 20px;
+    /* width: 100%;
+    height: 100%; */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* .lottie-div, .modal-content {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+  } */
+
+.lottie-div {
+    max-width: 490px;
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    /* left: 0; */
+    top: 50px;
+}
+
+.lottie-player {
+    width: 100%;
+    padding: 50px 30px;
+}
+
+.modal-content {
+    max-width: 490px;
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: 10px;
+    outline: 0;
+    border: none;
+}
+
+.modal-emoji {
+    margin-top: -12px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-size: 32px;   
+}
+
+.modal-text {
+    margin-top: 0px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #48484A;
+}
+
+.modal-bottom {
+    display: flex;
+    margin: 0px 20px 24px 20px;
+}
+
+.modal-button {
+    padding: 16px;
+    font-size: 14px;
+    background-color: #2F7CF6;
+    color: #FFFFFF;
+    border-radius: 6px;
+    width: 50%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.share-button {
+    margin-right: 12px;
+    color: #2F7CF6;
+
+    /* 2F7CF6 with opacity 15% */
+    background-color: #D6E4FF;
+}
+
+.custom-toast {
+    position: absolute;
+    background-color: transparent;
+}
+
+.z-toast {
+    z-index: 1000;
+    background-color: #2C2C2E;
+    color: white;
+    max-width: 490px;
+    border-radius: 10px;
+}
