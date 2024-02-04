@@ -7,8 +7,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- <script src='main.js'></script> -->
     <meta property="og:title" content="WIMO Share" />
-    <meta property="og:description" content="WIMO Share 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
-    <meta name="description" content="WIMO Share 명언 박제. 비공개 계정 트윗은 박제가 어려워요" />
+    <meta property="og:description" content="간단한 한 문장도 멋있는 이미지로 만들어주는 위모" />
+    <meta name="description" content="간단한 한 문장도 멋있는 이미지로 만들어주는 위모" />
     <meta property="og:url" content="http://share.wimouniv.com/" />
     <meta property="og:image" content="" />
 
@@ -48,6 +48,8 @@
         https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -73,7 +75,7 @@
             
         <div class="header">
             <div id='productName'>
-                <img src="./image/header_black.svg" @click="moveHome">
+                <img src="./image/header_round.svg" @click="moveHome">
             </div>
             <!-- <div id='nav-menu'>
                 <ul class="nav">
@@ -85,42 +87,6 @@
                     </li>
                 </ul>
             </div> -->
-
-            <div style="margin-inline: 20px;">
-                <div  @click="openDuetTodo" id="" 
-                    style="background-color: black;padding: 16px;border-radius: 10px;display: flex;align-items: center;justify-content: space-between;">
-                    <div style="display: flex;">
-                        <div style="">
-                            <img src="./image/banner_image.png" class="" style="width: 40px;">
-                        </div> 
-                        <div style="margin-left: 12px;">
-                        <div class="" style="
-                                color: white;
-                                font-size: 16px;
-                                font-weight: bold;
-                            ">
-                                듀엣투두
-                            </div> 
-                            <div class="" style="
-                                color: white;
-                                opacity: 50%;
-                                font-size: 14px;
-                            ">
-                                오타쿠용 할일 관리 앱
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="" style="background-color: #2F7CF6; padding: 4px 18px; border-radius: 100px;">
-                        <div class="" style="
-                            font-size: 12px;
-                            font-weight: normal;
-                            color: white;">
-                            받기
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698 -->
         </div>
         
         <div class="body-content">
@@ -138,37 +104,30 @@
                     class="inputLink">
                 </input>
             </div>
+
             <div id='detailInput' v-else>
-                <p style="margin-bottom: 24px;">내용을 쓰면 이미지가 생겨요</p>
+                <p style="margin-top: 0px; font-weight: 700;">이미지로 만들고 싶은 <br>내용을 써주세요</p>
                 <textarea 
                     type="text" 
                     v-model="tweetText" 
                     placeholder="내용을 넣어주세요"
-                    style="resize: none; height: 200px; margin-bottom: 12px;"
-                    @keyup="render"
+                    style="resize: none; height: 200px; margin-bottom: 12px; margin-top: 20px;"
+                    class="inputTweetName">
+                <!-- @keyup="render"
                     @change="render"
                     @input="render"
-                    @paste="render"
-                    class="inputTweetName">
+                    @paste="render" -->
                 </textarea>
                 <input 
                     type="text" 
                     v-model="tweetName" 
                     placeholder="제목"
-                    @keyup="render"
-                    @change="render"
-                    @input="render"
-                    @paste="render"
                     class="inputTweetName">
                 </input>
                 <input 
                     type="text" 
                     v-model="tweetUsername" 
                     placeholder="글쓴이"
-                    @keyup="render"
-                    @change="render"
-                    @input="render"
-                    @paste="render"
                     class="inputTweetName">
                 </input>
             </div>
@@ -180,15 +139,7 @@
             <div id='loading'>
                 <p>{{ loadingMessage }}</p>
             </div>
-    
-            <div id='saveGuide'>
-                <p v-html="resultMessage"></p>
-            </div>
-    
-            <div id='result'>
-                <img v-if="imageData != ''" :src="imageData" @copy="sendCopyLog">
-            </div>
-    
+
             <!-- <div id='result2'>
                 <a :href="imageData" download="image.png" id="embedImage">Download</a>            
             </div> -->
@@ -239,7 +190,7 @@
 
             <!-- <div class="divied"></div> -->
     
-            <div id='selectCharSpacing' class="container ps-0 pe-0" style="margin-bottom: 60px; margin-top: 24px;">
+            <div id='selectCharSpacing' class="container ps-0 pe-0" style="margin-bottom: 20px; margin-top: 24px;">
                 <div class="item-button" style="height: 40px; margin-left: 8px;">
                     <div style="display: flex; height: 40px; align-items: center; font-size: 14px;">
                         자간
@@ -249,13 +200,51 @@
                     <div style="padding: 0px 8px; height: 40px; display: flex; align-items: center; justify-content: center;">
                         <input type="range" min="0" max="1000" value="100" step="10" class="slider" id="myRange" 
                         style="width: 200px; height: 100%; outline: none;" 
-                        v-model="selectCharSpacing"
-                        @change="render">
+                        v-model="selectCharSpacing">
+                        <!-- @change="render" -->
+                    </div>
+                </div>
+            </div>
+            <!-- <div id='saveGuide'>
+                <p v-html="resultMessage"></p>
+            </div> -->
+        </div>
+        
+        <div>
+            <div  @click="openDuetTodo" id="" 
+                style="background-color: black;padding: 16px;display: flex;align-items: center;justify-content: space-between;">
+                <div style="display: flex;">
+                    <div style="">
+                        <img src="./image/banner_image.png" class="" style="width: 40px;">
+                    </div> 
+                    <div style="margin-left: 12px;">
+                    <div class="" style="
+                            color: white;
+                            font-size: 16px;
+                            font-weight: bold;
+                        ">
+                            듀엣투두
+                        </div> 
+                        <div class="" style="
+                            color: white;
+                            opacity: 50%;
+                            font-size: 14px;
+                        ">
+                            오타쿠용 할일 관리 앱
+                        </div>
+                    </div> 
+                </div>
+                <div class="" style="background-color: #2F7CF6; padding: 4px 18px; border-radius: 100px;">
+                    <div class="" style="
+                        font-size: 12px;
+                        font-weight: normal;
+                        color: white;">
+                        받기
                     </div>
                 </div>
             </div>
         </div>
-        
+        <!-- https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698 -->
 
         <div id="credit">
             <div class="credit-text">
@@ -277,6 +266,44 @@
         <div style="display: none;">
             <canvas id="canvas" ></canvas>
             <img id="logo" src="./image/logo.png"/>
+        </div>
+
+        <div class="float-bottom">
+            <div class="createButton" @click="onClickCreateImage">
+                이미지 만들기
+            </div>
+        </div>
+
+        <div class="modal" id="modal" @click.prevent="closeModal">
+            <div class="modal-content" @click.prevent="doNothing">
+                <div>
+                    <img class="closeButton" @click.prevent="closeModal" src="./image/button_close.svg">
+                </div>
+                <div class="">
+                    <p class="modal-emoji">🎉</p>
+                    <p class="modal-text">짠! 이미지가 만들어졌어요</p>
+                    <div id='result'>
+                        <img v-if="imageData != ''" :src="imageData" @copy="sendCopyLog">
+                    </div>
+                </div>
+                <div class="modal-bottom">
+                    <div class="modal-button share-button" @click="shareImage">
+                        공유하기
+                    </div>
+                    <div class="modal-button save-button" @click="saveImage">
+                        이미지 저장
+                    </div>
+                </div>
+            </div>
+            <div class="lottie-div">
+                <lottie-player class="lottie-player" src="./image/lottie_ani.json" background="transparent" speed="1" ></lottie-player>
+            </div>
+
+            <div class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body z-toast">
+                    이미지가 복사되었어요
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -395,7 +422,8 @@
             // this.$refs.image.addEventListener('copy', (event) => {
             //     console.log('copy event')
             // });
-            this.render(1300)
+            
+            // this.render(1300)
         },
         methods: {
             render: function(threshold = 100) {
@@ -403,7 +431,24 @@
                 this.timeout = setTimeout(() => {
                     this.timeout = null
                     this.redraw()
+                    this.showModal()                    
                 }, threshold)
+            },
+
+            showModal: function () {
+                document.getElementById('modal').style.display='flex'
+                setTimeout(() => {
+                    const player = document.querySelector("lottie-player");
+                    player.play();
+                }, 100)
+            },
+            closeModal: function () {
+                document.getElementById('modal').style.display='none'
+                const player = document.querySelector("lottie-player");
+                player.stop();
+            },
+            doNothing: function (event) {
+                event.stopPropagation()
             },
 
             redraw: function () {
@@ -579,6 +624,10 @@
             checkSelectedFont: function (font) {
                 return font == this.selectFont ? 'selected-font' : ''
             },
+            onClickCreateImage: function () {
+                analytics.logEvent('create_image');
+                this.render()
+            },
             onclickImage: async(image) => {
                 let vueData = app.$data
                 // console.log('onclickImage', image)    
@@ -592,14 +641,14 @@
                 vueData.customeImage = null;
 
                 // await app.generateImage()
-                app.render()
+                // app.render()
             },
             onclickFont: async function (family) {
                 this.selectFont = family;
 
                 analytics.logEvent('select_font', {family});
                 // await this.generateImage()
-                this.render()
+                // this.render()
             },
             onclickColor: async function (color) {
                 this.selectColor = color;
@@ -607,7 +656,7 @@
                 analytics.logEvent('select_color', {color});
 
                 // await this.generateImage()
-                this.render()
+                // this.render()
             },
             checkTab: function (tab) {
                 return this.currentTab == tab ? 'active' : ''
@@ -641,11 +690,63 @@
                         vueData.customeImage = imgObj
                         vueData.customeImageHeight = imgObj.height
                         vueData.customeImageWidth = imgObj.width
-                        app.render()
+                        // app.render()
                     }
                 };
                 reader.readAsDataURL(file);
+            },
+            shareImage: async function () {
+                let share_url = 'http://share.wimouniv.com/'
+                
+                const newText = '위모에서 만들기'
 
+                let dataURL = this.imageData;
+                let byteString = atob(dataURL.split(',')[1]);
+                let mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0]
+                let ab = new ArrayBuffer(byteString.length);
+                let ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                let blob = new Blob([ab], {type: mimeString});
+                let file = new File([blob], 'image.png', {type: mimeString});
+
+                const shareData = {
+                    title: newText,
+                    text: newText,
+                    url: share_url,
+                    files: [file],
+                }
+
+                if (navigator.share) {
+                    await navigator.share(shareData)
+                } else {
+                    navigator.clipboard.write([
+                        new ClipboardItem({
+                            "text/plain": new Blob([`${newText} ${share_url}`], {type: "text/plain"}),
+                            [mimeString]: blob
+                        })
+                    ]).then(function() {
+                        console.log('Copying to clipboard was successful!');
+                    }, function(err) {
+                        console.error('Could not copy image: ', err);
+                    });
+                    
+                    // show toast
+                    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                    var toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl, {autohide: true, delay: 3000})
+                    });
+                    toastList.forEach(toast => toast.show()); // This will show all toasts
+                }
+            },
+            saveImage: async function () {
+                let a = document.createElement('a');
+                a.href = this.imageData;
+                a.download = 'image.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
         }
     })
