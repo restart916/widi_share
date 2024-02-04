@@ -9,7 +9,7 @@
     <meta property="og:title" content="WIMO Share" />
     <meta property="og:description" content="간단한 한 문장도 멋있는 이미지로 만들어주는 위모" />
     <meta name="description" content="간단한 한 문장도 멋있는 이미지로 만들어주는 위모" />
-    <meta property="og:url" content="http://share.wimouniv.com/" />
+    <meta property="og:url" content="https://share.wimouniv.com/" />
     <meta property="og:image" content="" />
 
     <link rel="apple-touch-icon" sizes="57x57" href="./image/favicon/apple-icon-57x57.png">
@@ -91,7 +91,7 @@
         
         <div class="body-content">
             <div id='inputText' v-if="currentTab == 0">
-                <p>트윗 링크를 넣으면 이미지가 생겨요</p>
+                <!-- <p>트윗 링크를 넣으면 이미지가 생겨요</p>
                 <input 
                     type="text" 
                     id="twitterLink" 
@@ -102,7 +102,7 @@
                     @input="generateImage"
                     @paste="generateImageFromPaste"
                     class="inputLink">
-                </input>
+                </input> -->
             </div>
 
             <div id='detailInput' v-else>
@@ -295,9 +295,9 @@
                     </div>
                 </div>
             </div>
-            <div class="lottie-div">
+            <!-- <div class="lottie-div">
                 <lottie-player class="lottie-player" src="./image/lottie_ani.json" background="transparent" speed="1" ></lottie-player>
-            </div>
+            </div> -->
 
             <div class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-body z-toast">
@@ -392,31 +392,33 @@
             this.mounted = true;
             fabric.Object.prototype.objectCaching = true;
 
-            if (this.tweetText == '') {
-                navigator.clipboard.readText()
-                .then(text => {
-                    if (text.length < 5) {
-                        return
-                    }
+            // if (this.tweetText == '') {
+            //     navigator.clipboard.readText()
+            //     .then(text => {
+            //         if (text.length < 5) {
+            //             return
+            //         }
 
-                    try {
-                        const url = new URL(text)
-                        this.twitterLink = text
-                        this.generateImage()
-                    } catch (error) {
-                        this.tweetText = text
-                        this.changeTab(1)
-                        this.render()
-                        // console.log('mounted clipboard readText URL err', error)    
-                    }
+            //         try {
+            //             const url = new URL(text)
+            //             this.twitterLink = text
+            //             this.generateImage()
+            //         } catch (error) {
+            //             this.tweetText = text
+            //             // this.changeTab(1)
+            //             // this.render()
+            //             // console.log('mounted clipboard readText URL err', error)    
+            //         }
 
-                })
-                .catch(err => {
-                    console.log('mounted clipboard readText err', err)
-                });
-            } else {
-                this.changeTab(1)
-            }
+            //     })
+            //     .catch(err => {
+            //         console.log('mounted clipboard readText err', err)
+            //     });
+            // } else {
+            //     this.changeTab(1)
+            // }
+
+            this.changeTab(1)
 
             // console.log(this.$refs.image)
             // this.$refs.image.addEventListener('copy', (event) => {
@@ -437,15 +439,15 @@
 
             showModal: function () {
                 document.getElementById('modal').style.display='flex'
-                setTimeout(() => {
-                    const player = document.querySelector("lottie-player");
-                    player.play();
-                }, 100)
+                // setTimeout(() => {
+                //     const player = document.querySelector("lottie-player");
+                //     player.play();
+                // }, 100)
             },
             closeModal: function () {
                 document.getElementById('modal').style.display='none'
-                const player = document.querySelector("lottie-player");
-                player.stop();
+                // const player = document.querySelector("lottie-player");
+                // player.stop();
             },
             doNothing: function (event) {
                 event.stopPropagation()
@@ -572,52 +574,52 @@
                 
                 console.log('finished render')
             },
-            generateImageFromPaste: async (event) => {
-                // console.log('generateImageFromPaste', event)
-                let vueData = app.$data
-                vueData.twitterLink = event.target.value
-                await app.generateImage();
-            },
-            generateImage: async () => {
-                let vueData = app.$data
-                // console.log('generateImage',  vueData.twitterLink)
+            // generateImageFromPaste: async (event) => {
+            //     // console.log('generateImageFromPaste', event)
+            //     let vueData = app.$data
+            //     vueData.twitterLink = event.target.value
+            //     await app.generateImage();
+            // },
+            // generateImage: async () => {
+            //     let vueData = app.$data
+            //     // console.log('generateImage',  vueData.twitterLink)
 
-                vueData.loadingMessage = '이미지가 만들어지는 중이에요'
-                vueData.errorMessage = ''
-                vueData.resultMessage = ''
+            //     vueData.loadingMessage = '이미지가 만들어지는 중이에요'
+            //     vueData.errorMessage = ''
+            //     vueData.resultMessage = ''
 
-                try {
-                    const url = new URL(vueData.twitterLink)
-                    const paths = url.pathname.split('/')
+            //     try {
+            //         const url = new URL(vueData.twitterLink)
+            //         const paths = url.pathname.split('/')
 
-                    const twitterId = paths[paths.length-1]
+            //         const twitterId = paths[paths.length-1]
 
-                    const response = await fetch('/api/get/tweet', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json;charset=utf-8'
-                        },
-                        body: JSON.stringify({
-                            tweet: twitterId,
-                        })
-                    });
+            //         const response = await fetch('/api/get/tweet', {
+            //             method: 'POST',
+            //             headers: {
+            //                 'Content-Type': 'application/json;charset=utf-8'
+            //             },
+            //             body: JSON.stringify({
+            //                 tweet: twitterId,
+            //             })
+            //         });
                 
-                    const data = await response.json()
+            //         const data = await response.json()
 
-                    vueData.tweetText = data.text
-                    vueData.tweetName = data.name
-                    vueData.tweetUsername = `@${data.username}`
+            //         vueData.tweetText = data.text
+            //         vueData.tweetName = data.name
+            //         vueData.tweetUsername = `@${data.username}`
 
-                    app.render();
+            //         app.render();
                     
-                } catch (error) {
-                    // console.log('generateImage error', error)
+            //     } catch (error) {
+            //         // console.log('generateImage error', error)
 
-                    vueData.errorMessage = '트윗 링크가 바르지 않거나 비공개 계정 트윗입니다.'
-                    vueData.loadingMessage = ''
-                    vueData.resultMessage = ''
-                }
-            },
+            //         vueData.errorMessage = '트윗 링크가 바르지 않거나 비공개 계정 트윗입니다.'
+            //         vueData.loadingMessage = ''
+            //         vueData.resultMessage = ''
+            //     }
+            // },
             checkSelected: function (image) {
                 return image.file == this.selectImage ? 'selected' : 'no-selected'
             },
@@ -667,7 +669,7 @@
                 this.currentTab = tab
             },
             moveHome: function () {
-                window.location.href="http://share.wimouniv.com/";
+                window.location.href="https://share.wimouniv.com/";
             },
             openDuetTodo: function () {
                 window.open('https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698', '_blank');
@@ -696,7 +698,7 @@
                 reader.readAsDataURL(file);
             },
             shareImage: async function () {
-                let share_url = 'http://share.wimouniv.com/'
+                let share_url = 'https://share.wimouniv.com/'
                 
                 const newText = '위모에서 만들기'
 
@@ -721,32 +723,38 @@
                 if (navigator.share) {
                     await navigator.share(shareData)
                 } else {
-                    navigator.clipboard.write([
-                        new ClipboardItem({
-                            "text/plain": new Blob([`${newText} ${share_url}`], {type: "text/plain"}),
-                            [mimeString]: blob
-                        })
-                    ]).then(function() {
-                        console.log('Copying to clipboard was successful!');
-                    }, function(err) {
-                        console.error('Could not copy image: ', err);
-                    });
+                    if (navigator.clipboard) {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                                "text/plain": new Blob([`${newText} ${share_url}`], {type: "text/plain"}),
+                                [mimeString]: blob
+                            })
+                        ]);
                     
-                    // show toast
-                    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-                    var toastList = toastElList.map(function (toastEl) {
-                        return new bootstrap.Toast(toastEl, {autohide: true, delay: 3000})
-                    });
-                    toastList.forEach(toast => toast.show()); // This will show all toasts
+                        // show toast
+                        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                        var toastList = toastElList.map(function (toastEl) {
+                            return new bootstrap.Toast(toastEl, {autohide: true, delay: 3000})
+                        });
+                        toastList.forEach(toast => toast.show()); // This will show all toasts
+                    } else {
+                        this.errorMessage = '공유하기 기능을 지원하지 않는 브라우저입니다.'
+                    }
                 }
             },
             saveImage: async function () {
-                let a = document.createElement('a');
-                a.href = this.imageData;
-                a.download = 'image.png';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIOS) {
+                    // Open the image in a new window for iOS
+                    window.open(this.imageData);
+                } else {
+                    let a = document.createElement('a');
+                    a.href = this.imageData;
+                    a.download = 'image.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
             }
         }
     })

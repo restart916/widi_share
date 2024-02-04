@@ -1,4 +1,5 @@
 **/.DS_Store
 .env
+.firebase
 node_modules
 chrome-extension.pem
