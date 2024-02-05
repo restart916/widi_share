@@ -266,6 +266,9 @@ p {
     background-color: #2F7CF6;
     color: #FFFFFF;
 }
+.selected-color {
+    border: 2px solid #2F7CF6 !important;
+}
 
 .divied {
     background: #F2F2F7;
@@ -281,19 +284,20 @@ p {
     margin-bottom: 46px;
 }
 
-.colorButtonWhite {
+.colorButton {
     padding: 10px 16px;
     font-size: 14px;
-    background-color: #1C1C1E;
     border-radius: 6px;
+    border: 2px solid transparent;
+}
+
+.colorButtonWhite {
+    background-color: #1C1C1E;
     color: #FFFFFF;
 }
 
 .colorButtonBlack {
-    padding: 10px 16px;
-    font-size: 14px;
     background-color: #F2F2F7;
-    border-radius: 6px;
 }
 
 .createButton {

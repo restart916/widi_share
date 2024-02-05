@@ -233,6 +233,9 @@ export default function Main() {
   const checkSelectedFont = (font) => {
     return font === selectFont ? 'selected-font' : ''
   }
+  const checkSelectedColor = (color) => {
+    return color === selectColor ? 'selected-color' : ''
+  }
 
   const onClickCreateImage = () => {
     logEvent(analytics, 'create_image');
@@ -427,12 +430,12 @@ export default function Main() {
     
             <div id='selectColor' className="container ps-0 pe-0" style={{marginTop: '20px'}}>
                 <div className="item-button" style={{marginRight: '8px'}}>
-                    <div className="colorButtonWhite" onClick={() => onClickColor('#FFFFFF')}>
+                    <div className={`colorButton colorButtonWhite ${checkSelectedColor("#FFFFFF")}`} onClick={() => onClickColor('#FFFFFF')}>
                         하얀색 글씨
                     </div>
                 </div>
                 <div className="item-button">
-                    <div className="colorButtonBlack" onClick={() => onClickColor('#1C1C1E')}>
+                    <div className={`colorButton colorButtonBlack ${checkSelectedColor("#1C1C1E")}`} onClick={() => onClickColor('#1C1C1E')}>
                         검정색 글씨
                     </div>
                 </div>
