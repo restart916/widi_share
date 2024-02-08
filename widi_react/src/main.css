@@ -185,17 +185,30 @@ p {
     border-radius: 6px;
 }
 
+#recentImage {
+    margin-top: 20px;
+}
+
 #recentImage img {
-    width: 100px;
+    width: 150px;
     border-radius: 6px;
 }
 
 .recent-row {
     display: flex;
+    justify-content: space-between;
+}
+
+.recent-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C2C2E;
 }
 
 .recent-more {
-    float: right;
+    font-size: 14px;
+    color: #8E8E92;
+    align-self: center;
 }
 
 #result {
@@ -234,9 +247,15 @@ p {
     outline: none;
 }
 
-#detailInput {
+.detailInput {
     margin-top: 4px;
     margin-bottom: 20px;
+}
+
+.gray-zone {
+    background-color: #F2F2F7;
+    padding: 8px 0px;
+
 }
 
 .inputLink {
@@ -336,6 +355,11 @@ p {
     background-color: #2F7CF6;
     color: #FFFFFF;
     text-align: center;
+}
+
+.roundCreateButton {
+    border-radius: 10px;
+    margin-top: 48px;
 }
 
 .float-bottom-text {
@@ -454,11 +478,10 @@ a.credit{
 }
 
 .modal-text {
-    margin-top: 0px;
+    margin-top: 40px;
     margin-bottom: 4px;
-    text-align: center;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 20px;
     color: #48484A;
 }
 

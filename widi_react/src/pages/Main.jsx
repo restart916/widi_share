@@ -13,6 +13,7 @@ import { generateImage } from '../utils';
 import HeaderRound from '../image/header_round.svg';
 import BannerImage from '../image/banner_image.png';
 import Logo from "../image/logo.png";
+import Arrow from "../image/arrow_forward.svg";
 
 
 export default function Main() {
@@ -182,7 +183,15 @@ export default function Main() {
 
   const onClickCreateImage = () => {
     logEvent(analytics, 'create_image');
-    render()
+
+    render(0)
+
+    setTimeout(() => {
+      // scroll to specific div with animation
+      document.getElementById('scroll-target').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }, 100)
   }
 
   const onClickImage = async (image) => {
@@ -323,16 +332,17 @@ export default function Main() {
         </div>
 
         <div className="body-content">
-
-          <div id='recentImage' className="container ps-0 pe-0">       
-            <div className='recent-row'>
-              <div className="recent-text">
-                최근 만들어진 이미지
-              </div>
-              <div className="recent-more" onClick={moveToListPage}>
-                더보기
-              </div>
+          <div className='recent-row'>
+            <div className="recent-text">
+              최근 만들어진 이미지
             </div>
+            <div className="recent-more" onClick={moveToListPage}>
+              더보기
+              <img src={Arrow} />
+            </div>
+          </div>
+          <div id='recentImage' className="container ps-0 pe-0">       
+            
             { recentImages.map((imageData, index) => {
               return (
                 <div className="item" key={imageData.id}>
@@ -343,29 +353,42 @@ export default function Main() {
               )
             })}
           </div>
+        </div>
 
-            <div id='detailInput'>
-                <p style={{marginTop: '0px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
+        { imageData != '' && (
+          <>
+            <div id='scroll-target' className='gray-zone'>
+            </div>
+            <div className='body-content'>
 
-                {/* <p className="modal-emoji">🎉</p>
-                  <p className="modal-text">짠! 이미지가 만들어졌어요</p> */}
-                { imageData != '' && (
-                  <>
-                    <div className="">
-                        <div id='result'>
-                          <img src={imageData} onCopy={sendCopyLog} />
-                        </div>
-                    </div>
-                    <div className="modal-bottom">
-                        <div className="modal-button share-button" onClick={shareImage}>
-                            공유하기
-                        </div>
-                        <div className="modal-button save-button" onClick={saveImage}>
-                            이미지 저장
-                        </div>
-                    </div>
-                  </>
-                )}
+              <div className='detailInput'>
+                {/* <p className="modal-emoji">🎉</p> */}
+                  <p className="modal-text">짠! 이미지가 만들어졌어요 🎉</p>
+                
+                  <div className="">
+                      <div id='result'>
+                        <img src={imageData} onCopy={sendCopyLog} />
+                      </div>
+                  </div>
+                  <div className="modal-bottom">
+                      <div className="modal-button share-button" onClick={shareImage}>
+                          공유하기
+                      </div>
+                      <div className="modal-button save-button" onClick={saveImage}>
+                          이미지 저장
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </>
+        )}
+
+        <div className='gray-zone'>
+        </div>
+
+        <div className="body-content">
+          <div className='detailInput'>
+          <p style={{marginTop: '40px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
 
                 <textarea 
                   type="text" 
@@ -431,12 +454,12 @@ export default function Main() {
             <div id='selectColor' className="container ps-0 pe-0" style={{marginTop: '20px'}}>
                 <div className="item-button" style={{marginRight: '8px'}}>
                     <div className={`colorButton colorButtonWhite ${checkSelectedColor("#FFFFFF")}`} onClick={() => onClickColor('#FFFFFF')}>
-                        하얀색 글씨
+                        하얀색
                     </div>
                 </div>
                 <div className="item-button">
                     <div className={`colorButton colorButtonBlack ${checkSelectedColor("#1C1C1E")}`} onClick={() => onClickColor('#1C1C1E')}>
-                        검정색 글씨
+                        검정색
                     </div>
                 </div>
             </div>
@@ -457,9 +480,15 @@ export default function Main() {
                     </div>
                 </div>
             </div>
+
+            {imageData != '' && (
+              <div className="roundCreateButton createButton" onClick={onClickCreateImage}>
+                이미지 만들기
+              </div>
+            )}
           </div>
 
-          <div>
+          <div style={{paddingTop: '100px'}}>
             <div onClick={openDuetTodo} 
               style={{background: 'black', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div 
@@ -511,19 +540,20 @@ export default function Main() {
             <img id="logo" src={Logo}/>
         </div>
 
-
-        <div className="float-bottom">
+        { imageData == '' && (
+          <div className="float-bottom">
             <div className="float-bottom-text">
               <input type="checkbox" id="check" name="check" 
                 checked={allowHistory}
                 onChange={(e) => setAllowHistory(e.target.checked)}
-               />
+              />
                 생성 기록 남기기
             </div>
             <div className="createButton" onClick={onClickCreateImage}>
                 이미지 만들기
             </div>
-        </div>
+          </div>
+        )}
 
         {/* <div className="modal" id="modal" onClick={closeModal}>
             <div className="modal-content" onClick={doNothing}>
