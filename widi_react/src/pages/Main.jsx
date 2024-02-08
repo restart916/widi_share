@@ -3,8 +3,10 @@ import '../main.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { Toast } from 'bootstrap';
 import { fabric } from 'fabric';
+import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore"; 
+import { ref, uploadBytes } from "firebase/storage";
 import { logEvent } from "firebase/analytics";
-import { analytics } from '../firebase';
+import { analytics, db, storage } from '../firebase';
 
 import HeaderRound from '../image/header_round.svg';
 import ButtonClose from '../image/button_close.svg';
@@ -80,20 +82,73 @@ export default function Main() {
   const [tweetText, setTweetText] = useState('');
   const [tweetName, setTweetName] = useState('');
   const [tweetUsername, setTweetUsername] = useState('');
-  const [canvas, setCanvas] = useState(null);
   const [customImage, setCustomImage] = useState(null);
   const [customImageWidth, setCustomImageWidth] = useState(100);
   const [customImageHeight, setCustomImageHeight] = useState(100);
+  const [customFile, setCustomFile] = useState(null);
+  
+  const [recentImages, setRecentImages] = useState([]);
+  const [canvas, setCanvas] = useState(null);
   const [allowHistory, setAllowHistory] = useState(true);
   const [timer, setTimer] = useState(null);
   const fileupload = useRef(null);
 
   useEffect(() => {
     fabric.Object.prototype.objectCaching = true;
+
+    loadRecentImage();
   }, []);
+
+  const loadRecentImage = async () => {
+    const q = query(collection(db, "history"), orderBy("createdAt", "desc"), limit(5));
+
+    const querySnapshot = await getDocs(q);
+    let recentImages = [];
+    querySnapshot.forEach((doc) => {
+      recentImages.push(doc.data());
+    });
+    setRecentImages(recentImages);
+  }
+
+  const saveToHistory = async () => {
+    let uploadImage = null;
+
+    if (customFile) {
+      const ext = customImage.src.split(';')[0].split('/')[1];
+      const storageRef = ref(storage, 'images/' + new Date().toISOString() + '.' + ext);
+
+      uploadImage = await uploadBytes(storageRef, customFile, {
+        contentType: 'image/' + ext,
+      });
+    }
+
+    const data = {
+      // "image": imageData,
+      "text": tweetText,
+      "name": tweetName,
+      "username": tweetUsername,
+      "font": selectFont,
+      "color": selectColor,
+      "charSpacing": selectCharSpacing,
+      "imageFile": selectImage,
+      "customImage": uploadImage ? uploadImage.metadata.fullPath : null,
+      "customImageWidth": customImageWidth,
+      "customImageHeight": customImageHeight,
+      "createdAt": new Date().toISOString(),
+    }
+    console.log('saveToHistory', data)
+    
+    await addDoc(collection(db, "history"), data);
+  }
 
   const render = (threshold = 100) => {
     clearTimeout(timer)
+
+    // save to firestore
+    if (allowHistory) {
+        saveToHistory()
+    }
+
     const t = setTimeout(() => {
         setTimer(null)
         redraw()
@@ -103,10 +158,10 @@ export default function Main() {
   }
 
   const showModal = () => {
-    document.getElementById('modal').style.display='flex'
+    // document.getElementById('modal').style.display='flex'
   }
   const closeModal = () => {
-    document.getElementById('modal').style.display='none'
+    // document.getElementById('modal').style.display='none'
   }
   const doNothing = (event) => {
     event.stopPropagation()
@@ -251,7 +306,7 @@ export default function Main() {
 
     fileupload.current.value = null;
     setCustomImage(null)
-    
+    setCustomFile(null)
   }
 
   const onClickFont = async (family) => {
@@ -282,15 +337,24 @@ export default function Main() {
         var imgObj = new Image();
         imgObj.src = event.target.result;
         imgObj.onload = function () {
+          // check image file size (2mb limit)
+            if (file.size > 2 * 1024 * 1024) {
+              console.log('이미지 파일 크기가 너무 큽니다. 2MB 이하의 이미지를 사용해주세요.')
+              return
+            }
+
             setCustomImage(imgObj)
             setCustomImageHeight(imgObj.height)
             setCustomImageWidth(imgObj.width)
         }
     };
+    setCustomFile(file)
     reader.readAsDataURL(file);
   }
 
   const shareImage = async () => {
+    analytics.logEvent('share_image');
+
     let share_url = 'https://share.wimouniv.com/'
     
     const newText = '위모에서 만들기'
@@ -337,6 +401,8 @@ export default function Main() {
     }
   }
   const saveImage = async () => {
+    analytics.logEvent('save_image');
+
     let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
         // Open the image in a new window for iOS
@@ -368,6 +434,27 @@ export default function Main() {
         <div className="body-content">
             <div id='detailInput'>
                 <p style={{marginTop: '0px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
+
+                {/* <p className="modal-emoji">🎉</p>
+                  <p className="modal-text">짠! 이미지가 만들어졌어요</p> */}
+                { imageData != '' && (
+                  <>
+                    <div className="">
+                        <div id='result'>
+                          <img src={imageData} onCopy={sendCopyLog} />
+                        </div>
+                    </div>
+                    <div className="modal-bottom">
+                        <div className="modal-button share-button" onClick={shareImage}>
+                            공유하기
+                        </div>
+                        <div className="modal-button save-button" onClick={saveImage}>
+                            이미지 저장
+                        </div>
+                    </div>
+                  </>
+                )}
+
                 <textarea 
                   type="text" 
                   value={tweetText}
@@ -514,19 +601,19 @@ export default function Main() {
 
 
         <div className="float-bottom">
-            {/* <div className="float-bottom-text">
+            <div className="float-bottom-text">
               <input type="checkbox" id="check" name="check" 
                 checked={allowHistory}
                 onChange={(e) => setAllowHistory(e.target.checked)}
                />
                 생성 기록 남기기
-            </div> */}
+            </div>
             <div className="createButton" onClick={onClickCreateImage}>
                 이미지 만들기
             </div>
         </div>
 
-        <div className="modal" id="modal" onClick={closeModal}>
+        {/* <div className="modal" id="modal" onClick={closeModal}>
             <div className="modal-content" onClick={doNothing}>
                 <div>
                     <img className="closeButton" onClick={closeModal} src={ButtonClose} />
@@ -547,14 +634,14 @@ export default function Main() {
                     </div>
                 </div>
             </div>
-            {/* <div className="lottie-div">
+            <div className="lottie-div">
                 <lottie-player className="lottie-player" src="./image/lottie_ani.json" background="transparent" speed="1" ></lottie-player>
-            </div> */}
+            </div>
+        </div> */}
 
-            <div className="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div className="toast-body z-toast">
-                    이미지가 복사되었어요
-                </div>
+        <div className="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div className="toast-body z-toast">
+                이미지가 복사되었어요
             </div>
         </div>
       </div>
