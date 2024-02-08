@@ -185,8 +185,13 @@ p {
     border-radius: 6px;
 }
 
+#recentImage img {
+    width: 100px;
+    border-radius: 6px;
+}
+
 #result {
-    margin: 20px;
+    margin: 20px 0px;
 }
 
 #result img {
@@ -451,7 +456,8 @@ a.credit{
 
 .modal-bottom {
     display: flex;
-    margin: 0px 20px 24px 20px;
+    /* margin: 0px 20px 24px 20px; */
+    margin-bottom: 24px;
 }
 
 .modal-button {

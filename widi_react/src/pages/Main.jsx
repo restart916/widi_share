@@ -104,10 +104,151 @@ export default function Main() {
 
     const querySnapshot = await getDocs(q);
     let recentImages = [];
-    querySnapshot.forEach((doc) => {
-      recentImages.push(doc.data());
+
+    querySnapshot.forEach(async (doc) => {
+      const data = doc.data()
+      const {
+        canvas,
+        imageData
+      } = await generateImage(
+        {
+          text: data.text,
+          name: data.name,
+          username: data.username,
+          font: data.font,
+          color: data.color,
+          charSpacing: data.charSpacing,
+          imageFile: data.imageFile,
+          customImage: data.customImage,
+          customImageWidth: data.customImageWidth,
+          customImageHeight: data.customImageHeight
+        }
+      );
+
+      recentImages.push({
+        id: doc.id,
+        image: imageData,
+        ...doc.data()
+      });
     });
     setRecentImages(recentImages);
+    // console.log('recentImages', recentImages)
+  }
+
+  const generateImage = async ({
+    text,
+    name,
+    username,
+    font,
+    color,
+    charSpacing,
+    imageFile,
+    customImage,
+    customImageWidth,
+    customImageHeight
+  }) => {
+    const imageSize = 360;
+    const margin = 20 ;
+
+    const fabricCanvas = new fabric.Canvas('canvas', {
+      isDrawingMode: false,
+      width: imageSize,
+      height: imageSize,
+      allowTouchScrolling: false,
+    })
+    
+    if (customImage) {
+        // console.log('wow', customImage)
+        var imgInstance = new fabric.Image(customImage, {
+            left: 0,
+            top: 0,
+            right: customImageWidth,
+            bottom: customImageHeight,
+            scaleX: imageSize / customImageWidth,
+            scaleY: imageSize / customImageHeight,
+            opacity: 1,
+            selectable: false,
+        });
+        fabricCanvas.add(imgInstance);
+    } else {
+        let imgElement = document.getElementById(imageFile);
+        let imgInstance = new fabric.Image(imgElement, {
+            left: 0,
+            top: 0,
+            right: 1200,
+            bottom: 1200,
+            scaleX: imageSize / 1200,
+            scaleY: imageSize / 1200,
+            opacity: 1,
+            selectable: false,
+        });
+        fabricCanvas.add(imgInstance);
+    }
+
+    let textbox = new fabric.Textbox(text, { 
+        left: margin,
+        width: imageSize - (margin * 2) - 8,
+        fontSize: 15, 
+        fontFamily: font,
+        lineHeight: 1.5,
+        selectable: false,
+        fill: color,
+        textAlign: 'left',
+        charSpacing: charSpacing,
+        splitByGrapheme: true,
+    });
+
+    textbox.top = (imageSize - (textbox.height + 54)) / 2
+    fabricCanvas.add(textbox);
+
+    let nameText = new fabric.Text(name, { 
+        left: margin,
+        width: imageSize - (margin * 2),
+        fontSize: 14, 
+        fontFamily: 'NotoSans',
+        top: (textbox.top + textbox.height + 16),
+        selectable: false,
+        fill: color,
+    });
+    fabricCanvas.add(nameText);
+
+    if (tweetUsername) {
+        let usernameText = new fabric.Text(`${username}`, { 
+            left: margin,
+            width: imageSize - (margin * 2),
+            fontSize: 14, 
+            fontFamily: 'NotoSansThin',
+            top: (textbox.top + textbox.height + 38),
+            selectable: false,
+            fill: `${color}B0`,
+        });
+        fabricCanvas.add(usernameText);
+    }
+
+    const logoScale = 0.3
+    let logoElement = document.getElementById('logo');
+    let logoInstance = new fabric.Image(logoElement, {
+        left: imageSize - (150 * logoScale) - 10,
+        top: imageSize - (60 * logoScale) - 10,
+        scaleX: logoScale,
+        scaleY: logoScale,
+        opacity: 1,
+        selectable: false,
+    });
+    fabricCanvas.add(logoInstance);
+
+    // setCanvas(fabricCanvas)
+    // setImageData(fabricCanvas.toDataURL({
+    //     format: 'png',
+    //     multiplier: 4,
+    // }))
+    return {
+      canvas: fabricCanvas,
+      imageData: fabricCanvas.toDataURL({
+        format: 'png',
+        multiplier: 4,
+      })
+    }
   }
 
   const saveToHistory = async () => {
@@ -167,114 +308,33 @@ export default function Main() {
     event.stopPropagation()
   }
 
-  const redraw = () => {
-    // 600 * 0.6 = 360
-    // console.log(window.screen.width)
-    // const imageSize = Math.min(window.screen.width-32, 600);
-    const imageSize = 360;
-    const margin = 20 ;
-
+  const redraw = async () => {
     if (canvas == null) {
         
     } else {
         canvas.dispose()
     }
 
-    const fabricCanvas = new fabric.Canvas('canvas', {
-        isDrawingMode: false,
-        width: imageSize,
-        height: imageSize,
-        allowTouchScrolling: false,
-    })
-    
-    setCanvas(fabricCanvas)
-    
-    if (customImage) {
-        // console.log('wow', customImage)
-        var imgInstance = new fabric.Image(customImage, {
-            left: 0,
-            top: 0,
-            right: customImageWidth,
-            bottom: customImageHeight,
-            scaleX: imageSize / customImageWidth,
-            scaleY: imageSize / customImageHeight,
-            opacity: 1,
-            selectable: false,
-        });
-        fabricCanvas.add(imgInstance);
-    } else {
-        let imgElement = document.getElementById(selectImage);
-        let imgInstance = new fabric.Image(imgElement, {
-            left: 0,
-            top: 0,
-            right: 1200,
-            bottom: 1200,
-            scaleX: imageSize / 1200,
-            scaleY: imageSize / 1200,
-            opacity: 1,
-            selectable: false,
-        });
-        fabricCanvas.add(imgInstance);
-    }
-
-    let text = new fabric.Textbox(tweetText, { 
-        left: margin,
-        width: imageSize - (margin * 2) - 8,
-        fontSize: 15, 
-        fontFamily: selectFont,
-        lineHeight: 1.5,
-        selectable: false,
-        fill: selectColor,
-        textAlign: 'left',
+    const {
+      canvas: newCanvas,
+      imageData
+    } = await generateImage(
+      {
+        text: tweetText,
+        name: tweetName,
+        username: tweetUsername,
+        font: selectFont,
+        color: selectColor,
         charSpacing: selectCharSpacing,
-        splitByGrapheme: true,
-    });
+        imageFile: selectImage,
+        customImage,
+        customImageWidth,
+        customImageHeight
+      }
+    );
 
-    // console.log('height', text.height);
-    text.top = (imageSize - (text.height + 54)) / 2
-    fabricCanvas.add(text);
-
-    let nameText = new fabric.Text(tweetName, { 
-        left: margin,
-        width: imageSize - (margin * 2),
-        fontSize: 14, 
-        fontFamily: 'NotoSans',
-        top: (text.top + text.height + 16),
-        selectable: false,
-        fill: selectColor,
-    });
-    fabricCanvas.add(nameText);
-
-    if (tweetUsername) {
-        let usernameText = new fabric.Text(`${tweetUsername}`, { 
-            left: margin,
-            width: imageSize - (margin * 2),
-            fontSize: 14, 
-            fontFamily: 'NotoSansThin',
-            top: (text.top + text.height + 38),
-            selectable: false,
-            fill: `${selectColor}B0`,
-        });
-        // console.log('usernameText.height', usernameText.height)
-        fabricCanvas.add(usernameText);
-    }
-
-    const logoScale = 0.3
-    let logoElement = document.getElementById('logo');
-    let logoInstance = new fabric.Image(logoElement, {
-        left: imageSize - (150 * logoScale) - 10,
-        top: imageSize - (60 * logoScale) - 10,
-        scaleX: logoScale,
-        scaleY: logoScale,
-        opacity: 1,
-        selectable: false,
-    });
-    fabricCanvas.add(logoInstance);
-
-    setImageData(fabricCanvas.toDataURL({
-        format: 'png',
-        multiplier: 4,
-    }))
+    setCanvas(newCanvas)
+    setImageData(imageData)
 
     // this.errorMessage = ''
     // this.loadingMessage = ''
@@ -291,6 +351,10 @@ export default function Main() {
   }
   const checkSelectedColor = (color) => {
     return color === selectColor ? 'selected-color' : ''
+  }
+
+  const onClickRecent = async (imageData) => {
+    logEvent(analytics, 'select_recent_image', {imageData});
   }
 
   const onClickCreateImage = () => {
@@ -353,7 +417,7 @@ export default function Main() {
   }
 
   const shareImage = async () => {
-    analytics.logEvent('share_image');
+    logEvent(analytics, 'share_image');
 
     let share_url = 'https://share.wimouniv.com/'
     
@@ -401,7 +465,7 @@ export default function Main() {
     }
   }
   const saveImage = async () => {
-    analytics.logEvent('save_image');
+    logEvent(analytics, 'save_image');
 
     let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
@@ -432,6 +496,19 @@ export default function Main() {
         </div>
 
         <div className="body-content">
+
+          <div id='recentImage' className="container ps-0 pe-0">       
+            { recentImages.map((imageData, index) => {
+              return (
+                <div className="item" key={imageData.id}>
+                  <div onClick={() => onClickRecent(imageData)}>
+                    <img id={imageData.id} src={imageData.image} alt={imageData.text}/>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
             <div id='detailInput'>
                 <p style={{marginTop: '0px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
 
