@@ -482,13 +482,26 @@ export default function Main() {
             </div>
 
             {imageData != '' && (
-              <div className="roundCreateButton createButton" onClick={onClickCreateImage}>
-                이미지 만들기
-              </div>
+              <>
+                <div className="roundCreateButton" onClick={onClickCreateImage}>
+                  이미지 만들기
+                </div>
+                <div className="float-bottom-text">
+                  <div style={{marginRight: '4px'}}>
+                    <input type="checkbox" id="check" name="check" 
+                      checked={allowHistory}
+                      onChange={(e) => setAllowHistory(e.target.checked)}
+                    />
+                  </div>
+                  <div>
+                    만든 기록 남기기
+                  </div>
+                </div>
+              </>
             )}
           </div>
 
-          <div style={{paddingTop: '100px'}}>
+          <div style={{paddingTop: '76px'}}>
             <div onClick={openDuetTodo} 
               style={{background: 'black', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div 
@@ -535,6 +548,13 @@ export default function Main() {
             </div>
         </div>
 
+
+        <div className="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div className="toast-body z-toast">
+                이미지가 복사되었어요
+            </div>
+        </div>
+
         <div style={{display: 'none'}}>
             <canvas id="canvas" ></canvas>
             <img id="logo" src={Logo}/>
@@ -542,16 +562,21 @@ export default function Main() {
 
         { imageData == '' && (
           <div className="float-bottom">
-            <div className="float-bottom-text">
-              <input type="checkbox" id="check" name="check" 
-                checked={allowHistory}
-                onChange={(e) => setAllowHistory(e.target.checked)}
-              />
-                생성 기록 남기기
-            </div>
             <div className="createButton" onClick={onClickCreateImage}>
                 이미지 만들기
             </div>
+            <div className="float-bottom-text">
+              <div style={{marginRight: '4px'}}>
+                <input type="checkbox" id="check" name="check" 
+                  checked={allowHistory}
+                  onChange={(e) => setAllowHistory(e.target.checked)}
+                />
+              </div>
+              <div>
+                만든 기록 남기기
+              </div>
+            </div>
+            
           </div>
         )}
 
@@ -581,11 +606,6 @@ export default function Main() {
             </div>
         </div> */}
 
-        <div className="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div className="toast-body z-toast">
-                이미지가 복사되었어요
-            </div>
-        </div>
       </div>
     </>
   );

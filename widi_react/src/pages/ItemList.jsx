@@ -42,7 +42,7 @@ export default function ItemList() {
   }
 
   return (
-      <div>
+      <div className='body-content'>
         <div style={styles.header}>
           <div>
             <img src={ArrowBack} alt="arrowback" style={styles.backButton} onClick={handleBack}/>
@@ -82,6 +82,7 @@ const createStyles = () => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: '20px',
+    width: '480px'
   },
   backButton: {
     width: '24px',

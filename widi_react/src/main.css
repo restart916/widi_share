@@ -345,30 +345,40 @@ p {
     position: sticky;
     bottom: 0;
     width: 100%;
-    /* padding: 16px; */
+    padding-top: 20px;
     box-sizing: border-box;
+    background-color: #F2F2F7;
 }
 
 .createButton {
+    margin: 0px 20px 20px 20px;
     padding: 19px 32px;
     font-size: 14px;
     background-color: #2F7CF6;
     color: #FFFFFF;
     text-align: center;
+    border-radius: 10px;
 }
 
 .roundCreateButton {
+    padding: 19px 32px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    background-color: #2F7CF6;
+    color: #FFFFFF;
+    text-align: center;
     border-radius: 10px;
     margin-top: 48px;
 }
 
 .float-bottom-text {
     font-size: 12px;
-    color: #1C1C1E;
-    margin-left: 8px;
+    color: #8E8E92;
+    text-align: center;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
-
-
 
 .mobile-bottom-nav{
 	position:fixed;
