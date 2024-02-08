@@ -33,7 +33,7 @@ export default function ItemComponent(
       setImage(imageData);
     }
     init();
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   return (

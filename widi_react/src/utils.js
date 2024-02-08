@@ -16,7 +16,7 @@ const generateImage = async ({
   const imageSize = 360;
   const margin = 20 ;
 
-  console.log('uniqueId', uniqueId)
+//   console.log('uniqueId', uniqueId)
   const fabricCanvas = new fabric.Canvas(uniqueId, {
     isDrawingMode: false,
     width: imageSize,
