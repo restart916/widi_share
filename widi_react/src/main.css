@@ -521,14 +521,24 @@ a.credit{
 }
 
 .custom-toast {
-    position: absolute;
+    position: fixed;
     background-color: transparent;
+    transform: translate(-50%, -50%);
+    top: 10%;
+    left: 50%;
+    width: 50%;
+    border: none;
+    box-shadow: none;
 }
 
 .z-toast {
-    z-index: 1000;
-    background-color: #2C2C2E;
+    background-color: #48484A;
     color: white;
     max-width: 490px;
-    border-radius: 10px;
+    border-radius: 100px;
+    text-align: center;
+    display: flex;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
 }

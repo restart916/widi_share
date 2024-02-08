@@ -14,7 +14,7 @@ import HeaderRound from '../image/header_round.svg';
 import BannerImage from '../image/banner_image.png';
 import Logo from "../image/logo.png";
 import Arrow from "../image/arrow_forward.svg";
-
+import CheckCircle from "../image/check_circle.svg";
 
 export default function Main() {
   const [imageData, setImageData] = useState('');
@@ -548,10 +548,14 @@ export default function Main() {
             </div>
         </div>
 
-
         <div className="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div className="toast-body z-toast">
+              <div style={{marginRight: '8px'}}>
+                <img src={CheckCircle} style={{width: '24px', height: '24px'}} />
+              </div>
+              <div>
                 이미지가 복사되었어요
+              </div>
             </div>
         </div>
 
