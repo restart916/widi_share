@@ -5,9 +5,12 @@ import { db } from '../firebase';
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { fabric } from 'fabric';
 import Logo from "../image/logo.png";
+import ArrowBack from "../image/arrow_back.svg";
 
 export default function ItemList() {
   const [recentImages, setRecentImages] = useState([]);
+
+  const styles = createStyles();
 
   useEffect(() => {
     fabric.Object.prototype.objectCaching = true;
@@ -33,16 +36,27 @@ export default function ItemList() {
     setRecentImages(recentImages);
   }
 
+  const handleBack = () => {
+    console.log('back');
+    window.location.href = '/';
+  }
+
   return (
       <div>
-        <div>
-          {/* backbutton */}
-          <button onClick={() => window.location.href = '/'}>Back</button>
+        <div style={styles.header}>
+          <div>
+            <img src={ArrowBack} alt="arrowback" style={styles.backButton} onClick={handleBack}/>
+          </div>
+        </div>
+        <div style={styles.recentText}>
+          <div>
+            최근 만들어진 이미지
+          </div>
         </div>
         <div style={{display: 'none'}}>
             { imageList.map((image, index) => {
               return (
-                <div className="item" key={index}>
+                <div key={index}>
                     <img id={image.file} src={image.image} alt={image.file}/>
                 </div>
               )})
@@ -51,7 +65,7 @@ export default function ItemList() {
         </div>
         {recentImages.map((image, index) => {
           return (
-            <div key={index}>
+            <div key={index} style={styles.item}>
               <ItemComponent
                 data={image}
               />         
@@ -62,3 +76,24 @@ export default function ItemList() {
   );
 }
 
+
+const createStyles = () => ({
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '20px',
+  },
+  backButton: {
+    width: '24px',
+    height: '24px'
+  },
+  recentText: {
+    padding: '16px 20px',
+    fontSize: '20px',
+    fontWeight: 'bold'
+  },
+  item: {
+    width: '100%',
+    padding: '10px'
+  }
+});

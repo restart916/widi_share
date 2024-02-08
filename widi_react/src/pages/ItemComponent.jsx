@@ -37,7 +37,7 @@ export default function ItemComponent(
   }, [data]);
 
   return (
-    <div className='item'>
+    <div>
       {
         image ? (
           <img src={image} alt="image" 
@@ -56,8 +56,7 @@ export default function ItemComponent(
 
 const createStyles = () => ({
   image: {
-    width: '200px',
-    height: '200px',
-    margin: '10px'
+    width: '100%',
+    borderRadius: '6px', 
   }
 });
