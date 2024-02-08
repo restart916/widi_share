@@ -84,6 +84,7 @@ export default function Main() {
   const [customImage, setCustomImage] = useState(null);
   const [customImageWidth, setCustomImageWidth] = useState(100);
   const [customImageHeight, setCustomImageHeight] = useState(100);
+  const [allowHistory, setAllowHistory] = useState(true);
   const [timer, setTimer] = useState(null);
   const fileupload = useRef(null);
 
@@ -511,7 +512,15 @@ export default function Main() {
             <img id="logo" src={Logo}/>
         </div>
 
+
         <div className="float-bottom">
+            {/* <div className="float-bottom-text">
+              <input type="checkbox" id="check" name="check" 
+                checked={allowHistory}
+                onChange={(e) => setAllowHistory(e.target.checked)}
+               />
+                생성 기록 남기기
+            </div> */}
             <div className="createButton" onClick={onClickCreateImage}>
                 이미지 만들기
             </div>

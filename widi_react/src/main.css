@@ -300,14 +300,7 @@ p {
     background-color: #F2F2F7;
 }
 
-.createButton {
-    padding: 3px 16px;
-    font-size: 14px;
-    border-radius: 6px;
-    background-color: #2F7CF6;
-    color: #FFFFFF;
-    text-align: center;
-}
+
 
 .closeButton {
     float: right;
@@ -320,9 +313,22 @@ p {
     position: sticky;
     bottom: 0;
     width: 100%;
-    background-color: #2F7CF6;
-    padding: 16px;
+    /* padding: 16px; */
     box-sizing: border-box;
+}
+
+.createButton {
+    padding: 19px 32px;
+    font-size: 14px;
+    background-color: #2F7CF6;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.float-bottom-text {
+    font-size: 12px;
+    color: #1C1C1E;
+    margin-left: 8px;
 }
 
 
