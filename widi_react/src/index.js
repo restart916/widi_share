@@ -6,11 +6,16 @@ import {
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import Main from './pages/Main';
+import ItemList from './pages/ItemList';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+  },
+  {
+    path: "/list",
+    element: <ItemList />,
   },
 ]);
 

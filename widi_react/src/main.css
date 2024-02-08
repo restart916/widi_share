@@ -190,6 +190,14 @@ p {
     border-radius: 6px;
 }
 
+.recent-row {
+    display: flex;
+}
+
+.recent-more {
+    float: right;
+}
+
 #result {
     margin: 20px 0px;
 }

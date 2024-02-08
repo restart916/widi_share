@@ -7,71 +7,13 @@ import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/fir
 import { ref, uploadBytes } from "firebase/storage";
 import { logEvent } from "firebase/analytics";
 import { analytics, db, storage } from '../firebase';
+import { fontList, imageList } from '../const';
+import { generateImage } from '../utils';
 
 import HeaderRound from '../image/header_round.svg';
-import ButtonClose from '../image/button_close.svg';
 import BannerImage from '../image/banner_image.png';
 import Logo from "../image/logo.png";
-import BG_21 from '../image/bg_21.png';
-import BG_22 from '../image/bg_22.png';
-import BG_23 from '../image/bg_23.png';
-import BG_24 from '../image/bg_24.png';
-import BG_25 from '../image/bg_25.png';
-import BG_26 from '../image/bg_26.png';
-import BG_20 from '../image/bg_20.png';
-import BG_18 from '../image/bg_18.png';
-import BG_17 from '../image/bg_17.png';
-import BG_16 from '../image/bg_16.png';
-import BG_10 from '../image/bg_10.png';
-import BG_9 from '../image/bg_9.png';
-import BG_13 from '../image/bg_13.png';
-import BG_15 from '../image/bg_15.png';
-import BG_11 from '../image/bg_11.png';
-import BG_12 from '../image/bg_12.png';
-import BG_4 from '../image/bg_4.png';
-import BG_5 from '../image/bg_5.png';
-import BG_6 from '../image/bg_6.png';
 
-const fontList = [
-  {
-      "name": "Pretendard",
-      "family": "Pretendard"
-  },
-  {
-      "name": "리디바탕",
-      "family": "RIDIBatang"
-  }, 
-  {
-      "name": "Kopub 바탕체",
-      "family": "KoPubWorldBatang"
-  }, 
-  {
-      "name": "본고딕",
-      "family": "NotoSans"
-  }, 
-]
-
-const imageList = [
-  {"image": BG_21, "file": "bg_21", "fontColor": '#FFFFFF'},
-  {"image": BG_22, "file": "bg_22", "fontColor": '#FFFFFF'},
-  {"image": BG_23, "file": "bg_23", "fontColor": '#000000'},
-  {"image": BG_24, "file": "bg_24", "fontColor": '#000000'},
-  {"image": BG_25, "file": "bg_25", "fontColor": '#000000'},
-  {"image": BG_26, "file": "bg_26", "fontColor": '#FFFFFF'},
-  {"image": BG_20, "file": "bg_20", "fontColor": '#FFFFFF'},
-  {"image": BG_18, "file": "bg_18", "fontColor": '#FFFFFF'},
-  {"image": BG_17, "file": "bg_17", "fontColor": '#FFFFFF'},
-  {"image": BG_16, "file": "bg_16", "fontColor": '#000000'},
-  {"image": BG_10, "file": "bg_10", "fontColor": '#FFFFFF'},
-  {"image": BG_9, "file": "bg_9", "fontColor": '#000000'},
-  {"image": BG_13, "file": "bg_13", "fontColor": '#FFFFFF'},
-  {"image": BG_15, "file": "bg_15", "fontColor": '#FFFFFF'},
-  {"image": BG_11, "file": "bg_11", "fontColor": '#FFFFFF'},
-  {"image": BG_12, "file": "bg_12", "fontColor": '#FFFFFF'},
-  {"image": BG_4, "file": "bg_4", "fontColor": '#FFFFFF'},
-  {"image": BG_5, "file": "bg_5", "fontColor": '#FFFFFF'},
-  {"image": BG_6, "file": "bg_6", "fontColor": '#000000'},
-]
 
 export default function Main() {
   const [imageData, setImageData] = useState('');
@@ -95,7 +37,6 @@ export default function Main() {
 
   useEffect(() => {
     fabric.Object.prototype.objectCaching = true;
-
     loadRecentImage();
   }, []);
 
@@ -132,123 +73,6 @@ export default function Main() {
       });
     });
     setRecentImages(recentImages);
-    // console.log('recentImages', recentImages)
-  }
-
-  const generateImage = async ({
-    text,
-    name,
-    username,
-    font,
-    color,
-    charSpacing,
-    imageFile,
-    customImage,
-    customImageWidth,
-    customImageHeight
-  }) => {
-    const imageSize = 360;
-    const margin = 20 ;
-
-    const fabricCanvas = new fabric.Canvas('canvas', {
-      isDrawingMode: false,
-      width: imageSize,
-      height: imageSize,
-      allowTouchScrolling: false,
-    })
-    
-    if (customImage) {
-        // console.log('wow', customImage)
-        var imgInstance = new fabric.Image(customImage, {
-            left: 0,
-            top: 0,
-            right: customImageWidth,
-            bottom: customImageHeight,
-            scaleX: imageSize / customImageWidth,
-            scaleY: imageSize / customImageHeight,
-            opacity: 1,
-            selectable: false,
-        });
-        fabricCanvas.add(imgInstance);
-    } else {
-        let imgElement = document.getElementById(imageFile);
-        let imgInstance = new fabric.Image(imgElement, {
-            left: 0,
-            top: 0,
-            right: 1200,
-            bottom: 1200,
-            scaleX: imageSize / 1200,
-            scaleY: imageSize / 1200,
-            opacity: 1,
-            selectable: false,
-        });
-        fabricCanvas.add(imgInstance);
-    }
-
-    let textbox = new fabric.Textbox(text, { 
-        left: margin,
-        width: imageSize - (margin * 2) - 8,
-        fontSize: 15, 
-        fontFamily: font,
-        lineHeight: 1.5,
-        selectable: false,
-        fill: color,
-        textAlign: 'left',
-        charSpacing: charSpacing,
-        splitByGrapheme: true,
-    });
-
-    textbox.top = (imageSize - (textbox.height + 54)) / 2
-    fabricCanvas.add(textbox);
-
-    let nameText = new fabric.Text(name, { 
-        left: margin,
-        width: imageSize - (margin * 2),
-        fontSize: 14, 
-        fontFamily: 'NotoSans',
-        top: (textbox.top + textbox.height + 16),
-        selectable: false,
-        fill: color,
-    });
-    fabricCanvas.add(nameText);
-
-    if (tweetUsername) {
-        let usernameText = new fabric.Text(`${username}`, { 
-            left: margin,
-            width: imageSize - (margin * 2),
-            fontSize: 14, 
-            fontFamily: 'NotoSansThin',
-            top: (textbox.top + textbox.height + 38),
-            selectable: false,
-            fill: `${color}B0`,
-        });
-        fabricCanvas.add(usernameText);
-    }
-
-    const logoScale = 0.3
-    let logoElement = document.getElementById('logo');
-    let logoInstance = new fabric.Image(logoElement, {
-        left: imageSize - (150 * logoScale) - 10,
-        top: imageSize - (60 * logoScale) - 10,
-        scaleX: logoScale,
-        scaleY: logoScale,
-        opacity: 1,
-        selectable: false,
-    });
-    fabricCanvas.add(logoInstance);
-
-    // setCanvas(fabricCanvas)
-    // setImageData(fabricCanvas.toDataURL({
-    //     format: 'png',
-    //     multiplier: 4,
-    // }))
-    return {
-      canvas: fabricCanvas,
-      imageData: fabricCanvas.toDataURL({
-        format: 'png',
-        multiplier: 4,
-      })
-    }
   }
 
   const saveToHistory = async () => {
@@ -264,7 +88,6 @@ export default function Main() {
     }
 
     const data = {
-      // "image": imageData,
       "text": tweetText,
       "name": tweetName,
       "username": tweetUsername,
@@ -481,6 +304,10 @@ export default function Main() {
     }
   }
 
+  const moveToListPage = () => {
+    window.location.href = '/list';
+  }
+
   return (
     <>
       <div id="app">
@@ -498,6 +325,14 @@ export default function Main() {
         <div className="body-content">
 
           <div id='recentImage' className="container ps-0 pe-0">       
+            <div className='recent-row'>
+              <div className="recent-text">
+                최근 만들어진 이미지
+              </div>
+              <div className="recent-more" onClick={moveToListPage}>
+                더보기
+              </div>
+            </div>
             { recentImages.map((imageData, index) => {
               return (
                 <div className="item" key={imageData.id}>
