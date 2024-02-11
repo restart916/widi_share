@@ -189,11 +189,6 @@ p {
     margin-top: 20px;
 }
 
-#recentImage img {
-    width: 150px;
-    border-radius: 6px;
-}
-
 .recent-row {
     display: flex;
     justify-content: space-between;
@@ -521,6 +516,7 @@ a.credit{
 }
 
 .custom-toast {
+    pointer-events: none;
     position: fixed;
     background-color: transparent;
     transform: translate(-50%, -50%);

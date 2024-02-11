@@ -7,6 +7,7 @@ import {
 import reportWebVitals from './reportWebVitals';
 import Main from './pages/Main';
 import ItemList from './pages/ItemList';
+import ItemDetail from './pages/ItemDetail';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     path: "/list",
     element: <ItemList />,
   },
+  {
+    path: "/detail/:id",
+    element: <ItemDetail />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

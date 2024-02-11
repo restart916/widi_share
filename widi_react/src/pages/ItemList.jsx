@@ -10,8 +10,10 @@ import ArrowBack from "../image/arrow_back.svg";
 export default function ItemList() {
   const [recentImages, setRecentImages] = useState([]);
   const [recentSnapshot, setRecentSnapshot] = useState(null);
+  const [isLoad, setIsLoad] = useState(false);
 
-  const styles = createStyles();
+  const width = window.innerWidth;
+  const styles = createStyles(width);
 
   useEffect(() => {
     fabric.Object.prototype.objectCaching = true;
@@ -21,7 +23,7 @@ export default function ItemList() {
   useEffect(() => {
     window.onscroll = () => {
       // console.log('scroll', window.innerHeight + document.documentElement.scrollTop, document.documentElement.offsetHeight);
-      if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
         // console.log('bottom');
         loadRecentImage();
       }
@@ -29,14 +31,12 @@ export default function ItemList() {
   }, [recentSnapshot, recentImages]);
 
   const loadRecentImage = async () => {
-    // console.log('loadRecentImage', recentImages.length);
+    if (isLoad) {
+      console.log('loading');
+      return;
+    }
 
-    // let lastCreatedAt = null;
-    // if (recentImages.length > 0) {
-    //   lastCreatedAt = recentImages[recentImages.length - 1].id;
-    // }
-
-    // console.log('lastCreatedAt', lastCreatedAt);
+    setIsLoad(true);
 
     let q = null;
     if (recentSnapshot) {
@@ -62,11 +62,16 @@ export default function ItemList() {
 
     setRecentSnapshot(querySnapshot.docs[querySnapshot.docs.length - 1]);
     setRecentImages(newItems);
+    setIsLoad(false);
   }
 
   const handleBack = () => {
-    console.log('back');
+    // console.log('back');
     window.location.href = '/';
+  }
+
+  const moveToDetail = (image) => {
+    window.location.href = `/detail/${image.id}`;
   }
 
   return (
@@ -93,7 +98,7 @@ export default function ItemList() {
         </div>
         {recentImages.map((image, index) => {
           return (
-            <div key={index} style={styles.item}>
+            <div key={index} style={styles.item} onClick={() => moveToDetail(image)}>
               <ItemComponent
                 data={image}
               />         
@@ -105,24 +110,27 @@ export default function ItemList() {
 }
 
 
-const createStyles = () => ({
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '20px',
-    width: '480px'
-  },
-  backButton: {
-    width: '24px',
-    height: '24px'
-  },
-  recentText: {
-    padding: '16px 20px',
-    fontSize: '20px',
-    fontWeight: 'bold'
-  },
-  item: {
-    width: '100%',
-    padding: '10px'
+const createStyles = (screenWidth) => {
+  const headerWidth = screenWidth - 20;
+  return {
+    header: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '20px',
+      width: `${headerWidth}px`
+    },
+    backButton: {
+      width: '24px',
+      height: '24px'
+    },
+    recentText: {
+      padding: '16px 20px',
+      fontSize: '20px',
+      fontWeight: 'bold'
+    },
+    item: {
+      width: '100%',
+      padding: '10px'
+    }
   }
-});
+};

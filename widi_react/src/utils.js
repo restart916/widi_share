@@ -25,7 +25,6 @@ const generateImage = async ({
   })
   
   if (customImage) {
-      // console.log('wow', customImage)
       var imgInstance = new fabric.Image(customImage, {
           left: 0,
           top: 0,

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Toast } from 'bootstrap';
 import { fabric } from 'fabric';
 import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore"; 
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { logEvent } from "firebase/analytics";
 import { analytics, db, storage } from '../firebase';
 import { fontList, imageList } from '../const';
@@ -15,6 +15,7 @@ import BannerImage from '../image/banner_image.png';
 import Logo from "../image/logo.png";
 import Arrow from "../image/arrow_forward.svg";
 import CheckCircle from "../image/check_circle.svg";
+import ItemComponent from './ItemComponent';
 
 export default function Main() {
   const [imageData, setImageData] = useState('');
@@ -49,27 +50,42 @@ export default function Main() {
 
     querySnapshot.forEach(async (doc) => {
       const data = doc.data()
-      const {
-        canvas,
-        imageData
-      } = await generateImage(
-        {
-          text: data.text,
-          name: data.name,
-          username: data.username,
-          font: data.font,
-          color: data.color,
-          charSpacing: data.charSpacing,
-          imageFile: data.imageFile,
-          customImage: data.customImage,
-          customImageWidth: data.customImageWidth,
-          customImageHeight: data.customImageHeight
-        }
-      );
+
+      // if (data.customImage) {
+      //   const imgRef = ref(storage, data.customImage);
+      //   const downloadUrl = await getDownloadURL(imgRef);
+      //   const loadImage = new Promise((resolve, reject) => {
+      //     let img = new Image()
+      //     img.crossOrigin = "anonymous";
+      //     img.onload = () => resolve(img)
+      //     img.onerror = reject
+      //     img.src = downloadUrl
+      //   })
+
+      //   const img = await loadImage;
+      //   data.customImage = img;
+      // }
+
+      // const {
+      //   imageData
+      // } = await generateImage(
+      //   {
+      //     text: data.text,
+      //     name: data.name,
+      //     username: data.username,
+      //     font: data.font,
+      //     color: data.color,
+      //     charSpacing: data.charSpacing,
+      //     imageFile: data.imageFile,
+      //     customImage: data.customImage,
+      //     customImageWidth: data.customImageWidth,
+      //     customImageHeight: data.customImageHeight
+      //   }
+      // );
 
       recentImages.push({
         id: doc.id,
-        image: imageData,
+        // image: imageData,
         ...doc.data()
       });
     });
@@ -128,10 +144,7 @@ export default function Main() {
   const closeModal = () => {
     // document.getElementById('modal').style.display='none'
   }
-  const doNothing = (event) => {
-    event.stopPropagation()
-  }
-
+  
   const redraw = async () => {
     if (canvas == null) {
         
@@ -179,6 +192,7 @@ export default function Main() {
 
   const onClickRecent = async (imageData) => {
     logEvent(analytics, 'select_recent_image', {imageData});
+    moveToListPage()
   }
 
   const onClickCreateImage = () => {
@@ -239,6 +253,7 @@ export default function Main() {
               return
             }
 
+            console.log('imgObj', imgObj)
             setCustomImage(imgObj)
             setCustomImageHeight(imgObj.height)
             setCustomImageWidth(imgObj.width)
@@ -346,8 +361,8 @@ export default function Main() {
             { recentImages.map((imageData, index) => {
               return (
                 <div className="item" key={imageData.id}>
-                  <div onClick={() => onClickRecent(imageData)}>
-                    <img id={imageData.id} src={imageData.image} alt={imageData.text}/>
+                  <div onClick={() => onClickRecent(imageData)} style={{width: '150px', borderRadius: '6px'}}>
+                    <ItemComponent data={imageData} />
                   </div>
                 </div>
               )
@@ -388,35 +403,35 @@ export default function Main() {
 
         <div className="body-content">
           <div className='detailInput'>
-          <p style={{marginTop: '40px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
+            <p style={{marginTop: '40px', fontWeight: '700'}}>이미지로 만들고 싶은 <br />내용을 써주세요</p>
 
-                <textarea 
-                  type="text" 
-                  value={tweetText}
-                  onChange={(e) => setTweetText(e.target.value)}
-                  placeholder="내용을 넣어주세요"
-                  style={{resize: 'none', height: '200px', marginBottom: '12px', marginTop: '20px'}}
-                  className="inputTweetName">
-                {/* @keyup="render"
-                  @change="render"
-                  @input="render"
-                  @paste="render" */}
-                </textarea>
-                <input 
-                    type="text" 
-                    value={tweetName}
-                    onChange={(e) => setTweetName(e.target.value)}
-                    placeholder="제목"
-                    className="inputTweetName">
-                </input>
-                <input 
-                    type="text" 
-                    value={tweetUsername}
-                    onChange={(e) => setTweetUsername(e.target.value)}
-                    placeholder="글쓴이"
-                    className="inputTweetName">
-                </input>
-            </div>
+            <textarea 
+              type="text" 
+              value={tweetText}
+              onChange={(e) => setTweetText(e.target.value)}
+              placeholder="내용을 넣어주세요"
+              style={{resize: 'none', height: '200px', marginBottom: '12px', marginTop: '20px'}}
+              className="inputTweetName">
+            {/* @keyup="render"
+              @change="render"
+              @input="render"
+              @paste="render" */}
+            </textarea>
+            <input 
+                type="text" 
+                value={tweetName}
+                onChange={(e) => setTweetName(e.target.value)}
+                placeholder="제목"
+                className="inputTweetName">
+            </input>
+            <input 
+                type="text" 
+                value={tweetUsername}
+                onChange={(e) => setTweetUsername(e.target.value)}
+                placeholder="글쓴이"
+                className="inputTweetName">
+            </input>
+          </div>
 
             <div id='selectImage' className="container ps-0 pe-0">
                 { imageList.map((image, index) => {
