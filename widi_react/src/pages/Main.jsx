@@ -432,9 +432,8 @@ export default function Main() {
                 className="inputTweetName">
             </input>
           </div>
-
             <div id='selectImage' className="container ps-0 pe-0">
-                { imageList.map((image, index) => {
+                { imageList.filter((image) => image.visible).map((image, index) => {
                   return (
                     <div className="item" key={index}>
                       <div onClick={() => onClickImage(image)}>
@@ -576,6 +575,13 @@ export default function Main() {
 
         <div style={{display: 'none'}}>
             <canvas id="canvas" ></canvas>
+            { imageList.map((image, index) => {
+              return (
+                <div key={index}>
+                    <img id={image.file} src={image.image} alt={image.file}/>
+                </div>
+              )})
+            }
             <img id="logo" src={Logo}/>
         </div>
 
