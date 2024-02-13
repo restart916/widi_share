@@ -17,6 +17,7 @@ import Logo from "../image/logo.png";
 import Arrow from "../image/arrow_forward.svg";
 import CheckCircle from "../image/check_circle.svg";
 import ImgUpload from "../image/img_upload.svg";
+import IconCharSpacing from "../image/icon_char_spacing.svg";
 
 export default function Main() {
   const [imageData, setImageData] = useState('');
@@ -502,19 +503,29 @@ export default function Main() {
                 </div>
             </div>
 
-            <div id='selectCharSpacing' className="container ps-0 pe-0" style={{marginBottom: '20px', marginTop: '24px'}}>
+            <div id='selectCharSpacing' className="container ps-0 pe-0" style={{marginBottom: '20px', marginTop: '24px', display: 'flex'}}>
                 <div className="item-button" style={{height: '40px', marginLeft: '8px'}}>
                     <div style={{display: 'flex', height: '40px', alignItems: 'center', fontSize: '14px'}}>
-                        자간
+                        <img src={IconCharSpacing} style={{width: '24px', height: '24px', marginRight: '8px'}} />
                     </div>
                 </div>
-                <div className="item-button"style={{marginRight: '8px'}}>
+                <div className="item-button"style={{marginRight: '8px', flexGrow: '1'}}>
                     <div style={{padding: '0px 8px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <input type="range" min="0" max="1000" step="10" className="slider" id="myRange" 
-                          style={{width: '200px', height: '100%', outline: 'none'}}
+                        <input type="range" min="0" max="500" step="10" className="slider customSlider" id="myRange" 
                           value={selectCharSpacing}
+                          list="values"
                           onChange={(e) => setSelectCharSpacing(e.target.value)}
                         />
+                        <datalist id="values">
+                          <option value="0" label="0"></option>
+                          <option value="100" label="100"></option>
+                          <option value="500" label="500"></option>
+                        </datalist>
+                    </div>
+                </div>
+                <div className="item-button" style={{height: '40px', marginLeft: '8px'}}>
+                    <div style={{display: 'flex', height: '40px', alignItems: 'center', fontSize: '14px'}}>
+                        <img src={IconCharSpacing} style={{width: '24px', height: '24px', marginRight: '8px'}} />
                     </div>
                 </div>
             </div>
