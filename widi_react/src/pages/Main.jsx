@@ -356,7 +356,7 @@ export default function Main() {
         <div className="body-content">
           <div className='recent-row'>
             <div className="recent-text">
-              최근 만들어진 이미지
+              만들어진 이미지
             </div>
             <div className="recent-more" onClick={moveToListPage}>
               더보기

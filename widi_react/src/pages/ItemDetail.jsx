@@ -40,11 +40,11 @@ export default function ItemDetail() {
             <img src={ArrowBack} alt="arrowback" style={styles.backButton} onClick={handleBack}/>
           </div>
         </div>
-        <div style={styles.recentText}>
+        {/* <div style={styles.recentText}>
           <div>
             최근 만들어진 이미지
           </div>
-        </div>
+        </div> */}
         <div style={{display: 'none'}}>
             { imageList.map((image, index) => {
               return (

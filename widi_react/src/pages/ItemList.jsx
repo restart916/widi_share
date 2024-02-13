@@ -83,7 +83,7 @@ export default function ItemList() {
         </div>
         <div style={styles.recentText}>
           <div>
-            최근 만들어진 이미지
+            만들어진 이미지
           </div>
         </div>
         <div style={{display: 'none'}}>
