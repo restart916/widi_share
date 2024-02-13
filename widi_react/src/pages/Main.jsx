@@ -4,18 +4,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Toast } from 'bootstrap';
 import { fabric } from 'fabric';
 import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore"; 
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { logEvent } from "firebase/analytics";
 import { analytics, db, storage } from '../firebase';
 import { fontList, imageList } from '../const';
 import { generateImage } from '../utils';
+import ItemComponent from './ItemComponent';
 
 import HeaderRound from '../image/header_round.svg';
 import BannerImage from '../image/banner_image.png';
 import Logo from "../image/logo.png";
 import Arrow from "../image/arrow_forward.svg";
 import CheckCircle from "../image/check_circle.svg";
-import ItemComponent from './ItemComponent';
+import ImgUpload from "../image/img_upload.svg";
 
 export default function Main() {
   const [imageData, setImageData] = useState('');
@@ -219,6 +220,10 @@ export default function Main() {
     setCustomFile(null)
   }
 
+  const onClickFileUpload = () => {
+    fileupload.current.click();
+  }
+
   const onClickFont = async (family) => {
     setSelectFont(family);
     logEvent(analytics, 'select_font', {family});
@@ -257,6 +262,7 @@ export default function Main() {
             setCustomImage(imgObj)
             setCustomImageHeight(imgObj.height)
             setCustomImageWidth(imgObj.width)
+            setSelectImage(null)
         }
     };
     setCustomFile(file)
@@ -433,6 +439,20 @@ export default function Main() {
             </input>
           </div>
             <div id='selectImage' className="container ps-0 pe-0">
+                <div className="item">
+                  <div onClick={onClickFileUpload}>
+                    <img id='upload' src={ImgUpload} alt="upload" className="no-selected" />
+                  </div>
+                </div>
+                {
+                  customImage && (
+                    <div className="item">
+                      <div >
+                        <img id='custom' src={customImage.src} alt="custom" className="selected" />
+                      </div>
+                    </div>
+                  )
+                }
                 { imageList.filter((image) => image.visible).map((image, index) => {
                   return (
                     <div className="item" key={index}>
@@ -449,7 +469,7 @@ export default function Main() {
                 type="file" 
                 ref={fileupload}
                 onChange={changeImageInput}
-                style={{marginTop: '16px'}}
+                style={{marginTop: '16px', 'display': 'none'}}
                 >
             </input>
 
