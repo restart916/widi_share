@@ -463,17 +463,21 @@ export default function Main() {
                     </div>
                   )})
                 }
+                <input 
+                    type="file" 
+                    ref={fileupload}
+                    onChange={changeImageInput}
+                    style={{marginTop: '16px', 'display': 'none'}}
+                    >
+                </input>
             </div>
 
-            <input 
-                type="file" 
-                ref={fileupload}
-                onChange={changeImageInput}
-                style={{marginTop: '16px', 'display': 'none'}}
-                >
-            </input>
+            <div class="divied"></div>
 
             <div id='selectFont' className='container ps-0 pe-0' style={{marginTop: '24px'}}>
+              <div className='font-text'>
+                폰트
+              </div>
               { fontList.map((font, index) => {
                 return (
                   <div className="item-button" key={index}>
@@ -488,12 +492,12 @@ export default function Main() {
             <div id='selectColor' className="container ps-0 pe-0" style={{marginTop: '20px'}}>
                 <div className="item-button" style={{marginRight: '8px'}}>
                     <div className={`colorButton colorButtonWhite ${checkSelectedColor("#FFFFFF")}`} onClick={() => onClickColor('#FFFFFF')}>
-                        하얀색
+                        가
                     </div>
                 </div>
                 <div className="item-button">
                     <div className={`colorButton colorButtonBlack ${checkSelectedColor("#1C1C1E")}`} onClick={() => onClickColor('#1C1C1E')}>
-                        검정색
+                        가
                     </div>
                 </div>
             </div>
