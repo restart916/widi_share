@@ -45,6 +45,8 @@ export default function ItemDetail() {
             최근 만들어진 이미지
           </div>
         </div> */}
+        <div style={{padding: '8px'}}>
+        </div>
         <div style={{display: 'none'}}>
             { imageList.map((image, index) => {
               return (
@@ -64,7 +66,7 @@ export default function ItemDetail() {
             </div>
           ) 
         }
-        <div style={{marginInline: '10px'}}>
+        <div style={{marginInline: '0px'}}>
           {
             recentImage && (
               <div className='detailInput'>
@@ -102,7 +104,7 @@ const createStyles = (screenWidth) => {
     header: {
       display: 'flex',
       justifyContent: 'space-between',
-      padding: '20px',
+      padding: '20px 0px',
       width: `${headerWidth}px`
     },
     backButton: {
@@ -110,13 +112,13 @@ const createStyles = (screenWidth) => {
       height: '24px'
     },
     recentText: {
-      padding: '16px 20px',
+      padding: '16px 0px',
       fontSize: '20px',
       fontWeight: 'bold'
     },
     item: {
       width: '100%',
-      padding: '10px'
+      paddingBottom: '20px'
     }
   }
 };
