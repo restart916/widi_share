@@ -40,9 +40,9 @@ export default function ItemList() {
 
     let q = null;
     if (recentSnapshot) {
-      q = query(collection(db, "history"), orderBy("createdAt", "desc"), startAfter(recentSnapshot), limit(5));
+      q = query(collection(db, "showlist"), orderBy("createdAt", "desc"), startAfter(recentSnapshot), limit(5));
     } else {
-      q = query(collection(db, "history"), orderBy("createdAt", "desc"), limit(5));
+      q = query(collection(db, "showlist"), orderBy("createdAt", "desc"), limit(5));
     }
     const querySnapshot = await getDocs(q);
 

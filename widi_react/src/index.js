@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import Main from './pages/Main';
 import ItemList from './pages/ItemList';
 import ItemDetail from './pages/ItemDetail';
+import AdminItemList from './pages/AdminItemList';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/detail/:id",
     element: <ItemDetail />,
+  },
+  {
+    path: "/admin",
+    element: <AdminItemList />,
   }
 ]);
 

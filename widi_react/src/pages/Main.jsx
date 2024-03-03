@@ -46,7 +46,7 @@ export default function Main() {
   }, []);
 
   const loadRecentImage = async () => {
-    const q = query(collection(db, "history"), orderBy("createdAt", "desc"), limit(5));
+    const q = query(collection(db, "showlist"), orderBy("createdAt", "desc"), limit(5));
 
     const querySnapshot = await getDocs(q);
     let recentImages = [];
