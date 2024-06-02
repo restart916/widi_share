@@ -52,40 +52,6 @@ export default function Main() {
     let recentImages = [];
 
     querySnapshot.forEach(async (doc) => {
-      const data = doc.data()
-
-      // if (data.customImage) {
-      //   const imgRef = ref(storage, data.customImage);
-      //   const downloadUrl = await getDownloadURL(imgRef);
-      //   const loadImage = new Promise((resolve, reject) => {
-      //     let img = new Image()
-      //     img.crossOrigin = "anonymous";
-      //     img.onload = () => resolve(img)
-      //     img.onerror = reject
-      //     img.src = downloadUrl
-      //   })
-
-      //   const img = await loadImage;
-      //   data.customImage = img;
-      // }
-
-      // const {
-      //   imageData
-      // } = await generateImage(
-      //   {
-      //     text: data.text,
-      //     name: data.name,
-      //     username: data.username,
-      //     font: data.font,
-      //     color: data.color,
-      //     charSpacing: data.charSpacing,
-      //     imageFile: data.imageFile,
-      //     customImage: data.customImage,
-      //     customImageWidth: data.customImageWidth,
-      //     customImageHeight: data.customImageHeight
-      //   }
-      // );
-
       recentImages.push({
         id: doc.id,
         // image: imageData,
@@ -340,15 +306,38 @@ export default function Main() {
     window.location.href = '/list';
   }
 
+  const scriptElement = useRef(null);
+
+  // script 태그를 동적으로 추가
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.setAttribute(
+      "src",
+      "https://t1.daumcdn.net/kas/static/ba.min.js"
+    );
+    script.setAttribute(
+      "charset",
+      "utf-8"
+    );
+
+    script.setAttribute("async", "true");
+    scriptElement.current?.appendChild(script);
+  }, []);
+
+
   return (
     <>
       <div id="app">
-        {/* <ins class="kakao_ad_area" style="display:none;" 
-            data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
-            data-ad-width   = "320" 
-            data-ad-height  = "50"></ins>  */}
             
         <div className="header">
+          <div ref={scriptElement}>
+            <ins
+              className="kakao_ad_area"
+              style={{ display: "none" }}
+              data-ad-unit    = "DAN-sprUUbzsH1FNCx00" 
+              data-ad-width   = "320" 
+              data-ad-height  = "50"></ins> 
+          </div>          
           <div id='productName'>
             <img src={HeaderRound} onClick={moveHome} />
           </div>
@@ -474,7 +463,7 @@ export default function Main() {
                 </input>
             </div>
 
-            <div class="divied"></div>
+            <div className="divied"></div>
 
             <div id='selectFont' className='container ps-0 pe-0' style={{marginTop: '24px'}}>
               <div className='font-text'>
@@ -554,8 +543,8 @@ export default function Main() {
             )}
           </div>
 
-          <div style={{paddingTop: '76px'}}>
-            <div onClick={openDuetTodo} 
+          <div style={{paddingTop: '36px'}}>
+            {/* <div onClick={openDuetTodo} 
               style={{background: 'black', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div 
                   style={{display: 'flex'}}>
@@ -580,7 +569,7 @@ export default function Main() {
                         받기
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
         {/* https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698 */}    
 
