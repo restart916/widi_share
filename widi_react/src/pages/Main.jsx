@@ -202,11 +202,11 @@ export default function Main() {
   }
 
   const moveHome = () => {
-    window.location.href="https://share.wimouniv.com/";
+    window.location.href="https://www.wimouniv.com/";
   }
-  const openDuetTodo = () => {
-    window.open('https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698', '_blank');
-  }
+  // const openDuetTodo = () => {
+  //   window.open('https://apps.apple.com/kr/app/%EB%93%80%EC%97%A3%ED%88%AC%EB%91%90/id6445875698', '_blank');
+  // }
   const sendCopyLog = () => {
     logEvent(analytics, 'copy_image');
   }
